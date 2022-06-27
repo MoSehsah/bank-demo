@@ -8,6 +8,6 @@ metadata:
 spec:
   source:
     git:
-      url: https://github.com/sample-accelerators/hello-fun.git
+      url: https://github.com/MoSehsah/bank-demo/tree/main/quotes-service
       ref:
         branch: main
