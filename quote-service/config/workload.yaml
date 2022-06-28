@@ -16,7 +16,7 @@ spec:
       value: "17.*"
   source:
     git:
-      url: https://github.com/MoSehsah/bank-demo.git
+      url: https://github.com/MoSehsah/bank-demo
       ref:
         branch: main
     subPath: quotes-service
