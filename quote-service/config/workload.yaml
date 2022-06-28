@@ -19,4 +19,4 @@ spec:
       url: https://github.com/MoSehsah/bank-demo
       ref:
         branch: main
-    subPath: quotes-service
+    subPath: quote-service
