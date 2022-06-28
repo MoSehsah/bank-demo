@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: quote-service
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  
+  endpoint:
+    health:
+      show-details: always
+# logging:
+#   level:
+#     ROOT: DEBUG
+vmware:
+  tanzu:
+    quotes:
+      quote_url: "https://sandbox.iexapis.com/stable/stock/{symbol}/quote?token={token}"
+      iex:
+        token: "Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a"
+
