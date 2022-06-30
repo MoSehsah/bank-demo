@@ -1,0 +1,5 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "tanzu.namespace": "dev",
+    "tanzu.sourceImage": "gcr.io/se-sehsahm-demo/account-service-source"
+}
