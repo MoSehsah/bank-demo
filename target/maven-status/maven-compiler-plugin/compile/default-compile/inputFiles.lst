@@ -1,0 +1,15 @@
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/config/BeanConfiguration.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/service/QuoteRemoteCallService.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/PortfolioApplication.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/domain/TransactionType.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/domain/Portfolio.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/config/SecurityConfig.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/service/PortfolioService.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/service/PortfolioRepositoryService.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/controller/PortfolioController.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/domain/Quote.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/domain/Holding.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/domain/Order.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/repository/OrderRepository.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/domain/OrderType.java
+/Users/gorkem/Documents/lab/lab/tap/apps/bank-demo/portfolio-service/src/main/java/com/vmware/tanzu/portfolio/domain/Transaction.java
