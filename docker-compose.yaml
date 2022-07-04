@@ -1,0 +1,44 @@
+#mvn spring-boot:build-image  -DskipTests
+version: '3.4'
+services:
+  user-svc:
+    image: docker.io/library/user-service:0.0.1-SNAPSHOT
+    ports:
+      - '8084:8080'
+    expose:
+      - '8084'
+  account-svc:
+    image: docker.io/library/account-service:0.0.1-SNAPSHOT
+    ports:
+      - '8082:8080'
+    expose:
+      - '8082'
+  quote-svc:
+    image: docker.io/library/quote-service:0.0.1-SNAPSHOT
+    ports:
+      - '8083:8080'
+    expose:
+      - '8083'
+  portfolio-svc:
+    image: docker.io/library/portfolio-service:0.0.1-SNAPSHOT
+    environment:
+      accountServiceName: 'bank-demo_account-svc_1:8080'
+      quoteServiceName: 'bank-demo_quote-svc_1:8080'
+      downstream-protocol: 'http'
+    ports:
+      - '8081:8080'
+    expose:
+      - '8081'
+  web-ui-svc:
+    image: docker.io/library/web-ui:0.0.1-SNAPSHOT
+    environment:
+      accountServiceName: 'bank-demo_account-svc_1:8080'
+      userServiceName: 'bank-demo_user-svc_1:8080'
+      portfolioServiceName: 'bank-demo_portfolio-svc_1:8080'
+      analyticsServiceName: 'bank-demo_analytics-svc_1:8080'
+      quoteServiceName: 'bank-demo_quote-svc_1:8080'
+      downstream-protocol: 'http'
+    ports:
+      - '8080:8080'
+    expose:
+      - '8080'
