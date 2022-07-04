@@ -30,10 +30,10 @@ public class QuoteRemoteCallService {
 
 	private static final Logger logger = LoggerFactory.getLogger(QuoteRemoteCallService.class);
 
-	@Value("${pivotal.quotesService.name}")
+	@Value("${quoteServiceName:quote-svc}")
 	private String quotesService;
 
-	@Value("${pivotal.downstream-protocol:http}")
+	@Value("${downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	@Autowired

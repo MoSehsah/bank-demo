@@ -38,7 +38,7 @@ public class PortfolioService {
 	@Autowired
 	OrderRepository repository;
 
-	@Value("${pivotal.downstream-protocol:http}")
+	@Value("${downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	/**
@@ -54,7 +54,7 @@ public class PortfolioService {
 	@Autowired
 	private PortfolioRepositoryService portfolioRepositoryService;
 
-	@Value("${pivotal.accountsService.name}")
+	@Value("${accountServiceName:account-svc}")
 	protected String accountsService;
 
 	/**

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = PortfolioApplication.class)
 public class QuoteRemoteCallServiceTest {
 
-	@Value("${pivotal.quotesService.name}")
+	@Value("${quoteServiceName:quote-svc}")
 	private String quotesURI;
 	
 	@Autowired
