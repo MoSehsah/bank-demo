@@ -1,0 +1,8 @@
+spring:
+  zipkin:
+    baseUrl: https://zipkin-server/
+    sender:
+      type: web
+vmware:
+  tanzu:
+    downstream-protocol: https

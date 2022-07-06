@@ -1,0 +1,13 @@
+logging:
+  level:
+     zipkin: DEBUG
+     com:
+        vmware:
+           tanzu: DEBUG
+        netflix: DEBUG
+     org:
+        springframework:
+           web: DEBUG
+           cloud: 
+             sleuth:
+               log: WARN

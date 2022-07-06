@@ -1,0 +1,11 @@
+spring:
+  application:
+     name: quote-service
+vmware:
+  tanzu:
+    quote:
+      quote_url: https://api.iextrading.com/1.0/stock/{symbol}/quote
+      quotes_url: https://api.iextrading.com/1.0/stock/market/batch?symbols={symbols}&types=quote
+      companies_url: http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input={name}
+      iex:
+        token: Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a

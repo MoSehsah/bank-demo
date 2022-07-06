@@ -1,0 +1,14 @@
+spring:
+  application:
+     name: web-service
+eureka:
+  client:
+    registerWithEureka: true
+    registryFetchIntervalSeconds: 10
+vmware:
+  tanzu:
+    summary:
+      quotes: 3
+      symbols:
+        it: ORCL,IBM,INTC,AMD,HPQ,CSCO,AAPL
+        fs: JPM,C,MS,BAC,GS,WFC,BK
