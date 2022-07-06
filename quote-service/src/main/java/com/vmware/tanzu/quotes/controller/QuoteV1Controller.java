@@ -64,8 +64,8 @@ public class QuoteV1Controller {
 		List<Quote> quotes;
 		String[] splitQuery = query.split(",");
 		if (splitQuery.length > 1) {
-			quotes = new ArrayList<>();
-			quotes.add(service.getQuote(splitQuery[0]));
+			quotes = service.getQuotes(query);
+
 		} else {
 			quotes = new ArrayList<>();
 			quotes.add(service.getQuote(splitQuery[0]));

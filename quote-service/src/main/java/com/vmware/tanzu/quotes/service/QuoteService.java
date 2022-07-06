@@ -82,6 +82,38 @@ public class QuoteService {
 
 	}
 
+	/**
+	 * Retrieve multiple quotes at once.
+	 * 
+	 * @param symbols
+	 *            comma delimeted list of symbols.
+	 * @return a list of quotes.
+	 */
+	public List<Quote> getQuotes(String symbols) {
+		log.debug("retrieving multiple quotes for: " + symbols);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("token", token);
+		params.put("symbols", symbols);
+		IexBatchQuote batchQuotes = restTemplate.getForObject(quotes_url, IexBatchQuote.class, params);
+
+		log.debug("Got response: " + batchQuotes);
+		final List<Quote> quotes = new ArrayList<>();
+
+		Arrays.asList(symbols.split(",")).forEach(symbol -> {
+			if(batchQuotes.containsKey(symbol)) {
+				quotes.add(QuoteMapper.INSTANCE.mapFromIexQuote(batchQuotes.get(symbol).get("quote")));
+			} else {
+				log.warn("Quote could not be found for the following symbol: " + symbol);
+				Quote quote = new Quote();
+				quote.setSymbol(symbol);
+				quote.setStatus("FAILED");
+				quotes.add(quote);
+			}
+		});
+
+		return quotes;
+	}
+
 	@SuppressWarnings("unused")
 	private IexQuote getQuoteFallback(String symbol){
 		log.debug("QuoteService.getQuoteFallback: circuit opened for symbol: "
