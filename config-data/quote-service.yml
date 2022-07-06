@@ -4,7 +4,7 @@ spring:
 vmware:
   tanzu:
     quote:
-      quote_url: https://api.iextrading.com/1.0/stock/{symbol}/quote
+      quote_url: https://sandbox.iexapis.com/stable/stock/{symbol}/quote?token={token}
       quotes_url: https://api.iextrading.com/1.0/stock/market/batch?symbols={symbols}&types=quote
       companies_url: http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input={name}
       iex:
