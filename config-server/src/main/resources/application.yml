@@ -18,6 +18,8 @@ spring:
        git:
          uri: https://github.com/MoSehsah/bank-demo.git
          searchPaths: config-data
+         default-label: main
+         
 management:
   context_path: /admin
 server:
