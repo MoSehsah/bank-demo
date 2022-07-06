@@ -28,7 +28,7 @@ public class UserService {
 	@Value("${userServiceName:user-svc}")
 	private String userService;
 
-	@Value("${downstream-protocol:http}")
+	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	public void createUser(User user) {

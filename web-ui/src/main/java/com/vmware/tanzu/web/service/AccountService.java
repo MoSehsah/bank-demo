@@ -30,7 +30,7 @@ public class AccountService {
 	@Value("${accountServiceName:account-svc}")
 	private String accountsService;
 
-	@Value("${downstream-protocol:http}")
+	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	public void createAccount(Account account) {

@@ -39,7 +39,7 @@ public class PortfolioService {
     @Value("${portfolioServiceName:portfolio-svc}")
 	private String portfolioService;
 
-	@Value("${downstream-protocol:http}")
+	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	public Order sendOrder(Order order ) throws OrderNotSavedException{

@@ -1,9 +1,19 @@
 #mvn spring-boot:build-image  -DskipTests
 version: '3.4'
 services:
+  config-server:
+    container_name: config-server
+    image: docker.io/library/config:0.0.1-SNAPSHOT
+    ports:
+      - '8888:8888'
   user-svc:
     container_name: user-svc
     image: docker.io/library/user-service:0.0.1-SNAPSHOT
+    environment:
+      'spring.cloud.config.uri' : 'http://config-server:8888'
+      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.retry.max-interval': 10000
+      'spring.cloud.config.retry.max-attempts': 2000
     ports:
       - '8084:8080'
     expose:
@@ -11,6 +21,11 @@ services:
   account-svc:
     container_name: account-svc
     image: docker.io/library/account-service:0.0.1-SNAPSHOT
+    environment:
+      'spring.cloud.config.uri' : 'http://config-server:8888'
+      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.retry.max-interval': 10000
+      'spring.cloud.config.retry.max-attempts': 2000
     ports:
       - '8082:8080'
     expose:
@@ -18,6 +33,11 @@ services:
   quote-svc:
     container_name: quote-svc
     image: docker.io/library/quote-service:0.0.1-SNAPSHOT
+    environment:
+      'spring.cloud.config.uri' : 'http://config-server:8888'
+      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.retry.max-interval': 10000
+      'spring.cloud.config.retry.max-attempts': 2000
     ports:
       - '8083:8080'
     expose:
@@ -28,7 +48,10 @@ services:
     environment:
       accountServiceName: 'account-svc:8080'
       quoteServiceName: 'quote-svc:8080'
-      downstream-protocol: 'http'
+      'spring.cloud.config.uri' : 'http://config-server:8888'
+      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.retry.max-interval': 10000
+      'spring.cloud.config.retry.max-attempts': 2000
     ports:
       - '8081:8080'
     expose:
@@ -42,7 +65,10 @@ services:
       portfolioServiceName: 'portfolio-svc:8080'
       analyticsServiceName: 'analytics-svc:8080'
       quoteServiceName: 'quote-svc:8080'
-      downstream-protocol: 'http'
+      'spring.cloud.config.uri' : 'http://config-server:8888'
+      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.retry.max-interval': 10000
+      'spring.cloud.config.retry.max-attempts': 2000
     ports:
       - '8080:8080'
     expose:

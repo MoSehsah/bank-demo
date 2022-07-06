@@ -31,11 +31,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class QuoteService {
 
-	@Value("${vmware.tanzu.quotes.quote_url}")
+	@Value("${vmware.tanzu.quote.quote_url}")
 	protected String quote_url;
 
+	@Value("${vmware.tanzu.quote.quotes_url}")
+	protected String quotes_url;
+
 	
-	@Value("${vmware.tanzu.quotes.iex.token}")
+	@Value("${vmware.tanzu.quote.iex.token}")
 	protected String token;
 
 	@Autowired

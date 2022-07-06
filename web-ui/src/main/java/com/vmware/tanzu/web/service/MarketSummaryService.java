@@ -33,9 +33,9 @@ public class MarketSummaryService {
 	
 	//private static List<String> symbolsIT = Arrays.asList("EMC", "ORCL", "IBM", "INTC", "AMD", "HPQ", "CSCO", "AAPL");
 	//private static List<String> symbolsFS = Arrays.asList("JPM", "C", "MS", "BAC", "GS", "WFC","BK");
-	@Value("${pivotal.summary.symbols.it:EMC,IBM,VMW}")
+	@Value("${vmware.tanzu.summary.symbols.it:EMC,IBM,VMW}")
 	private String symbolsIT;
-    @Value("${pivotal.summary.symbols.fs:JPM,C,MS}")
+    @Value("${vmware.tanzu.summary.symbols.fs:JPM,C,MS}")
 	private String symbolsFS;
     
     @Autowired

@@ -33,7 +33,7 @@ public class QuoteRemoteCallService {
 	@Value("${quoteServiceName:quote-svc}")
 	private String quotesService;
 
-	@Value("${downstream-protocol:http}")
+	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	@Autowired

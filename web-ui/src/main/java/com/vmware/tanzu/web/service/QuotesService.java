@@ -36,7 +36,7 @@ public class QuotesService {
 	@LoadBalanced
 	private RestTemplate restTemplate;
 
-	@Value("${downstream-protocol:http}")
+	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	@Value("${quoteServiceName:quote-svc}")

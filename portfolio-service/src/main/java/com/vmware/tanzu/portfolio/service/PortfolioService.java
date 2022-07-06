@@ -38,7 +38,7 @@ public class PortfolioService {
 	@Autowired
 	OrderRepository repository;
 
-	@Value("${downstream-protocol:http}")
+	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
 	/**
