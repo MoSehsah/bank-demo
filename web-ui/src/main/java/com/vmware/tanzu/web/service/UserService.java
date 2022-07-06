@@ -25,7 +25,7 @@ public class UserService {
 	@LoadBalanced
 	private RestTemplate restTemplate;
 	
-	@Value("${userServiceName:portfolio-svc}")
+	@Value("${userServiceName:user-svc}")
 	private String userService;
 
 	@Value("${downstream-protocol:http}")
