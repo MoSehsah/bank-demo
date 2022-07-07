@@ -1,0 +1,128 @@
+---
+openapi: 3.0.1
+info:
+  title: Portfolio Service API definition
+  version: v0
+servers:
+- url: http://localhost:8081
+  description: Generated server url
+paths:
+  "/portfolio":
+    post:
+      tags:
+      - portfolio-controller
+      operationId: addOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Order"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Order"
+  "/portfolio/{id}":
+    get:
+      tags:
+      - portfolio-controller
+      operationId: getPortfolio
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Portfolio"
+components:
+  schemas:
+    Order:
+      required:
+      - accountId
+      - currency
+      - orderType
+      - price
+      - quantity
+      - symbol
+      - userId
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int32
+        userId:
+          type: string
+        accountId:
+          type: integer
+          format: int32
+        symbol:
+          type: string
+        orderFee:
+          type: number
+        tag:
+          type: string
+        completionDate:
+          type: string
+          format: date-time
+        orderType:
+          type: string
+          enum:
+          - BUY
+          - SELL
+        price:
+          type: number
+        quantity:
+          type: integer
+          format: int32
+        currency:
+          type: string
+    Holding:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        symbol:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        currency:
+          type: string
+        purchaseValue:
+          type: number
+        sellValue:
+          type: number
+        orders:
+          uniqueItems: true
+          type: array
+          items:
+            "$ref": "#/components/schemas/Order"
+        currentValue:
+          type: number
+    Portfolio:
+      type: object
+      properties:
+        userName:
+          type: string
+        name:
+          type: string
+        currentTotalValue:
+          type: number
+        purchaseValue:
+          type: number
+        sellValue:
+          type: number
+        holdings:
+          type: object
+          additionalProperties:
+            "$ref": "#/components/schemas/Holding"

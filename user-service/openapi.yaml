@@ -1,0 +1,131 @@
+---
+openapi: 3.0.1
+info:
+  title: User Service API definition
+  version: v0
+servers:
+- url: http://localhost:8084
+  description: Generated server url
+paths:
+  "/users":
+    post:
+      tags:
+      - user-controller
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/login":
+    get:
+      tags:
+      - authentication-controller
+      operationId: get
+      responses:
+        '405':
+          description: Method Not Allowed
+    post:
+      tags:
+      - authentication-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/AuthenticationRequest"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  "/users/{username}":
+    get:
+      tags:
+      - user-controller
+      operationId: find
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/User"
+  "/logout/{user}":
+    get:
+      tags:
+      - authentication-controller
+      operationId: logout
+      parameters:
+      - name: user
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    User:
+      required:
+      - logincount
+      - logoutcount
+      - userid
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        address:
+          type: string
+        passwd:
+          type: string
+        userid:
+          type: string
+        email:
+          type: string
+        creditcard:
+          type: string
+        fullname:
+          type: string
+        authtoken:
+          type: string
+        creationdate:
+          type: string
+          format: date-time
+        logoutcount:
+          type: integer
+          format: int32
+        lastlogin:
+          type: string
+          format: date-time
+        logincount:
+          type: integer
+          format: int32
+    AuthenticationRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string

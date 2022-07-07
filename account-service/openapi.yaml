@@ -1,0 +1,145 @@
+---
+openapi: 3.0.1
+info:
+  title: Account Service API definition
+  version: v0
+servers:
+- url: http://localhost:8082
+  description: Generated server url
+paths:
+  "/accounts":
+    get:
+      tags:
+      - account-controller
+      operationId: findAccounts
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Account"
+    post:
+      tags:
+      - account-controller
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Account"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/accounts/transaction":
+    post:
+      tags:
+      - account-controller
+      operationId: transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Transaction"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/accounts/{id}":
+    get:
+      tags:
+      - account-controller
+      operationId: find
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Account"
+components:
+  schemas:
+    Account:
+      required:
+      - balance
+      - creationdate
+      - currency
+      - name
+      - openbalance
+      - type
+      - userid
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userid:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - CURRENT
+          - SAVINGS
+        creationdate:
+          type: string
+          format: date-time
+        openbalance:
+          type: number
+        balance:
+          type: number
+        currency:
+          type: string
+    Transaction:
+      type: object
+      properties:
+        transactionId:
+          type: integer
+          format: int32
+        amount:
+          type: number
+        currency:
+          type: string
+        accountId:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+          - DEBIT
+          - CREDIT
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time

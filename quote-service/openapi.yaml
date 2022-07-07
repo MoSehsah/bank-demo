@@ -1,0 +1,73 @@
+---
+openapi: 3.0.1
+info:
+  title: Quote Service API definition
+  version: v0
+servers:
+- url: http://localhost:8083
+  description: Generated server url
+paths:
+  "/v1/quotes":
+    get:
+      tags:
+      - quote-v-1-controller
+      operationId: getQuotes
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Quote"
+components:
+  schemas:
+    Quote:
+      type: object
+      properties:
+        Status:
+          type: string
+        Name:
+          type: string
+        Symbol:
+          type: string
+        LastPrice:
+          type: number
+        Change:
+          type: number
+        ChangePercent:
+          type: number
+          format: float
+        Timestamp:
+          type: string
+          format: date-time
+        MSDate:
+          type: number
+          format: float
+        MarketCap:
+          type: number
+          format: float
+        Volume:
+          type: integer
+          format: int32
+        ChangeYTD:
+          type: number
+          format: float
+        ChangePercentYTD:
+          type: number
+          format: float
+        High:
+          type: number
+        Low:
+          type: number
+        Open:
+          type: number
+        Currency:
+          type: string
