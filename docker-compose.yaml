@@ -4,6 +4,8 @@ services:
   config-server:
     container_name: config-server
     image: docker.io/library/config:0.0.1-SNAPSHOT
+    environment:
+      WAVEFRONT_TOKEN: 'changeme'
     ports:
       - '8888:8888'
   user-svc:
@@ -11,9 +13,10 @@ services:
     image: docker.io/library/user-service:0.0.1-SNAPSHOT
     environment:
       'spring.cloud.config.uri' : 'http://config-server:8888'
-      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
+      WAVEFRONT_TOKEN: 'changeme'
     ports:
       - '8084:8080'
     expose:
@@ -23,9 +26,10 @@ services:
     image: docker.io/library/account-service:0.0.1-SNAPSHOT
     environment:
       'spring.cloud.config.uri' : 'http://config-server:8888'
-      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
+      WAVEFRONT_TOKEN: 'changeme'
     ports:
       - '8082:8080'
     expose:
@@ -35,9 +39,10 @@ services:
     image: docker.io/library/quote-service:0.0.1-SNAPSHOT
     environment:
       'spring.cloud.config.uri' : 'http://config-server:8888'
-      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
+      WAVEFRONT_TOKEN: 'changeme'
     ports:
       - '8083:8080'
     expose:
@@ -49,9 +54,10 @@ services:
       accountServiceName: 'account-svc:8080'
       quoteServiceName: 'quote-svc:8080'
       'spring.cloud.config.uri' : 'http://config-server:8888'
-      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
+      WAVEFRONT_TOKEN: 'changeme'
     ports:
       - '8081:8080'
     expose:
@@ -66,10 +72,22 @@ services:
       analyticsServiceName: 'analytics-svc:8080'
       quoteServiceName: 'quote-svc:8080'
       'spring.cloud.config.uri' : 'http://config-server:8888'
-      'spring.cloud.config.fail-fast' : true
+      'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
+      WAVEFRONT_TOKEN: 'changeme'
     ports:
       - '8080:8080'
     expose:
       - '8080'
+  wf-proxy:
+    container_name: wf-proxy
+    image: wavefronthq/proxy:latest
+    environment:
+      WAVEFRONT_URL: 'https://vmware.wavefront.com/api'
+      WAVEFRONT_TOKEN: 'changeme'
+      JAVA_HEAP_USAGE: '1650m'
+    ports:
+      - '2878:2878'
+    expose:
+      - '2878'
