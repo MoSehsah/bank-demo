@@ -64,7 +64,7 @@ public class QuotesService {
 	@HystrixCommand(fallbackMethod = "getCompaniesFallback")
 	public List<CompanyInfo> getCompanies(String name) {
 		logger.debug("Fetching companies with name or symbol matching: " + name);
-		CompanyInfo[] infos = restTemplate.getForObject(downstreamProtocol + "://" + quotesService + "/v1/company/{name}", CompanyInfo[].class, name);
+		CompanyInfo[] infos = restTemplate.getForObject(downstreamProtocol + "://" + quotesService + "/v1/quotes?q={name}", CompanyInfo[].class, name);
 		return Arrays.asList(infos);
 	}
 	private List<CompanyInfo> getCompaniesFallback(String name) {
