@@ -83,7 +83,7 @@ accelerator:
       name: accountServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: account-svc # double check.
+    defaultValue: account-service # double check.
 
   - name: hasTestsAccountService
     label: Do CI test
@@ -102,8 +102,55 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: main
+####################################################################################################################################
+  #account-service
+  - name: userServiceDeploy
+    label: Deploy User-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: userServiceDeployState
+    label: Choose User-Service
+    dependsOn:
+      name: userServiceDeploy
+    inputType: select
+    defaultValue: newUserServiceDevelop
+    choices:
+      - value: newUserServiceDevelop
+        text: Develop from source code
+      - value: newUserServiceDeploy
+        text: Deploy only
+      - value: existingUserService
+        text: Use Existing
+  - name: UserServiceDeployName
+    label: Choose service name of User-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: userServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: user-service # double check.
 
+  - name: hasTestsUserService
+    label: Do CI test
+    dependsOn:
+      name: userServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
 
+  - name: branchNameUserService
+    label: Branch of the User-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: userServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
 #  - name: You can access the output with CLI as well
 #    inputType: textarea
 #    display: true
@@ -123,6 +170,13 @@ engine:
         - type: YTT
     - includes: ["config-server/config/**"]
       condition: "#configServerDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["user-service/**"]
+      condition: "#userServiceDeployState == 'newUserServiceDevelop'"
+      excludes: [ "user-service/target","user-service/config/**" ]
+    - includes: ["user-service/config/**"]
+      condition: "#userServiceDeploy != ''"
       chain:
         - type: YTT
       #chain:
