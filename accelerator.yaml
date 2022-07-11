@@ -325,6 +325,14 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: portfolio-service # double check.
+  - name: analyticsServiceNameW
+    label: Choose service name of Analytics-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: analytics-service # double check.
 
   - name: hasTestsWebService
     label: Do CI test
