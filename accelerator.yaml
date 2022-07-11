@@ -31,7 +31,31 @@ accelerator:
     dataType: string
     defaultValue: dev
 
-  #data services
+  - name: wavefrontToken
+    label: Tanzu Observability Token for distributed tracing
+    description: Please type the token
+    inputType: text
+    dataType: string
+    defaultValue: xyz-asd-000
+
+  #config-server
+  - name: configServerDeploy
+    label: Deploy Config-Server ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameConfigServer
+    label: Branch of the Config-Server
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: configServerDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+  #account-service
   - name: accountServiceDeploy
     label: Deploy Account-Service ?
     inputType: checkbox
@@ -95,6 +119,10 @@ engine:
       excludes: [ "account-service/target","account-service/config/**" ]
     - includes: ["account-service/config/**"]
       condition: "#accountServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["config-server/config/**"]
+      condition: "#configServerDeploy != ''"
       chain:
         - type: YTT
       #chain:
