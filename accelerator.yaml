@@ -48,36 +48,23 @@ accelerator:
     choices:
       - value: existingAccountService
         text: Existing Account-Service App
-      - value: newAccountService
-        text: New Account-Service App
+      - value: newAccountServiceDevelop
+        text: Develop Account-Service App
+      - value: newAccountServiceDeploy
+        text: Deploy Account-Service App
   - name: accountServiceDeployName
     label: Choose service name of Account-Service.
     describe: Change default value if needed
     dependsOn:
-      name: accountServiceDeployState
-      value: ["existingAccountService"]
+      name: accountServiceDeploy
     inputType: text
     dataType: string
     defaultValue: account-svc # double check.
 
-  - name: newAccountServiceCategory
-    label: Choose service name of Account-Service.
-    dependsOn:
-      name: accountServiceDeployState
-      value: ["newAccountService"]
-    inputType: select
-    defaultValue: newAccountServiceDevelop
-    choices:
-      - value: newAccountServiceDeploy
-        text: I only want to deploy
-      - value: newAccountServiceDevelop
-        text: I want to develop and deploy
-
   - name: hasTestsAccountService
     label: Add CI tests to Account-Service App.
     dependsOn:
-      name: newAccountServiceCategory
-      value: [newAccountServiceDevelop]
+      name: accountServiceDeploy
     inputType: checkbox
     display: true
     dataType: boolean
@@ -87,7 +74,7 @@ accelerator:
     label: Branch of the Account-Service
     description: Please type the branch to develop
     dependsOn:
-      name: newAccountServiceCategory
+      name: accountServiceDeploy
     inputType: text
     dataType: string
     defaultValue: main
