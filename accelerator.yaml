@@ -55,7 +55,7 @@ accelerator:
     describe: Change default value if needed
     dependsOn:
       name: accountServiceDeployState
-      value: [existingAccountService]
+      value: ["existingAccountService"]
     inputType: text
     dataType: string
     defaultValue: account-svc # double check.
@@ -64,7 +64,7 @@ accelerator:
     label: Choose service name of Account-Service.
     dependsOn:
       name: accountServiceDeployState
-      value: [newAccountService]
+      value: ["newAccountService"]
     inputType: select
     defaultValue: newAccountServiceDevelop
     choices:
