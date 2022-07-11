@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: vmware-corp
+  description: The VMware organization
+  links:
+    - url: https://www.vmware.com
+      title: Website
+spec:
+  type: organization
+  profile:
+    displayName: VMware Inc.
+    email: noreply@vmware.com
+    picture: https://blogs.vmware.com/wp-content/themes/blog-landing-0.2.0/dist/images/vmware-logo-large.png
+  children: [tr-market]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: vmware-semea
+  description: The VMware semea
+spec:
+  targets:
+    - ./department.yaml
+    - ./team.yaml

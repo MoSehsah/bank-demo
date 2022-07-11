@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: banking-demo-web-ui-service
+  description: Tanzu Banking Demo - Web Service
+  tags:
+    - spring
+    - java
+    - banking-demo
+    - web-ui-service
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=banking-demo'
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-banking-demo-product-web-ui-service-catalog
+  system: banking-demo-web-ui-service-apis-system

@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-banking-demo-product-account-service-catalog
+  description: Team Banking Demo Account Service Product Catalog
+spec:
+  type: team
+  profile:
+    displayName: Team Banking Demo Account Service Product Catalog
+    email: team-banking-demo-product-account-service-catalog@vmware.com
+    picture: https://blogs.vmware.com/wp-content/themes/blog-landing-0.2.0/dist/images/vmware-logo-large.png
+  parent: tr-market
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+spec:
+  profile:
+    displayName: Default User
+    email: guest@example.com
+    picture: https://blogs.vmware.com/wp-content/uploads/2022/04/logo-vmware-tanzu-square-Header-297x300-1-208x210.png
+  memberOf: [team-banking-demo-product-account-service-catalog]

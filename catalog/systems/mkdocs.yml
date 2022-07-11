@@ -1,0 +1,10 @@
+
+
+site_name: 'banking-demo-apis-system'
+
+nav:
+  - Home: index.md
+  - account: account-service.md
+
+plugins:
+  - techdocs-core

@@ -1,0 +1,429 @@
+accelerator:
+  displayName: Tanzu Banking Demo
+  description: Accelerator to demonstate banking application on TAP with microservices
+  iconUrl: https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png
+  tags:
+  - spring
+  - banking
+  - tanzu-banking-demo
+
+  options:
+  
+         
+  - name: gitRepo
+    label: Git repo
+    inputType: text
+    required: true
+    dataType: string
+    defaultValue: https://github.com/MoSehsah/bank-demo
+    
+  - name: parentApp
+    label: Name of parent application (the Big A app)
+    description: Name of the parent application this component is a part of
+    inputType: text
+    dataType: string
+    defaultValue: banking-demo
+
+  - name: namespaceToDeploy
+    label: Namespace to deploy
+    description: Please type the namespace to deploy
+    inputType: text
+    dataType: string
+    defaultValue: dev
+
+  - name: wavefrontToken
+    label: Tanzu Observability Token for distributed tracing
+    description: Please type the token
+    inputType: text
+    dataType: string
+    defaultValue: xyz-asd-000
+
+  #config-server
+  - name: configServerDeploy
+    label: Deploy Config-Server ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameConfigServer
+    label: Branch of the Config-Server
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: configServerDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+  #account-service
+  - name: accountServiceDeploy
+    label: Deploy Account-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: accountServiceDeployState
+    label: Choose Account-Service
+    dependsOn:
+      name: accountServiceDeploy
+    inputType: select
+    defaultValue: existingAccountService
+    choices:
+      - value: newAccountServiceDevelop
+        text: Develop from source code
+      - value: newAccountServiceDeploy
+        text: Deploy only
+      - value: existingAccountService
+        text: Use Existing
+  - name: accountServiceDeployName
+    label: Choose service name of Account-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: accountServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: account-service # double check.
+
+  - name: hasTestsAccountService
+    label: Do CI test
+    dependsOn:
+      name: accountServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameAccountService
+    label: Branch of the Account-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: accountServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+  #user-service
+  - name: userServiceDeploy
+    label: Deploy User-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: userServiceDeployState
+    label: Choose User-Service
+    dependsOn:
+      name: userServiceDeploy
+    inputType: select
+    defaultValue: existingUserService
+    choices:
+      - value: newUserServiceDevelop
+        text: Develop from source code
+      - value: newUserServiceDeploy
+        text: Deploy only
+      - value: existingUserService
+        text: Use Existing
+  - name: userServiceDeployName
+    label: Choose service name of User-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: userServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: user-service # double check.
+
+  - name: hasTestsUserService
+    label: Do CI test
+    dependsOn:
+      name: userServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameUserService
+    label: Branch of the User-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: userServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+  #quote-service
+  - name: quoteServiceDeploy
+    label: Deploy Quote-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name:  quoteServiceDeployState
+    label: Choose Quote-Service
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: select
+    defaultValue: existingQuoteService
+    choices:
+      - value: newQuoteServiceDevelop
+        text: Develop from source code
+      - value: newQuoteServiceDeploy
+        text: Deploy only
+      - value: existingQuoteService
+        text: Use Existing
+  - name: quoteServiceDeployName
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+
+  - name: hasTestsQuoteService
+    label: Do CI test
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameQuoteService
+    label: Branch of the Quote-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+  #portfolio-service
+  - name: portfolioServiceDeploy
+    label: Deploy Portfolio-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: portfolioServiceDeployState
+    label: Choose Portfolio-Service
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: select
+    defaultValue: existingPortfolioService
+    choices:
+      - value: newPortfolioServiceDevelop
+        text: Develop from source code
+      - value: newPortfolioServiceDeploy
+        text: Deploy only
+      - value: existingPortfolioService
+        text: Use Existing
+  - name: portfolioServiceDeployName
+    label: Choose service name of Portfolio-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: portfolio-service # double check.
+  - name: accountServiceName
+    label: Choose service name of Account-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: account-service # double check.
+  - name: quoteServiceName
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+  - name: hasTestsPortfolioService
+    label: Do CI test
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNamePortfolioService
+    label: Branch of the Portfolio-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+
+#web-service
+  - name: webServiceDeploy
+    label: Deploy Web-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: webServiceDeployState
+    label: Choose Web-Service
+    dependsOn:
+      name: webServiceDeploy
+    inputType: select
+    defaultValue: existingWebService
+    choices:
+      - value: newWebServiceDevelop
+        text: Develop from source code
+      - value: newWebServiceDeploy
+        text: Deploy only
+      - value: existingWebService
+        text: Use Existing
+  - name: webServiceDeployNameW
+    label: Choose service name of Web-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: web-service # double check.
+  - name: accountServiceNameW
+    label: Choose service name of Account-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: account-service # double check.
+  - name: quoteServiceNameW
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+
+  - name: userServiceNameW
+    label: Choose service name of User-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: user-service # double check.
+  - name: portfolioServiceNameW
+    label: Choose service name of Portfolio-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: portfolio-service # double check.
+  - name: analyticsServiceNameW
+    label: Choose service name of Analytics-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: analytics-service # double check.
+
+  - name: hasTestsWebService
+    label: Do CI test
+    dependsOn:
+      name: webServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: branchNameWebService
+    label: Branch of the Web-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+
+#  - name: You can access the output with CLI as well
+#    inputType: textarea
+#    display: true
+#    defaultValue: |
+#      kubectl -n accelerator-system port-forward svc/acc-server 8877:80
+#      tanzu accelerator generate spring-data-services --server-url http://localhost:8877 --options='{"gitRepo":"https://github.com/gorkemozlu/spring-petclinic-tap-mysql","parentApp":"petclinic-app","hasTests":false,"addToComponent":true,"branchName":"main","namespaceToDeploy":"my-apps","addDB":true,"dbType":"MySQL","dbName":"petclinic-db","appDeploymentType":"tap"}'
+
+engine:
+  merge:
+    #generic transformations
+    - includes: ["account-service/**"]
+      condition: "#accountServiceDeployState == 'newAccountServiceDevelop'"
+      excludes: [ "account-service/target","account-service/config/**" ]
+    - includes: ["account-service/config/**"]
+      condition: "#accountServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["config-server/config/**"]
+      condition: "#configServerDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["user-service/**"]
+      condition: "#userServiceDeployState == 'newUserServiceDevelop'"
+      excludes: [ "user-service/target","user-service/config/**" ]
+    - includes: ["user-service/config/**"]
+      condition: "#userServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["quote-service/**"]
+      condition: "#quoteServiceDeployState == 'newQuoteServiceDevelop'"
+      excludes: [ "quote-service/target","quote-service/config/**" ]
+    - includes: ["quote-service/config/**"]
+      condition: "#quoteServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["portfolio-service/**"]
+      condition: "#portfolioServiceDeployState == 'newPortfolioServiceDevelop'"
+      excludes: [ "portfolio-service/target","portfolio-service/config/**" ]
+    - includes: ["portfolio-service/config/**"]
+      condition: "#portfolioServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["web-ui/**"]
+      condition: "#webServiceDeployState == 'newWebServiceDevelop'"
+      excludes: [ "web-ui/target","web-ui/config/**" ]
+    - includes: ["web-ui/config/**"]
+      condition: "#webServiceDeploy != ''"
+      chain:
+        - type: YTT
+      #chain:
+      #  - type: ReplaceText
+      #    substitutions:
+      #      - text: app-name
+      #        with: "#parentApp"
+
+
+    #data entity transformations
+#    - includes: [ "src/main/resources/application.properties" ]
+#      condition: "#dbType != ''"
+#      chain:
+#        - type: ReplaceText
+#          substitutions:
+#            - text: petclinic-app-mysql-claim
+#              with: "#parentApp+'-'+#dbType+'-claim'"
+#    - includes: [ "Tiltfile" ]
+#      chain:
+#        - type: ReplaceText
+#          substitutions:
+#            - text: app-name
+#              with: "#parentApp"
+#        - type: ReplaceText
+#          substitutions:
+#            - text: nspace
+#              with: "#namespaceToDeploy"
