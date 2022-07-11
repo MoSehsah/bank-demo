@@ -1,0 +1,8 @@
+site_name: 'banking-demo-apis-location'
+
+nav:
+  - Home: index.md
+  - account: account-service.md
+
+plugins:
+  - techdocs-core

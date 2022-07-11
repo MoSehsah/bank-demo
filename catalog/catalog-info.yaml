@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: banking-demo-apis-location
+  description: APIs for Banking Demo
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  targets:
+    - ./systems/apis-system.yaml
+    - ./groups/org.yaml
+    - ./apis/api.yaml
+    - ./components/account-service/account-service.yaml
+    - ./components/config-server/config-server.yaml
+    - ./components/portfolio-service/portfolio-service.yaml
+    - ./components/quote-service/quote-service.yaml
+    - ./components/user-service/user-service.yaml
+    - ./components/web-ui/web-ui.yaml

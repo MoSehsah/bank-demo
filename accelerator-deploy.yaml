@@ -1,0 +1,19 @@
+apiVersion: accelerator.apps.tanzu.vmware.com/v1alpha1
+kind: Accelerator
+metadata:
+  name: tanzu-banking-demo-accelerator
+spec:
+  displayName: Tanzu Banking Demo
+  description: Tanzu Banking Demo in Spring
+    
+    
+  iconUrl: https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/800px-Spring_Framework_Logo_2018.svg.png
+  tags:
+    - spring
+    - banking
+    - tanzu-banking-demo
+  git:
+    ignore: ".git/, target, catalog"
+    url: https://github.com/MoSehsah/bank-demo
+    ref:
+      branch: main

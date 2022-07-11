@@ -1,0 +1,50 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name:  banking-demo-account-service-apis-system
+  description: API for Banking Demo - Account Service
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  owner: team-banking-demo-product-account-service-catalog
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name:  banking-demo-portfolio-service-apis-system
+  description: API for Banking Demo - Portfolio Service
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  owner: team-banking-demo-product-portfolio-service-catalog
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name:  banking-demo-quote-service-apis-system
+  description: API for Banking Demo - Quote Service
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  owner: team-banking-demo-product-quote-service-catalog
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name:  banking-demo-user-service-apis-system
+  description: API for Banking Demo - User Service
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  owner: team-banking-demo-product-user-service-catalog
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name:  banking-demo-web-ui-apis-system
+  description: API for Banking Demo - Web Service
+  annotations:
+    'backstage.io/techdocs-ref': dir:.
+spec:
+  owner: team-banking-demo-product-web-ui-service-catalog
+

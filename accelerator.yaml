@@ -1,0 +1,152 @@
+accelerator:
+  displayName: Tanzu Banking Demo
+  description: Accelerator to demonstate banking application on TAP with microservices
+  iconUrl: https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png
+  tags:
+  - spring
+  - banking
+  - tanzu-banking-demo
+
+  options:
+  
+         
+  - name: gitRepo
+    label: Git repo
+    inputType: text
+    required: true
+    dataType: string
+    defaultValue: https://github.com/MoSehsah/bank-demo
+    
+  - name: parentApp
+    label: Name of parent application (the Big A app)
+    description: Name of the parent application this component is a part of
+    inputType: text
+    dataType: string
+    defaultValue: banking-demo
+
+  - name: namespaceToDeploy
+    label: Namespace to deploy
+    description: Please type the namespace to deploy
+    inputType: text
+    dataType: string
+    defaultValue: dev
+
+  #data services
+  - name: accountServiceDeploy
+    label: Deploy Account-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: accountServiceDeployState
+    label: Choose Account-Service
+    dependsOn:
+      name: accountServiceDeploy
+    inputType: select
+    defaultValue: existingAccountService
+    choices:
+      - value: existingAccountService
+        text: Existing Account-Service App
+      - value: newAccountService
+        text: New Account-Service App
+  - name: accountServiceDeployName
+    label: Choose service name of Account-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: accountServiceDeployState
+    inputType: text
+    dataType: string
+    defaultValue: account-svc # double check.
+
+  - name: newAccountService
+    label: Choose service name of Account-Service.
+    dependsOn:
+      name: accountServiceDeployState
+      value: [newAccountService]
+    inputType: select
+    defaultValue: newAccountServiceDevelop
+    choices:
+      - value: newAccountServiceDeploy
+        text: I only want to deploy
+      - value: newAccountServiceDevelop
+        text: I want to develop and deploy
+
+  - name: hasTestsAccountService
+    label: Add CI tests to Account-Service App.
+    dependsOn:
+      name: newAccountService
+      value: [newAccountServiceDevelop]
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameAccountService
+    label: Branch of the Account-Service
+    description: Please type the branch to develop
+    dependsOn:
+      name: newAccountService
+    inputType: text
+    dataType: string
+    defaultValue: main
+
+
+      
+  #deployment type (for demo vision paiting)
+  - name: appDeploymentType
+    label: Deployment environment
+    description: Type of deployment configurations
+    defaultValue: tap
+    inputType: select
+    choices:
+    - value: tap
+      text: Tanzu App Platform workload
+    - value: k8s
+      text: K8s deployment with Skaffold configs
+    - value: cf
+      text: Tanzu App Service manifest
+
+#  - name: You can access the output with CLI as well
+#    inputType: textarea
+#    display: true
+#    defaultValue: |
+#      kubectl -n accelerator-system port-forward svc/acc-server 8877:80
+#      tanzu accelerator generate spring-data-services --server-url http://localhost:8877 --options='{"gitRepo":"https://github.com/gorkemozlu/spring-petclinic-tap-mysql","parentApp":"petclinic-app","hasTests":false,"addToComponent":true,"branchName":"main","namespaceToDeploy":"my-apps","addDB":true,"dbType":"MySQL","dbName":"petclinic-db","appDeploymentType":"tap"}'
+
+engine:
+  merge:
+    #generic transformations
+    - includes: ["**"]
+      condition: "#accountServiceDeployState == 'newAccountService'" # user-story-1 # diger service'ler için tekrarla
+      excludes: [ "catalog/**","config-data/**" ] ## geri kalan herşeyi exclude et
+    - includes: ["account-service/config/**"]
+      condition: "#accountServiceDeployName != ''"
+      excludes: [ "config/**" ] # double check.
+      chain:
+        - type: YTT
+      #chain:
+      #  - type: ReplaceText
+      #    substitutions:
+      #      - text: app-name
+      #        with: "#parentApp"
+
+
+    #data entity transformations
+    - includes: [ "src/main/resources/application.properties" ]
+      condition: "#dbType != ''"
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: petclinic-app-mysql-claim
+              with: "#parentApp+'-'+#dbType+'-claim'"
+    - includes: [ "Tiltfile" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#parentApp"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"

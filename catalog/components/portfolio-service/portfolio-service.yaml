@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: banking-demo-portfolio-service
+  description: Tanzu Banking Demo - portfolio Service
+  tags:
+    - spring
+    - java
+    - banking-demo
+    - portfolio-service
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=banking-demo'
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-banking-demo-product-portfolio-service-catalog
+  system: banking-demo-portfolio-service-apis-system

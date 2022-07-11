@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: banking-demo-quote-service
+  description: Tanzu Banking Demo - Quote Service
+  tags:
+    - spring
+    - java
+    - banking-demo
+    - quote-service
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=banking-demo'
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-banking-demo-product-quote-service-catalog
+  system: banking-demo-quote-service-apis-system
