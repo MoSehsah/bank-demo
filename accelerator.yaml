@@ -103,7 +103,7 @@ accelerator:
     dataType: string
     defaultValue: main
 ####################################################################################################################################
-  #account-service
+  #user-service
   - name: userServiceDeploy
     label: Deploy User-Service ?
     inputType: checkbox
@@ -151,6 +151,54 @@ accelerator:
     dataType: string
     defaultValue: main
 ####################################################################################################################################
+  #quote-service
+  - name: quoteServiceDeploy
+    label: Deploy Quote-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name:  quoteServiceDeployState
+    label: Choose Quote-Service
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: select
+    defaultValue: newQuoteServiceDevelop
+    choices:
+      - value: newQuoteServiceDevelop
+        text: Develop from source code
+      - value: newQuoteServiceDeploy
+        text: Deploy only
+      - value: existingQuoteService
+        text: Use Existing
+  - name: quoteServiceDeployName
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+
+  - name: hasTestsQuoteService
+    label: Do CI test
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameQuoteService
+    label: Branch of the Quote-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: quoteServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
 #  - name: You can access the output with CLI as well
 #    inputType: textarea
 #    display: true
@@ -177,6 +225,13 @@ engine:
       excludes: [ "user-service/target","user-service/config/**" ]
     - includes: ["user-service/config/**"]
       condition: "#userServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["quote-service/**"]
+      condition: "#quoteServiceDeployState == 'newQuoteServiceDevelop'"
+      excludes: [ "quote-service/target","quote-service/config/**" ]
+    - includes: ["quote-service/config/**"]
+      condition: "#quoteServiceDeploy != ''"
       chain:
         - type: YTT
       #chain:
