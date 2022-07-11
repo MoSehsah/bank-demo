@@ -347,7 +347,7 @@ accelerator:
     label: Branch of the Web-Service
     description: Please type the branch to use - Skip this value if using existing.
     dependsOn:
-      name: WebServiceDeploy
+      name: webServiceDeploy
     inputType: text
     dataType: string
     defaultValue: main
