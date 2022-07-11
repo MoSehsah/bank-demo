@@ -200,7 +200,7 @@ accelerator:
     defaultValue: main
 ####################################################################################################################################
   #portfolio-service
-  - name: portfolServiceDeploy
+  - name: portfolioServiceDeploy
     label: Deploy Portfolio-Service ?
     inputType: checkbox
     display: true
