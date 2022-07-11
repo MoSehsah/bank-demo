@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
-  name: tr-market
-  description: The TR Market
+  name: tr-banking
+  description: The TR Banking
   links:
     - url: https://www.vmware.com
       title: Website
@@ -13,4 +13,4 @@ spec:
     email: noreply@vmware.com
     picture: https://blogs.vmware.com/wp-content/themes/blog-landing-0.2.0/dist/images/vmware-logo-large.png
   parent: vmware-corp
-  children: [team-banking-demo-product-catalog]
+  children: [banking-demo-product-group]

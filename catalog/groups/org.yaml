@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
-  name: vmware-corp
+  name: Tanzu Banking Group
   description: The VMware organization
   links:
     - url: https://www.vmware.com
@@ -12,13 +12,13 @@ spec:
     displayName: VMware Inc.
     email: noreply@vmware.com
     picture: https://blogs.vmware.com/wp-content/themes/blog-landing-0.2.0/dist/images/vmware-logo-large.png
-  children: [tr-market]
+  children: [tr-banking-market]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
-  name: vmware-semea
-  description: The VMware semea
+  name: vmware-semea-banking
+  description: The VMware SEMEA
 spec:
   targets:
     - ./department.yaml

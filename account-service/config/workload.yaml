@@ -7,7 +7,7 @@ metadata:
   namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: #@ data.values.parentApp
+    app.kubernetes.io/part-of: account-service
     #@ if data.values.hasTestsAccountService:
     apps.tanzu.vmware.com/has-tests: "true"
     #@ end
