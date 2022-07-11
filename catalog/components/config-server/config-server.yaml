@@ -9,9 +9,9 @@ metadata:
     - banking-demo
     - config-server
   annotations:
-    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=banking-demo'
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=config-server'
 spec:
   type: service
   lifecycle: experimental
-  owner: team-banking-demo-product-config-server-catalog
-  system: banking-demo-config-server-apis-system
+  owner: banking-demo-product-team
+  system: banking-demo-system
