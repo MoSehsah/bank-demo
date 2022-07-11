@@ -24,13 +24,13 @@ spec:
     - name: WAVEFRONT_TOKEN
       value: #@ data.values.wavefrontToken
     - name: spring.cloud.config.uri
-      value: 'http://config-server:8888'
+      value: 'http://config-server'
     - name: spring.cloud.config.fail-fast
       value: 'true'
     - name: spring.cloud.config.retry.max-interval
-      value: 10000
+      value: "10000"
     - name: spring.cloud.config.retry.max-attempts
-      value: 2000
+      value: "2000"
   source:
     git:
       url: #@ data.values.gitRepo
