@@ -387,10 +387,10 @@ engine:
       condition: "#portfolioServiceDeploy != ''"
       chain:
         - type: YTT
-    - includes: ["web-service/**"]
+    - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
-      excludes: [ "web-service/target","web-service/config/**" ]
-    - includes: ["web-service/config/**"]
+      excludes: [ "web-ui/target","web-ui/config/**" ]
+    - includes: ["web-ui/config/**"]
       condition: "#webServiceDeploy != ''"
       chain:
         - type: YTT
