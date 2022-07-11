@@ -90,12 +90,11 @@ accelerator:
 engine:
   merge:
     #generic transformations
-    - includes: ["**"]
-      condition: "#accountServiceDeployState == 'newAccountService'" # user-story-1 # diger service'ler için tekrarla
-      excludes: [ "catalog/**","config-data/**" ] ## geri kalan herşeyi exclude et
+    - includes: ["account-service/**"]
+      condition: "#accountServiceDeployState == 'newAccountServiceDevelop'"
+      excludes: [ "account-service/target","account-service/config/**" ]
     - includes: ["account-service/config/**"]
-      condition: "#accountServiceDeployName != ''"
-      excludes: [ "config/**" ] # double check.
+      condition: "#accountServiceDeploy != ''"
       chain:
         - type: YTT
       #chain:
@@ -106,20 +105,20 @@ engine:
 
 
     #data entity transformations
-    - includes: [ "src/main/resources/application.properties" ]
-      condition: "#dbType != ''"
-      chain:
-        - type: ReplaceText
-          substitutions:
-            - text: petclinic-app-mysql-claim
-              with: "#parentApp+'-'+#dbType+'-claim'"
-    - includes: [ "Tiltfile" ]
-      chain:
-        - type: ReplaceText
-          substitutions:
-            - text: app-name
-              with: "#parentApp"
-        - type: ReplaceText
-          substitutions:
-            - text: nspace
-              with: "#namespaceToDeploy"
+#    - includes: [ "src/main/resources/application.properties" ]
+#      condition: "#dbType != ''"
+#      chain:
+#        - type: ReplaceText
+#          substitutions:
+#            - text: petclinic-app-mysql-claim
+#              with: "#parentApp+'-'+#dbType+'-claim'"
+#    - includes: [ "Tiltfile" ]
+#      chain:
+#        - type: ReplaceText
+#          substitutions:
+#            - text: app-name
+#              with: "#parentApp"
+#        - type: ReplaceText
+#          substitutions:
+#            - text: nspace
+#              with: "#namespaceToDeploy"
