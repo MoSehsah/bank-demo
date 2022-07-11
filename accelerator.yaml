@@ -124,7 +124,7 @@ accelerator:
         text: Deploy only
       - value: existingUserService
         text: Use Existing
-  - name: UserServiceDeployName
+  - name: userServiceDeployName
     label: Choose service name of User-Service.
     describe: Change default value if needed
     dependsOn:
