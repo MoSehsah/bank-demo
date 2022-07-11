@@ -36,4 +36,4 @@ spec:
       url: #@ data.values.gitRepo
       ref:
         branch: #@ data.values.branchNameQuoteService
-    subPath: user-service
+    subPath: quote-service
