@@ -8,7 +8,7 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: #@ data.values.parentApp
-    #@ if data.values.hasTestsAccountService:
+    #@ if data.values.hasTestsPortfolioService:
     apps.tanzu.vmware.com/has-tests: "true"
     #@ end
 spec:
