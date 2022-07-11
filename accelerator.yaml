@@ -263,6 +263,88 @@ accelerator:
     defaultValue: main
 ####################################################################################################################################
 
+#web-service
+  - name: webServiceDeploy
+    label: Deploy Web-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: webServiceDeployState
+    label: Choose Web-Service
+    dependsOn:
+      name: webServiceDeploy
+    inputType: select
+    defaultValue: newWebServiceDevelop
+    choices:
+      - value: newWebServiceDevelop
+        text: Develop from source code
+      - value: newWebServiceDeploy
+        text: Deploy only
+      - value: existingWebService
+        text: Use Existing
+  - name: webServiceDeployNameW
+    label: Choose service name of Web-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: web-service # double check.
+  - name: accountServiceNameW
+    label: Choose service name of Account-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: account-service # double check.
+  - name: quoteServiceNameW
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+
+  - name: userServiceNameW
+    label: Choose service name of User-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: user-service # double check.
+  - name: portfolioServiceNameW
+    label: Choose service name of Portfolio-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: webServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: portfolio-service # double check.
+
+  - name: hasTestsWebService
+    label: Do CI test
+    dependsOn:
+      name: webServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: branchNameWebService
+    label: Branch of the Web-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: WebServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+
 #  - name: You can access the output with CLI as well
 #    inputType: textarea
 #    display: true
@@ -303,6 +385,13 @@ engine:
       excludes: [ "portfolio-service/target","portfolio-service/config/**" ]
     - includes: ["portfolio-service/config/**"]
       condition: "#portfolioServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["web-service/**"]
+      condition: "#webServiceDeployState == 'newWebServiceDevelop'"
+      excludes: [ "web-service/target","web-service/config/**" ]
+    - includes: ["web-service/config/**"]
+      condition: "#webServiceDeploy != ''"
       chain:
         - type: YTT
       #chain:
