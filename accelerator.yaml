@@ -47,11 +47,11 @@ accelerator:
     defaultValue: existingAccountService
     choices:
       - value: existingAccountService
-        text: Existing Account-Service App
+        text: Use Existing
       - value: newAccountServiceDevelop
-        text: Develop Account-Service App
+        text: Develop from source code
       - value: newAccountServiceDeploy
-        text: Deploy Account-Service App
+        text: Deploy only
   - name: accountServiceDeployName
     label: Choose service name of Account-Service.
     describe: Change default value if needed
@@ -62,7 +62,7 @@ accelerator:
     defaultValue: account-svc # double check.
 
   - name: hasTestsAccountService
-    label: Add CI tests to Account-Service App.
+    label: Do CI test
     dependsOn:
       name: accountServiceDeploy
     inputType: checkbox
@@ -79,21 +79,6 @@ accelerator:
     dataType: string
     defaultValue: main
 
-
-      
-  #deployment type (for demo vision paiting)
-  - name: appDeploymentType
-    label: Deployment environment
-    description: Type of deployment configurations
-    defaultValue: tap
-    inputType: select
-    choices:
-    - value: tap
-      text: Tanzu App Platform workload
-    - value: k8s
-      text: K8s deployment with Skaffold configs
-    - value: cf
-      text: Tanzu App Service manifest
 
 #  - name: You can access the output with CLI as well
 #    inputType: textarea
