@@ -55,6 +55,7 @@ accelerator:
     describe: Change default value if needed
     dependsOn:
       name: accountServiceDeployState
+      value: [existingAccountService]
     inputType: text
     dataType: string
     defaultValue: account-svc # double check.
