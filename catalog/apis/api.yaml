@@ -69,21 +69,3 @@ spec:
   system: banking-demo-user-service-apis-system
   definition:
     $text: ../../user-service/openapi.yaml
----
-apiVersion: backstage.io/v1alpha1
-kind: API
-metadata:
-  name: web-ui-service
-  description: API for Banking Demo - Web Service
-  tags:
-    - web-ui-service
-    - banking-demo
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
-spec:
-  type: openapi
-  lifecycle: experimental
-  owner: team-banking-demo-product-web-ui-service-catalog
-  system: banking-demo-web-ui-service-apis-system
-  definition:
-    $text: ../../web-ui/openapi.yaml
