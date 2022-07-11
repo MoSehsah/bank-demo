@@ -72,7 +72,7 @@ accelerator:
 
   - name: branchNameAccountService
     label: Branch of the Account-Service
-    description: Please type the branch to develop
+    description: Please type the branch to use
     dependsOn:
       name: accountServiceDeploy
     inputType: text
