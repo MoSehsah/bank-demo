@@ -199,6 +199,70 @@ accelerator:
     dataType: string
     defaultValue: main
 ####################################################################################################################################
+  #portfolio-service
+  - name: portfolServiceDeploy
+    label: Deploy Portfolio-Service ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: portfolioServiceDeployState
+    label: Choose Portfolio-Service
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: select
+    defaultValue: newPortfolioServiceDevelop
+    choices:
+      - value: newPortfolioServiceDevelop
+        text: Develop from source code
+      - value: newPortfolioServiceDeploy
+        text: Deploy only
+      - value: existingPortfolioService
+        text: Use Existing
+  - name: portfolioServiceDeployName
+    label: Choose service name of Portfolio-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: portfolio-service # double check.
+  - name: accountServiceDeployName
+    label: Choose service name of Account-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: account-service # double check.
+  - name: quoteServiceDeployName
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+  - name: hasTestsPortfolioService
+    label: Do CI test
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNamePortfolioService
+    label: Branch of the Portfolio-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: portfolioServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+
 #  - name: You can access the output with CLI as well
 #    inputType: textarea
 #    display: true
@@ -232,6 +296,13 @@ engine:
       excludes: [ "quote-service/target","quote-service/config/**" ]
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != ''"
+      chain:
+        - type: YTT
+    - includes: ["portfolio-service/**"]
+      condition: "#portfolioServiceDeployState == 'newPortfolioServiceDevelop'"
+      excludes: [ "portfolio-service/target","portfolio-service/config/**" ]
+    - includes: ["portfolio-service/config/**"]
+      condition: "#portfolioServiceDeploy != ''"
       chain:
         - type: YTT
       #chain:

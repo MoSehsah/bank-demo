@@ -1,10 +1,16 @@
+#@ load("@ytt:data", "data")
+---
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: user-service
+  name: portfolio-service
+  namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: user-service
+    app.kubernetes.io/part-of: #@ data.values.parentApp
+    #@ if data.values.hasTestsPortfolioService:
+    apps.tanzu.vmware.com/has-tests: "true"
+    #@ end
 spec:
   params:
   - name: annotations
@@ -14,9 +20,24 @@ spec:
     env:
     - name: BP_JVM_VERSION
       value: "17.*"
+  env:
+    - name: WAVEFRONT_TOKEN
+      value: #@ data.values.wavefrontToken
+    - name: spring.cloud.config.uri
+      value: 'http://config-server'
+    - name: spring.cloud.config.fail-fast
+      value: 'true'
+    - name: spring.cloud.config.retry.max-interval
+      value: "10000"
+    - name: spring.cloud.config.retry.max-attempts
+      value: "2000"
+    - name: accountServiceName
+      value: #@ data.values.accountServiceDeployName
+    - name: quoteServiceName
+      value: #@ data.values.quoteServiceDeployName
   source:
     git:
-      url: https://github.com/MoSehsah/bank-demo
+      url: #@ data.values.gitRepo
       ref:
-        branch: main
-    subPath: user-service
+        branch: #@ data.values.branchNamePortfolioService
+    subPath: portfolio-service
