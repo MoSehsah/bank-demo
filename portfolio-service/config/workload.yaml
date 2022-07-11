@@ -32,9 +32,9 @@ spec:
     - name: spring.cloud.config.retry.max-attempts
       value: "2000"
     - name: accountServiceName
-      value: #@ data.values.accountServiceDeployName
+      value: #@ data.values.accountServiceName
     - name: quoteServiceName
-      value: #@ data.values.quoteServiceDeployName
+      value: #@ data.values.quoteServiceName
   source:
     git:
       url: #@ data.values.gitRepo

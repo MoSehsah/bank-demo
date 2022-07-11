@@ -228,7 +228,7 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: portfolio-service # double check.
-  - name: accountServiceDeployName
+  - name: accountServiceName
     label: Choose service name of Account-Service.
     describe: Change default value if needed
     dependsOn:
@@ -236,7 +236,7 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: account-service # double check.
-  - name: quoteServiceDeployName
+  - name: quoteServiceName
     label: Choose service name of Quote-Service.
     describe: Change default value if needed
     dependsOn:
