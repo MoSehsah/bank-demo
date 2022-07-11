@@ -68,7 +68,7 @@ accelerator:
     dependsOn:
       name: accountServiceDeploy
     inputType: select
-    defaultValue: newAccountServiceDevelop
+    defaultValue: existingAccountService
     choices:
       - value: newAccountServiceDevelop
         text: Develop from source code
@@ -116,7 +116,7 @@ accelerator:
     dependsOn:
       name: userServiceDeploy
     inputType: select
-    defaultValue: newUserServiceDevelop
+    defaultValue: existingUserService
     choices:
       - value: newUserServiceDevelop
         text: Develop from source code
@@ -164,7 +164,7 @@ accelerator:
     dependsOn:
       name: quoteServiceDeploy
     inputType: select
-    defaultValue: newQuoteServiceDevelop
+    defaultValue: existingQuoteService
     choices:
       - value: newQuoteServiceDevelop
         text: Develop from source code
@@ -212,7 +212,7 @@ accelerator:
     dependsOn:
       name: portfolioServiceDeploy
     inputType: select
-    defaultValue: newPortfolioServiceDevelop
+    defaultValue: existingPortfolioService
     choices:
       - value: newPortfolioServiceDevelop
         text: Develop from source code
@@ -276,7 +276,7 @@ accelerator:
     dependsOn:
       name: webServiceDeploy
     inputType: select
-    defaultValue: newWebServiceDevelop
+    defaultValue: existingWebService
     choices:
       - value: newWebServiceDevelop
         text: Develop from source code
