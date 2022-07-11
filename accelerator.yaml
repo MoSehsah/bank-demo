@@ -44,14 +44,14 @@ accelerator:
     dependsOn:
       name: accountServiceDeploy
     inputType: select
-    defaultValue: existingAccountService
+    defaultValue: newAccountServiceDevelop
     choices:
-      - value: existingAccountService
-        text: Use Existing
       - value: newAccountServiceDevelop
         text: Develop from source code
       - value: newAccountServiceDeploy
         text: Deploy only
+      - value: existingAccountService
+        text: Use Existing
   - name: accountServiceDeployName
     label: Choose service name of Account-Service.
     describe: Change default value if needed
