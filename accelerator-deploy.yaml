@@ -16,4 +16,4 @@ spec:
     ignore: ".git/, target, catalog"
     url: https://github.com/MoSehsah/bank-demo
     ref:
-      branch: main
+      branch: tap/accelerator
