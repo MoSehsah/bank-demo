@@ -59,7 +59,7 @@ accelerator:
     dataType: string
     defaultValue: account-svc # double check.
 
-  - name: newAccountService
+  - name: newAccountServiceCategory
     label: Choose service name of Account-Service.
     dependsOn:
       name: accountServiceDeployState
@@ -75,7 +75,7 @@ accelerator:
   - name: hasTestsAccountService
     label: Add CI tests to Account-Service App.
     dependsOn:
-      name: newAccountService
+      name: newAccountServiceCategory
       value: [newAccountServiceDevelop]
     inputType: checkbox
     display: true
@@ -86,7 +86,7 @@ accelerator:
     label: Branch of the Account-Service
     description: Please type the branch to develop
     dependsOn:
-      name: newAccountService
+      name: newAccountServiceCategory
     inputType: text
     dataType: string
     defaultValue: main
