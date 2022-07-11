@@ -46,4 +46,4 @@ spec:
       url: #@ data.values.gitRepo
       ref:
         branch: #@ data.values.branchNameWebService
-    subPath: web-service
+    subPath: web-ui
