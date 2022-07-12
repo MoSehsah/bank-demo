@@ -14,7 +14,7 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   definition:
-    $text: http://account-service-dev.cnr.tap.mytanzu.org/v3/api-docs.yaml
+    $text: http://account-service-dev.cnr.tap.mytanzu.org/v3/api-docs
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
