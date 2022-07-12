@@ -2,6 +2,9 @@ package com.vmware.tanzu.portfolio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 
 
 @SpringBootApplication
@@ -11,5 +14,8 @@ public class PortfolioApplication {
 		SpringApplication.run(PortfolioApplication.class, args);
 		
 	}
-
+    @Bean
+    public HttpTraceRepository htttpTraceRepository() {
+        return new InMemoryHttpTraceRepository();
+    }
 }
