@@ -4,7 +4,7 @@ info:
   title: Account Service API definition
   version: v0
 servers:
-- url: http://localhost:8082
+- url: http://account-service-dev.cnr.tap.mytanzu.org
   description: Generated server url
 paths:
   "/accounts":
