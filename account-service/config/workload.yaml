@@ -24,7 +24,7 @@ spec:
     - name: WAVEFRONT_TOKEN
       value: #@ data.values.wavefrontToken
     - name: spring.cloud.config.uri
-      value: 'http://config-server'
+      value: #@ "http://config-server."+data.values.namespaceToDeploy+".svc.cluster.local"
     - name: spring.cloud.config.fail-fast
       value: 'true'
     - name: spring.cloud.config.retry.max-interval
