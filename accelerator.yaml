@@ -235,7 +235,7 @@ accelerator:
       name: portfolioServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: account-service # double check.
+    defaultValue: account-service.dev.svc.cluster.local:80 # double check.
   - name: quoteServiceName
     label: Choose service name of Quote-Service.
     describe: Change default value if needed
@@ -243,7 +243,7 @@ accelerator:
       name: portfolioServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: quote-service # double check.
+    defaultValue: quote-service.dev.svc.cluster.local:80 # double check.
   - name: hasTestsPortfolioService
     label: Do CI test
     dependsOn:
@@ -299,7 +299,7 @@ accelerator:
       name: webServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: account-service # double check.
+    defaultValue: account-service.dev.svc.cluster.local:80 # double check.
   - name: quoteServiceNameW
     label: Choose service name of Quote-Service.
     describe: Change default value if needed
@@ -307,7 +307,7 @@ accelerator:
       name: webServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: quote-service # double check.
+    defaultValue: quote-service.dev.svc.cluster.local:80 # double check.
 
   - name: userServiceNameW
     label: Choose service name of User-Service.
@@ -316,7 +316,7 @@ accelerator:
       name: webServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: user-service # double check.
+    defaultValue: user-service.dev.svc.cluster.local:80 # double check.
   - name: portfolioServiceNameW
     label: Choose service name of Portfolio-Service.
     describe: Change default value if needed
@@ -324,7 +324,7 @@ accelerator:
       name: webServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: portfolio-service # double check.
+    defaultValue: portfolio-service.dev.svc.cluster.local:80 # double check.
   - name: analyticsServiceNameW
     label: Choose service name of Analytics-Service.
     describe: Change default value if needed
@@ -332,7 +332,7 @@ accelerator:
       name: webServiceDeploy
     inputType: text
     dataType: string
-    defaultValue: analytics-service # double check.
+    defaultValue: analytics-service.dev.svc.cluster.local:80 # double check.
 
   - name: hasTestsWebService
     label: Do CI test
