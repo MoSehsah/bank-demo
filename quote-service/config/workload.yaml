@@ -3,7 +3,7 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: quote-service
+  name: #@ data.values.quoteServiceDeployName
   namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
