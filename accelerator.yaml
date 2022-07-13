@@ -38,6 +38,54 @@ accelerator:
     dataType: string
     defaultValue: xyz-asd-000
 
+  #auto-scaling
+  - name: autoScalingState
+    label: Add autoscaling capabilities ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name: autoScalingClass
+    label: Choose autoscaling Class
+    dependsOn:
+      name: autoScalingState
+    inputType: select
+    defaultValue: kpa
+    choices:
+      - value: kpa
+        text: Knative Concurrency-based autoscaling (KPA)
+      - value: hpa
+        text: Standard Kubernetes CPU-based autoscaling. (HPA)
+
+  - name: autoScalingMinScale
+    label: Minimum Pod Count
+    description: Disable scale to zero with a minScale of 1.
+    dependsOn:
+      name: autoScalingState
+    inputType: text
+    dataType: string
+    defaultValue: "1"
+
+  - name: autoScalingMaxScale
+    label: Max Pod Count
+    description: Change max pod count
+    dependsOn:
+      name: autoScalingState
+    inputType: text
+    dataType: string
+    defaultValue: "10"
+
+  - name: autoScalingScaleDownDelay
+    label: Max Pod Count
+    description: The time window before scale down applied
+    dependsOn:
+      name: autoScalingState
+    inputType: text
+    dataType: string
+    defaultValue: "10m"
+
+####################################################################################################################################
   #config-server
   - name: configServerDeploy
     label: Deploy Config-Server ?

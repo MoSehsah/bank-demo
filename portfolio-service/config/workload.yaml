@@ -15,7 +15,22 @@ spec:
   params:
   - name: annotations
     value:
-      autoscaling.knative.dev/minScale: "1"
+      #@ if data.values.autoScalingClass == "kpa":
+      #@ if data.values.autoScalingMinScale:
+      autoscaling.knative.dev/minScale: #@ data.values.autoScalingMinScale
+      #@ end
+      #@ if data.values.autoScalingMaxScale:
+      autoscaling.knative.dev/maxScale: #@ data.values.autoScalingMaxScale
+      #@ end
+      #@ if data.values.autoScalingScaleDownDelay:
+      autoscaling.knative.dev/scaleDownDelay: #@ data.values.autoScalingScaleDownDelay
+      #@ end
+      #@ end
+
+      #@ if data.values.autoScalingClass == "hpa":
+      autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
+      autoscaling.knative.dev/metric: cpu
+      #@ end
   build:
     env:
     - name: BP_JVM_VERSION
