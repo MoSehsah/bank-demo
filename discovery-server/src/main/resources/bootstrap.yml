@@ -1,0 +1,39 @@
+spring:
+  application:
+     name: discovery
+  security:
+     user:
+         name: admin
+         password: admin
+server:
+  port: 8761
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+info:
+  build:
+    group: ${group}
+    name: ${name}
+    description: ${description}
+    version: ${version}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: ${WAVEFRONT_TOKEN}
+        uri: proxy://wf-proxy:2878
+# logging:
+#   level:
+#     ROOT: DEBUG
+wavefront:
+  application:
+    name: banking-demo
+    service: discovery

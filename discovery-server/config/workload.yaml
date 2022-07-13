@@ -1,0 +1,54 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: #@ data.values.discoveryServiceDeployName
+  namespace: #@ data.values.namespaceToDeploy
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: discovery-service
+    #@ if data.values.hasTestsWebService:
+    apps.tanzu.vmware.com/has-tests: "true"
+    #@ end
+spec:
+  params:
+  - name: annotations
+    value:
+      #@ if data.values.autoScalingClass == "kpa":
+      #@ if data.values.autoScalingMinScale:
+      autoscaling.knative.dev/minScale: #@ data.values.autoScalingMinScale
+      #@ end
+      #@ if data.values.autoScalingMaxScale:
+      autoscaling.knative.dev/maxScale: #@ data.values.autoScalingMaxScale
+      #@ end
+      #@ if data.values.autoScalingScaleDownDelay:
+      autoscaling.knative.dev/scaleDownDelay: #@ data.values.autoScalingScaleDownDelay
+      #@ end
+      #@ end
+
+      #@ if data.values.autoScalingClass == "hpa":
+      autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
+      autoscaling.knative.dev/metric: cpu
+      #@ end
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17.*"
+  env:
+    - name: WAVEFRONT_TOKEN
+      value: #@ data.values.wavefrontToken
+    - name: spring.cloud.config.uri
+      value: #@ "http://config-server."+data.values.namespaceToDeploy+".svc.cluster.local"
+    - name: spring.cloud.config.fail-fast
+      value: 'true'
+    - name: spring.cloud.config.retry.max-interval
+      value: "10000"
+    - name: spring.cloud.config.retry.max-attempts
+      value: "2000"
+  source:
+    git:
+      url: #@ data.values.gitRepo
+      ref:
+        branch: #@ data.values.branchNameDiscoveryService
+    subPath: discovery
