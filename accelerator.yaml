@@ -367,39 +367,39 @@ engine:
       condition: "#accountServiceDeployState == 'newAccountServiceDevelop'"
       excludes: [ "account-service/target","account-service/config/**" ]
     - includes: ["account-service/config/**"]
-      condition: "#accountServiceDeploy != #{!true}"
+      condition: "#accountServiceDeploy != false"
       chain:
         - type: YTT
     - includes: ["config-server/config/**"]
-      condition: "#configServerDeploy != #{!true}"
+      condition: "#configServerDeploy != false"
       chain:
         - type: YTT
     - includes: ["user-service/**"]
       condition: "#userServiceDeployState == 'newUserServiceDevelop'"
       excludes: [ "user-service/target","user-service/config/**" ]
     - includes: ["user-service/config/**"]
-      condition: "#userServiceDeploy != #{!true}"
+      condition: "#userServiceDeploy != false"
       chain:
         - type: YTT
     - includes: ["quote-service/**"]
       condition: "#quoteServiceDeployState == 'newQuoteServiceDevelop'"
       excludes: [ "quote-service/target","quote-service/config/**" ]
     - includes: ["quote-service/config/**"]
-      condition: "#quoteServiceDeploy != #{!true}"
+      condition: "#quoteServiceDeploy != false"
       chain:
         - type: YTT
     - includes: ["portfolio-service/**"]
       condition: "#portfolioServiceDeployState == 'newPortfolioServiceDevelop'"
       excludes: [ "portfolio-service/target","portfolio-service/config/**" ]
     - includes: ["portfolio-service/config/**"]
-      condition: "#portfolioServiceDeploy != #{!true}"
+      condition: "#portfolioServiceDeploy != false"
       chain:
         - type: YTT
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
     - includes: ["web-ui/config/**"]
-      condition: "#webServiceDeploy != #{!true}"
+      condition: "#webServiceDeploy != false"
       chain:
         - type: YTT
       #chain:
