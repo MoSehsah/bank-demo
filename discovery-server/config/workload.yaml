@@ -35,5 +35,5 @@ spec:
     git:
       url: #@ data.values.gitRepo
       ref:
-        branch: #@ data.values.branchNameDiscoveryService
+        branch: #@ data.values.branchNameDiscoveryServer
     subPath: discovery-server
