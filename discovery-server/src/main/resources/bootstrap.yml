@@ -6,7 +6,7 @@ spring:
          name: admin
          password: admin
 server:
-  port: 8761
+  port: 8080
 eureka:
   client:
     registerWithEureka: false
