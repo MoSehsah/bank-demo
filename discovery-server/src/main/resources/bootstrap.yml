@@ -11,10 +11,12 @@ eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://admin:admin@localhost:8080/eureka
   server:
     wait-time-in-ms-when-sync-empty: 0
   instance:
-    hostname: ${HOSTNAME}
+    hostname: localhost
 info:
   build:
     group: ${group}
