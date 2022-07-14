@@ -49,6 +49,8 @@ accelerator:
   - name: eurekaURL
     label: Eureka Service Discovery URL
     description: Please type the URL
+    dependsOn:
+      name: eurekaState
     inputType: text
     dataType: string
     defaultValue: 'http://admin:admin@discovery-svc.dev.svc.cluster.local:8761/eureka'
