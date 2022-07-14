@@ -29,6 +29,9 @@ public class UserService {
 
 	@Autowired
     private DiscoveryClient discoveryClient;
+
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
 	
 	@Value("${userServiceName:user-svc}")
 	private String userService;
@@ -39,7 +42,17 @@ public class UserService {
 	public void createUser(User user) {
 		logger.debug("Creating user with userId: " + user.getUserid());
 		logger.debug(user.toString());
-		String userServiceURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
+		String userServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": userServiceURI = externalUserServiceURI;
+					break;
+			default: userServiceURI = userServiceDiscoveredURI;
+					break;
+		}
 		//String status = restTemplate.postForObject(downstreamProtocol + "://" + userService + "/users/", user, String.class);
 		String status = restTemplate.postForObject(userServiceURI + "/users/", user, String.class);
 		logger.info("Status from registering account for "+ user.getUserid()+ " is " + status);
@@ -48,7 +61,17 @@ public class UserService {
 	public Map<String,Object> login(AuthenticationRequest request){
 		logger.debug("logging in with userId:" + request.getUsername());
 		@SuppressWarnings("unchecked")
-		String userServiceURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
+		String userServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": userServiceURI = externalUserServiceURI;
+					break;
+			default: userServiceURI = userServiceDiscoveredURI;
+					break;
+		}
 		//Map<String,Object> result = (Map<String, Object>) restTemplate.postForObject(downstreamProtocol + "://" + userService + "/login/".toString(), request, Map.class);
 		Map<String,Object> result = (Map<String, Object>) restTemplate.postForObject(userServiceURI + "/login/".toString(), request, Map.class);
 		return result;
@@ -56,7 +79,17 @@ public class UserService {
 	
 	public User getUser(String user) {
 		logger.debug("Looking for user with user name: " + user);
-		String userServiceURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
+		String userServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": userServiceURI = externalUserServiceURI;
+					break;
+			default: userServiceURI = userServiceDiscoveredURI;
+					break;
+		}
 	    User account = restTemplate.getForObject(userServiceURI + "/users/{user}", User.class, user);
 		//User account = restTemplate.getForObject(downstreamProtocol + "://" + userService + "/users/{user}", User.class, user);
 	    logger.debug("Got user: " + account);
@@ -65,7 +98,17 @@ public class UserService {
 	
 	public void logout(String user) {
 		logger.debug("logging out user with userId: " + user);
-		String userServiceURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
+		String userServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": userServiceURI = externalUserServiceURI;
+					break;
+			default: userServiceURI = userServiceDiscoveredURI;
+					break;
+		}
 	    ResponseEntity<?> response = restTemplate.getForEntity(userServiceURI + "/logout/{user}", String.class, user);
 		//ResponseEntity<?> response = restTemplate.getForEntity(downstreamProtocol + "://" + userService + "/logout/{user}", String.class, user);
 	    logger.debug("Logout response: " + response.getStatusCode());

@@ -30,6 +30,9 @@ public class AccountService {
 
 	@Autowired
     private DiscoveryClient discoveryClient;
+
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
 	
 	@Value("${accountServiceName:account-svc}")
 	private String accountsService;
@@ -39,7 +42,17 @@ public class AccountService {
 
 	public void createAccount(Account account) {
 		logger.debug("Creating account for userId: " + account.getUserid());
-		String accountServiceURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
+		String accountServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": accountServiceURI = externalAccountServiceURI;
+					break;
+			default: accountServiceURI = accountServiceDiscoveredURI;
+					break;
+		}
 		String status = restTemplate.postForObject(accountServiceURI + "/accounts/", account, String.class);
 		logger.info("Status from registering account for "+ account.getUserid()+ " is " + status);
 	}
@@ -49,7 +62,17 @@ public class AccountService {
 //	 @HystrixCommand(fallbackMethod = "getAccountsFallback")
 	public List<Account> getAccounts(String user) {
 		logger.debug("Looking for account with userId: " + user);
-		String accountServiceURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
+		String accountServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": accountServiceURI = externalAccountServiceURI;
+					break;
+			default: accountServiceURI = accountServiceDiscoveredURI;
+					break;
+		}
 	    Account[] accounts = restTemplate.getForObject(accountServiceURI + "/accounts?name={user}", Account[].class, user);
 	    
 	    return Arrays.asList(accounts);
@@ -62,7 +85,17 @@ public class AccountService {
 
 	public List<Account> getAccountsByType(String user, String type) {
 		logger.debug("Looking for account with userId: " + user + " and type: " + type);
-		String accountServiceURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
+		String accountServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": accountServiceURI = externalAccountServiceURI;
+					break;
+			default: accountServiceURI = accountServiceDiscoveredURI;
+					break;
+		}
 	    Account[] accounts = restTemplate.getForObject(accountServiceURI + "/accounts?name={user},type={type}", Account[].class, user,type);
 
 	    return Arrays.asList(accounts);

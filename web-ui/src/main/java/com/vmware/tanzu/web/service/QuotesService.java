@@ -40,6 +40,9 @@ public class QuotesService {
 	@Autowired
     private DiscoveryClient discoveryClient;
 
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+
 	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
@@ -70,8 +73,18 @@ public class QuotesService {
 	//@HystrixCommand(fallbackMethod = "getCompaniesFallback")
 	public List<CompanyInfo> getCompanies(String name) {
 		logger.debug("Fetching companies with name or symbol matching: " + name);
-		String quotesServiceURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
-		CompanyInfo[] infos = restTemplate.getForObject(quotesServiceURI + "/v1/quotes?q={name}", CompanyInfo[].class, name);
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
+		String quoteServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": quoteServiceURI = externalQuoteServiceURI;
+					break;
+			default: quoteServiceURI = quoteServiceDiscoveredURI;
+					break;
+		}
+		CompanyInfo[] infos = restTemplate.getForObject(quoteServiceURI + "/v1/quotes?q={name}", CompanyInfo[].class, name);
 		return Arrays.asList(infos);
 	}
 	private List<CompanyInfo> getCompaniesFallback(String name) {
@@ -86,8 +99,18 @@ public class QuotesService {
 	 */
 	public List<Quote> getMultipleQuotes(String symbols) {
 		logger.debug("retrieving multiple quotes: " + symbols);
-		String quotesServiceURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
-		Quote[] quotesArr = restTemplate.getForObject(quotesServiceURI + "/v1/quotes?q={symbols}", Quote[].class, symbols);
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
+		String quoteServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": quoteServiceURI = externalQuoteServiceURI;
+					break;
+			default: quoteServiceURI = quoteServiceDiscoveredURI;
+					break;
+		}
+		Quote[] quotesArr = restTemplate.getForObject(quoteServiceURI + "/v1/quotes?q={symbols}", Quote[].class, symbols);
 		List<Quote> quotes = Arrays.asList(quotesArr);
 		logger.debug("Received quotes: {}",quotes);
 		return quotes;

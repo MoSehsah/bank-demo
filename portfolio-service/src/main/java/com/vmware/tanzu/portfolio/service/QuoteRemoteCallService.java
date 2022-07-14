@@ -44,6 +44,9 @@ public class QuoteRemoteCallService {
 	@Autowired
     private DiscoveryClient discoveryClient;
 
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+
 	/**
 	 * Retrieve up to date quotes.
 	 * 
@@ -54,7 +57,18 @@ public class QuoteRemoteCallService {
 	@HystrixCommand(fallbackMethod = "getQuoteFallback")
 	public Quote getQuote(String symbol) {
 		logger.debug("Fetching quote: " + symbol);
-		String quoteServiceURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
+		String quoteServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": quoteServiceURI = externalQuoteServiceURI;
+					break;
+			default: quoteServiceURI = quoteServiceDiscoveredURI;
+					break;
+		}
+
 		Quote quote = restTemplate.getForObject(quoteServiceURI + "/quote/{symbol}", Quote.class, symbol);
 		return quote;
 	}
@@ -85,7 +99,17 @@ public class QuoteRemoteCallService {
 	 */
 	public List<Quote> getMultipleQuotes(String symbols) {
 		logger.debug("retrieving multiple quotes: " + symbols);
-		String quoteServiceURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
+		String quoteServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": quoteServiceURI = externalQuoteServiceURI;
+					break;
+			default: quoteServiceURI = quoteServiceDiscoveredURI;
+					break;
+		}
 		Quote[] quotesArr = restTemplate.getForObject(quoteServiceURI + "/v1/quotes?q={symbols}", Quote[].class, symbols);
 		List<Quote> quotes = Arrays.asList(quotesArr);
 		logger.debug("Received quotes: {}",quotes);

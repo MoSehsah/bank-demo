@@ -38,6 +38,14 @@ accelerator:
     dataType: string
     defaultValue: xyz-asd-000
 
+  #discovery-server
+  - name: eurekaState
+    label: Auto Integrate with Service Discovery ?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
   - name: eurekaURL
     label: Eureka Service Discovery URL
     description: Please type the URL
@@ -147,8 +155,6 @@ accelerator:
         text: Develop from source code
       - value: newAccountServiceDeploy
         text: Deploy using Discovery-Server
-      - value: existingAccountService
-        text: Deploy using External Services
   - name: accountServiceDeployName
     label: Choose service name of Account-Service.
     describe: Change default value if needed
@@ -195,8 +201,6 @@ accelerator:
         text: Develop from source code
       - value: newUserServiceDeploy
         text: Deploy using Discovery-Server
-      - value: existingUserService
-        text: Deploy using External Services
   - name: userServiceDeployName
     label: Choose service name of User-Service.
     describe: Change default value if needed
@@ -243,8 +247,6 @@ accelerator:
         text: Develop from source code
       - value: newQuoteServiceDeploy
         text: Deploy using Discovery-Server
-      - value: existingQuoteService
-        text: Deploy using External Services
   - name: quoteServiceDeployName
     label: Choose service name of Quote-Service.
     describe: Change default value if needed
@@ -471,6 +473,34 @@ engine:
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
+    - includes: ["web-ui/**"]
+      condition: "#webServiceDeployState == 'existingWebService'"
+      excludes: [ "web-ui/target","web-ui/config/**" ]
+      chain:
+      - type: ReplaceText
+        substitutions:
+        - text: "eureka:"
+          with: ""
+        - text: "  client:"
+          with: ""
+        - text: "    serviceUrl:"
+          with: ""
+        - text: "      defaultZone: ${EUREKA_URL}"
+          with: ""
+        - text: "    fetch-registry: true"
+          with: ""
+        - text: "  instance:"
+          with: ""
+        - text: "    hostname: ${HOSTNAME}"
+          with: ""
+        - text: "    #nonSecurePort: 80"
+          with: ""
+        - text: "    #metadata-map:"
+          with: ""
+        - text: "    #  management:"
+          with: ""
+        - text: "    #    port: 80"
+          with: ""
     - includes: ["web-ui/config/**"]
       condition: "#webServiceDeploy != false"
       chain:

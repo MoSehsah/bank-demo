@@ -40,6 +40,9 @@ public class PortfolioService {
 	@Autowired
     private DiscoveryClient discoveryClient;
 
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+
     @Value("${portfolioServiceName:portfolio-svc}")
 	private String portfolioService;
 
@@ -50,7 +53,18 @@ public class PortfolioService {
 		logger.debug("send order: " + order);
 		
 		//check result of http request to ensure its ok.
-		String portfolioServiceURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getUri());
+		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getUri());
+		String externalPortfolioServiceURI = downstreamProtocol + "://"+ portfolioService;
+		String portfolioServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": portfolioServiceURI = externalPortfolioServiceURI;
+					break;
+			default: portfolioServiceURI = portfolioServiceDiscoveredURI;
+					break;
+		}
+
 		ResponseEntity<Order>  result = restTemplate.postForEntity(portfolioServiceURI + "/portfolio", order, Order.class);
 		if (result.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
 			throw new OrderNotSavedException("Could not save the order");
@@ -61,7 +75,17 @@ public class PortfolioService {
 	// The below is commented out to demonstrate impact of lack of hystrix, and can be uncommented during presentation
 	//@HystrixCommand(fallbackMethod = "getPortfolioFallback")
 	public Portfolio getPortfolio(String user) {
-		String portfolioServiceURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getUri());
+		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getUri());
+		String externalPortfolioServiceURI = downstreamProtocol + "://"+ portfolioService;
+		String portfolioServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": portfolioServiceURI = externalPortfolioServiceURI;
+					break;
+			default: portfolioServiceURI = portfolioServiceDiscoveredURI;
+					break;
+		}
 		Portfolio folio = restTemplate.getForObject(portfolioServiceURI + "/portfolio/{accountid}", Portfolio.class, user);
 		logger.debug("Portfolio received: " + folio);
 		return folio;

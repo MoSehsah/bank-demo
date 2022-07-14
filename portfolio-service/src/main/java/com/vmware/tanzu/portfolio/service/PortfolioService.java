@@ -61,6 +61,10 @@ public class PortfolioService {
 	@Value("${accountServiceName:account-svc}")
 	protected String accountsService;
 
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+	
+
 	/**
 	 * Retrieves the portfolio for the given accountId.
 	 * 
@@ -175,7 +179,22 @@ public class PortfolioService {
 			transaction.setType(TransactionType.CREDIT);
 			
 		}
-		String accountServiceURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		
+		//protected String accountServiceDiscoveredURI = accountServiceURI;
+
+
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
+		String accountServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": accountServiceURI = externalAccountServiceURI;
+					break;
+			default: accountServiceURI = accountServiceDiscoveredURI;
+					break;
+		}
+
 		ResponseEntity<String> result = restTemplate.postForEntity(accountServiceURI
 				+ "/accounts/transaction",
 				transaction, String.class);

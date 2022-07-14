@@ -90,7 +90,7 @@ services:
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
       WAVEFRONT_TOKEN: 'change-me'
-      EUREKA_URL: 'http://admin:admin@discovery-server:8761/eureka'
+      EUREKA_URL: 'http://admin:admin@discovery-svc:8761/eureka'
     ports:
       - '8080:8080'
     expose:

@@ -29,6 +29,9 @@ public class AnalyticsService {
 	@Autowired
     private DiscoveryClient discoveryClient;
 
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+
 	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
@@ -39,7 +42,18 @@ public class AnalyticsService {
 	//@HystrixCommand(fallbackMethod = "getAnalyticsFallback")
 	public List<Trade> getTrades(String symbol) {
 		logger.debug("Fetching trades: " + symbol);
-		String analyticsServiceURI = String.valueOf(discoveryClient.getInstances("analytics-service").get(0).getUri());
+
+		String analyticsServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("analytics-service").get(0).getUri());
+		String externalAnalyticsServiceURI = downstreamProtocol + "://"+ analyticsService;
+		String analyticsServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": analyticsServiceURI = externalAnalyticsServiceURI;
+					break;
+			default: analyticsServiceURI = analyticsServiceDiscoveredURI;
+					break;
+		}
 		Trade[] tradesArr = restTemplate.getForObject(analyticsServiceURI + "/analytics/trades/{symbol}", Trade[].class, symbol);
 		List<Trade> trades = Arrays.asList(tradesArr);
 		logger.debug("Found " + trades.size() + " trades");
