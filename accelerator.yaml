@@ -289,7 +289,7 @@ accelerator:
     dependsOn:
       name: portfolioServiceDeploy
     inputType: select
-    defaultValue: existingPortfolioService
+    defaultValue: newPortfolioServiceDeploy
     choices:
       - value: newPortfolioServiceDevelop
         text: Develop from source code
@@ -353,7 +353,7 @@ accelerator:
     dependsOn:
       name: webServiceDeploy
     inputType: select
-    defaultValue: existingWebService
+    defaultValue: newWebServiceDeploy
     choices:
       - value: newWebServiceDevelop
         text: Develop from source code
@@ -482,27 +482,27 @@ engine:
       - type: ReplaceText
         substitutions:
         - text: "eureka:"
-          with: ""
+          with: " "
         - text: "  client:"
-          with: ""
+          with: " "
         - text: "    serviceUrl:"
-          with: ""
+          with: " "
         - text: "      defaultZone: ${EUREKA_URL}"
-          with: ""
+          with: " "
         - text: "    fetch-registry: true"
-          with: ""
+          with: " "
         - text: "  instance:"
-          with: ""
+          with: " "
         - text: "    hostname: ${HOSTNAME}"
-          with: ""
+          with: " "
         - text: "    #nonSecurePort: 80"
-          with: ""
+          with: " "
         - text: "    #metadata-map:"
-          with: ""
+          with: " "
         - text: "    #  management:"
-          with: ""
+          with: " "
         - text: "    #    port: 80"
-          with: ""
+          with: " "
     - includes: ["web-ui/config/**"]
       condition: "#webServiceDeploy != false"
       chain:
