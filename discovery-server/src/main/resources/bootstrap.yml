@@ -1,8 +1,14 @@
 spring:
   application:
      name: discovery
+  security:
+     user:
+         name: admin
+         password: admin
 server:
   port: 8080
+  servlet:
+    context-path: /
 eureka:
   client:
     registerWithEureka: false
@@ -20,13 +26,29 @@ info:
     description: ${description}
     version: ${version}
 management:
+  #server:
+  #  port: 8081
   endpoints:
     web:
       exposure:
-        include: "*"  
+        include: "*"
+      #base-path: "/"
+      #path-mapping:
+      #  health: "readyzz"
+      #  info: "infoz"
   endpoint:
     health:
+      enabled: true
+      probes:
+        enabled: true
       show-details: always
+      group:
+        liveness:
+          additional-path: server:/livez
+          show-details: always
+        readiness:
+          additional-path: server:/readyz
+          show-details: always
   metrics:
     export:
       wavefront:
