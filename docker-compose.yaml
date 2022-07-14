@@ -11,12 +11,15 @@ services:
   user-svc:
     container_name: user-svc
     image: docker.io/library/user-service:0.0.1-SNAPSHOT
+    depends_on:
+      - "discovery-svc"
     environment:
       'spring.cloud.config.uri' : 'http://config-server:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
       WAVEFRONT_TOKEN: 'change-me'
+      EUREKA_URL: 'http://admin:admin@discovery-svc:8761/eureka'
     ports:
       - '8084:8080'
     expose:
@@ -24,12 +27,15 @@ services:
   account-svc:
     container_name: account-svc
     image: docker.io/library/account-service:0.0.1-SNAPSHOT
+    depends_on:
+      - "discovery-svc"
     environment:
       'spring.cloud.config.uri' : 'http://config-server:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
       WAVEFRONT_TOKEN: 'change-me'
+      EUREKA_URL: 'http://admin:admin@discovery-svc:8761/eureka'
     ports:
       - '8082:8080'
     expose:
@@ -37,12 +43,15 @@ services:
   quote-svc:
     container_name: quote-svc
     image: docker.io/library/quote-service:0.0.1-SNAPSHOT
+    depends_on:
+      - "discovery-svc"
     environment:
       'spring.cloud.config.uri' : 'http://config-server:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
       WAVEFRONT_TOKEN: 'change-me'
+      EUREKA_URL: 'http://admin:admin@discovery-svc:8761/eureka'
     ports:
       - '8083:8080'
     expose:
@@ -50,6 +59,8 @@ services:
   portfolio-svc:
     container_name: portfolio-svc
     image: docker.io/library/portfolio-service:0.0.1-SNAPSHOT
+    depends_on:
+      - "discovery-svc"
     environment:
       accountServiceName: 'account-svc:8080'
       quoteServiceName: 'quote-svc:8080'
@@ -58,6 +69,7 @@ services:
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
       WAVEFRONT_TOKEN: 'change-me'
+      EUREKA_URL: 'http://admin:admin@discovery-svc:8761/eureka'
     ports:
       - '8081:8080'
     expose:
@@ -65,6 +77,8 @@ services:
   web-ui-svc:
     container_name: web-ui-svc
     image: docker.io/library/web-ui:0.0.1-SNAPSHOT
+    depends_on:
+      - "discovery-svc"    
     environment:
       accountServiceName: 'account-svc:8080'
       userServiceName: 'user-svc:8080'
@@ -76,10 +90,26 @@ services:
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
       WAVEFRONT_TOKEN: 'change-me'
+      EUREKA_URL: 'http://admin:admin@discovery-server:8761/eureka'
     ports:
       - '8080:8080'
     expose:
       - '8080'
+  discovery-svc:
+    container_name: discovery-svc
+    image: docker.io/library/discovery:0.0.1-SNAPSHOT
+    depends_on:
+      - "config-server"
+    environment:
+      'spring.cloud.config.uri' : 'http://config-server:8888'
+      'spring.cloud.config.fail-fast' : 'true'
+      'spring.cloud.config.retry.max-interval': 10000
+      'spring.cloud.config.retry.max-attempts': 2000
+      WAVEFRONT_TOKEN: 'change-me'
+    ports:
+      - '8761:8761'
+    expose:
+      - '8761'
   wf-proxy:
     container_name: wf-proxy
     image: wavefronthq/proxy:latest

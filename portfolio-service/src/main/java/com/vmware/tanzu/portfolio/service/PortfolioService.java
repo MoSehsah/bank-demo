@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -48,11 +49,14 @@ public class PortfolioService {
 	QuoteRemoteCallService quoteService;
 
 	@Autowired
-	@LoadBalanced
+	//@LoadBalanced
 	private RestTemplate restTemplate;
 
 	@Autowired
 	private PortfolioRepositoryService portfolioRepositoryService;
+
+	@Autowired
+    private DiscoveryClient discoveryClient;
 
 	@Value("${accountServiceName:account-svc}")
 	protected String accountsService;
@@ -171,9 +175,8 @@ public class PortfolioService {
 			transaction.setType(TransactionType.CREDIT);
 			
 		}
-		
-		ResponseEntity<String> result = restTemplate.postForEntity(downstreamProtocol + "://"
-				+ accountsService
+		String accountServiceURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		ResponseEntity<String> result = restTemplate.postForEntity(accountServiceURI
 				+ "/accounts/transaction",
 				transaction, String.class);
 		

@@ -11,6 +11,10 @@ eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+  instance:
+    hostname: ${HOSTNAME}
 info:
   build:
     group: ${group}

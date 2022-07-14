@@ -15,6 +15,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
@@ -37,8 +38,11 @@ public class QuoteRemoteCallService {
 	protected String downstreamProtocol;
 
 	@Autowired
-	@LoadBalanced
+	//@LoadBalanced
 	private RestTemplate restTemplate;
+
+	@Autowired
+    private DiscoveryClient discoveryClient;
 
 	/**
 	 * Retrieve up to date quotes.
@@ -50,7 +54,8 @@ public class QuoteRemoteCallService {
 	@HystrixCommand(fallbackMethod = "getQuoteFallback")
 	public Quote getQuote(String symbol) {
 		logger.debug("Fetching quote: " + symbol);
-		Quote quote = restTemplate.getForObject(downstreamProtocol + "://" + quotesService + "/quote/{symbol}", Quote.class, symbol);
+		String quoteServiceURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		Quote quote = restTemplate.getForObject(quoteServiceURI + "/quote/{symbol}", Quote.class, symbol);
 		return quote;
 	}
 
@@ -80,7 +85,8 @@ public class QuoteRemoteCallService {
 	 */
 	public List<Quote> getMultipleQuotes(String symbols) {
 		logger.debug("retrieving multiple quotes: " + symbols);
-		Quote[] quotesArr = restTemplate.getForObject(downstreamProtocol + "://" + quotesService + "/v1/quotes?q={symbols}", Quote[].class, symbols);
+		String quoteServiceURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		Quote[] quotesArr = restTemplate.getForObject(quoteServiceURI + "/v1/quotes?q={symbols}", Quote[].class, symbols);
 		List<Quote> quotes = Arrays.asList(quotesArr);
 		logger.debug("Received quotes: {}",quotes);
 		return quotes;

@@ -1,6 +1,13 @@
 spring:
   application:
      name: user-service
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}
+    fetch-registry: true
+  instance:
+    hostname: ${HOSTNAME}
 management:
   endpoints:
     web:

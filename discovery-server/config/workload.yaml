@@ -3,11 +3,11 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: #@ data.values.discoveryServiceDeployName
+  name: discovery-server
   namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: discovery-service
+    app.kubernetes.io/part-of: discovery-server
     #@ if data.values.hasTestsWebService:
     apps.tanzu.vmware.com/has-tests: "true"
     #@ end
@@ -15,22 +15,7 @@ spec:
   params:
   - name: annotations
     value:
-      #@ if data.values.autoScalingClass == "kpa":
-      #@ if data.values.autoScalingMinScale:
-      autoscaling.knative.dev/minScale: #@ data.values.autoScalingMinScale
-      #@ end
-      #@ if data.values.autoScalingMaxScale:
-      autoscaling.knative.dev/maxScale: #@ data.values.autoScalingMaxScale
-      #@ end
-      #@ if data.values.autoScalingScaleDownDelay:
-      autoscaling.knative.dev/scaleDownDelay: #@ data.values.autoScalingScaleDownDelay
-      #@ end
-      #@ end
-
-      #@ if data.values.autoScalingClass == "hpa":
-      autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
-      autoscaling.knative.dev/metric: cpu
-      #@ end
+      autoscaling.knative.dev/minScale: "1"
   build:
     env:
     - name: BP_JVM_VERSION
@@ -51,4 +36,4 @@ spec:
       url: #@ data.values.gitRepo
       ref:
         branch: #@ data.values.branchNameDiscoveryService
-    subPath: discovery
+    subPath: discovery-server

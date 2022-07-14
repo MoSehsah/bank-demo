@@ -38,6 +38,13 @@ accelerator:
     dataType: string
     defaultValue: xyz-asd-000
 
+  - name: eurekaURL
+    label: Eureka Service Discovery URL
+    description: Please type the URL
+    inputType: text
+    dataType: string
+    defaultValue: 'http://admin:admin@discovery-svc.dev.svc.cluster.local:8761/eureka'
+
   #auto-scaling
   - name: autoScalingState
     label: Add autoscaling capabilities ?
@@ -103,6 +110,24 @@ accelerator:
     dataType: string
     defaultValue: main
 ####################################################################################################################################
+  #discovery-server
+  - name: discoveryServerDeploy
+    label: Deploy Discovery-Server ?
+    description: Spring Eureka 
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameDiscoveryServer
+    label: Branch of the Discovery-Server
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: discoveryServerDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
   #account-service
   - name: accountServiceDeploy
     label: Deploy Account-Service ?
@@ -121,9 +146,9 @@ accelerator:
       - value: newAccountServiceDevelop
         text: Develop from source code
       - value: newAccountServiceDeploy
-        text: Deploy only
+        text: Deploy using Discovery-Server
       - value: existingAccountService
-        text: Use Existing
+        text: Deploy using External Services
   - name: accountServiceDeployName
     label: Choose service name of Account-Service.
     describe: Change default value if needed
@@ -169,9 +194,9 @@ accelerator:
       - value: newUserServiceDevelop
         text: Develop from source code
       - value: newUserServiceDeploy
-        text: Deploy only
+        text: Deploy using Discovery-Server
       - value: existingUserService
-        text: Use Existing
+        text: Deploy using External Services
   - name: userServiceDeployName
     label: Choose service name of User-Service.
     describe: Change default value if needed
@@ -217,9 +242,9 @@ accelerator:
       - value: newQuoteServiceDevelop
         text: Develop from source code
       - value: newQuoteServiceDeploy
-        text: Deploy only
+        text: Deploy using Discovery-Server
       - value: existingQuoteService
-        text: Use Existing
+        text: Deploy using External Services
   - name: quoteServiceDeployName
     label: Choose service name of Quote-Service.
     describe: Change default value if needed
@@ -265,9 +290,9 @@ accelerator:
       - value: newPortfolioServiceDevelop
         text: Develop from source code
       - value: newPortfolioServiceDeploy
-        text: Deploy only
+        text: Deploy using Discovery-Server
       - value: existingPortfolioService
-        text: Use Existing
+        text: Deploy using External Services
   - name: portfolioServiceDeployName
     label: Choose service name of Portfolio-Service.
     describe: Change default value if needed
@@ -329,9 +354,9 @@ accelerator:
       - value: newWebServiceDevelop
         text: Develop from source code
       - value: newWebServiceDeploy
-        text: Deploy only
+        text: Deploy using Discovery-Server
       - value: existingWebService
-        text: Use Existing
+        text: Deploy using External Services
   - name: webServiceDeployNameW
     label: Choose service name of Web-Service.
     describe: Change default value if needed
