@@ -53,7 +53,7 @@ accelerator:
       name: eurekaState
     inputType: text
     dataType: string
-    defaultValue: 'http://discovery-svc.dev.svc.cluster.local/eureka'
+    defaultValue: 'http://discovery-server.dev.svc.cluster.local/eureka'
 
   #auto-scaling
   - name: autoScalingState
