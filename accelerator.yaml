@@ -451,6 +451,10 @@ engine:
       condition: "#configServerDeploy != false"
       chain:
         - type: YTT
+    - includes: ["discovery-server/config/**"]
+      condition: "#discoveryServerDeploy != false"
+      chain:
+        - type: YTT
     - includes: ["user-service/**"]
       condition: "#userServiceDeployState == 'newUserServiceDevelop'"
       excludes: [ "user-service/target","user-service/config/**" ]
