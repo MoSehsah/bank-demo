@@ -42,7 +42,7 @@ accelerator:
   #discovery-server
   - name: eurekaState
     label: Auto Integrate with Service Discovery ?
-    inputType: checkbox
+    inputType: toggle
     display: true
     dataType: boolean
     defaultValue: false
@@ -59,7 +59,7 @@ accelerator:
   #auto-scaling
   - name: autoScalingState
     label: Add autoscaling capabilities ?
-    inputType: checkbox
+    inputType: toggle
     display: true
     dataType: boolean
     defaultValue: false
