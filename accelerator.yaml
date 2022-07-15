@@ -484,8 +484,8 @@ engine:
       chain:
         - type: ReplaceText
           substitutions:
-          - text: "eureka"
-            with: ""
+            - text: "eureka"
+              with: ""
       #- type: ReplaceText
       #  substitutions:
       #  - text: '  client:'
