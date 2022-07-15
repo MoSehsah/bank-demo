@@ -485,6 +485,10 @@ accelerator:
 #      tanzu accelerator generate spring-data-services --server-url http://localhost:8877 --options='{"gitRepo":"https://github.com/gorkemozlu/spring-petclinic-tap-mysql","parentApp":"petclinic-app","hasTests":false,"addToComponent":true,"branchName":"main","namespaceToDeploy":"my-apps","addDB":true,"dbType":"MySQL","dbName":"petclinic-db","appDeploymentType":"tap"}'
 
 engine:
+  let:
+    - name: blank
+      expression:
+        "#myBlankValue == ''"
   merge:
     #generic transformations
     - includes: ["account-service/**"]
@@ -693,51 +697,51 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "  client:"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "    serviceUrl:"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "    fetch-registry: true"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "  instance:"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "    hostname: ${HOSTNAME}"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "    #nonSecurePort: 80"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "    #metadata-map:"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "    #  management:"
-              with: "#blankValue"
+              with: "#blank"
         - type: ReplaceText
           substitutions:
             - text: "    #    port: 80"
-              with: "#blankValue"
+              with: "#blank"
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
