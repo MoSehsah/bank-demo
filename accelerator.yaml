@@ -307,7 +307,7 @@ accelerator:
     dataType: string
     defaultValue: portfolio-service # double check.
   - name: accountServiceName
-    label: Choose service name of Account-Service.
+    label: Type external service name of Account-Service.
     describe: Change default value if needed
     dependsOn:
       name: portfolioServiceDeploy
@@ -315,7 +315,7 @@ accelerator:
     dataType: string
     defaultValue: account-service.dev.svc.cluster.local:80 # double check.
   - name: quoteServiceName
-    label: Choose service name of Quote-Service.
+    label: Type external service name of Quote-Service.
     describe: Change default value if needed
     dependsOn:
       name: portfolioServiceDeploy
@@ -379,7 +379,7 @@ accelerator:
     dataType: string
     defaultValue: account-service.dev.svc.cluster.local:80 # double check.
   - name: quoteServiceNameW
-    label: Choose service name of Quote-Service.
+    label: Type external service name of Quote-Service.
     describe: Change default value if needed
     dependsOn:
       name: webServiceDeploy
@@ -388,7 +388,7 @@ accelerator:
     defaultValue: quote-service.dev.svc.cluster.local:80 # double check.
 
   - name: userServiceNameW
-    label: Choose service name of User-Service.
+    label: Type external service name of User-Service.
     describe: Change default value if needed
     dependsOn:
       name: webServiceDeploy
@@ -396,7 +396,7 @@ accelerator:
     dataType: string
     defaultValue: user-service.dev.svc.cluster.local:80 # double check.
   - name: portfolioServiceNameW
-    label: Choose service name of Portfolio-Service.
+    label: Type external  service name of Portfolio-Service.
     describe: Change default value if needed
     dependsOn:
       name: webServiceDeploy
@@ -404,7 +404,7 @@ accelerator:
     dataType: string
     defaultValue: portfolio-service.dev.svc.cluster.local:80 # double check.
   - name: analyticsServiceNameW
-    label: Choose service name of Analytics-Service.
+    label: Type external service name of Analytics-Service.
     describe: Change default value if needed
     dependsOn:
       name: webServiceDeploy
@@ -481,6 +481,60 @@ engine:
       condition: "#portfolioServiceDeploy != false"
       chain:
         - type: YTT
+    - includes: ["portfolio-service/**"]
+      excludes: [ "portfolio-service/target","portfolio-service/config/**","portfolio-service/src/main/resources/bootstrap.yml" ]
+      condition: "#portfolioServiceDeployState == 'existingPortfolioService'"
+    - includes: ["portfolio-service/src/main/resources/bootstrap.yml"]
+      condition: "#portfolioServiceDeployState == 'existingPortfolioService'"
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: "eureka:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "  client:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    serviceUrl:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "      defaultZone: ${EUREKA_URL}"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    fetch-registry: true"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "  instance:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    hostname: ${HOSTNAME}"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "      defaultZone: ${EUREKA_URL}"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #nonSecurePort: 80"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #metadata-map:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #  management:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #    port: 80"
+              with: "#blankValue"
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
