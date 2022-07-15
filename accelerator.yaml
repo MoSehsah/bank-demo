@@ -472,9 +472,6 @@ accelerator:
     dataType: string
     defaultValue: main
 
-  - name: "blankValue"
-    display: false
-    defaultValue: ""
 ####################################################################################################################################
 
 #  - name: You can access the output with CLI as well
@@ -485,6 +482,9 @@ accelerator:
 #      tanzu accelerator generate spring-data-services --server-url http://localhost:8877 --options='{"gitRepo":"https://github.com/gorkemozlu/spring-petclinic-tap-mysql","parentApp":"petclinic-app","hasTests":false,"addToComponent":true,"branchName":"main","namespaceToDeploy":"my-apps","addDB":true,"dbType":"MySQL","dbName":"petclinic-db","appDeploymentType":"tap"}'
 
 engine:
+  let:
+    - name: emptyVar
+      expression: "''"
   merge:
     #generic transformations
     - includes: ["account-service/**"]
@@ -513,7 +513,7 @@ engine:
               with: "#pkgName"
         - type: RewritePath
           regex: account-service/src/main/java/com/vmware/tanzu/account/(.*)
-          rewriteTo: "'account-service/src/main/java/' + #pkgName.replaceAll('.', '/') + '/account/' + #g1"
+          rewriteTo: "'account-service/src/main/java/' + #pkgName.replace('.', '/') + '/account/' + #g1"
         - type: ReplaceText
           substitutions:
           - text: "<groupId>com.vmware.tanzu</groupId>'"
@@ -693,51 +693,51 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  client:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    serviceUrl:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    fetch-registry: true"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  instance:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    hostname: ${HOSTNAME}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #nonSecurePort: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #metadata-map:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #  management:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #    port: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
@@ -786,51 +786,51 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  client:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    serviceUrl:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    fetch-registry: true"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  instance:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    hostname: ${HOSTNAME}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #nonSecurePort: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #metadata-map:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #  management:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #    port: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
       #chain:
       #  - type: ReplaceText
       #    substitutions:
