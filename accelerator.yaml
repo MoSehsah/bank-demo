@@ -485,7 +485,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: "eureka"
-              with: ""
+              with: "#webServiceDeployState"
       #- type: ReplaceText
       #  substitutions:
       #  - text: '  client:'
