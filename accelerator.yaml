@@ -94,7 +94,7 @@ accelerator:
     defaultValue: "10"
 
   - name: autoScalingScaleDownDelay
-    label: Max Pod Count
+    label: Scale Down Delay time
     description: The time window before scale down applied
     dependsOn:
       name: autoScalingState
