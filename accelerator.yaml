@@ -479,34 +479,54 @@ engine:
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
-    #- includes: ["web-ui/**"]
-    #  condition: "#webServiceDeployState == 'existingWebService'"
-    #  excludes: [ "web-ui/target","web-ui/config/**" ]
-    #  chain:
-    #  - type: ReplaceText
-    #    substitutions:
-    #    - text: "eureka:"
-    #      with: " "
-    #    - text: "  client:"
-    #      with: " "
-    #    - text: "    serviceUrl:"
-    #      with: " "
-    #    - text: "      defaultZone: ${EUREKA_URL}"
-    #      with: " "
-    #    - text: "    fetch-registry: true"
-    #      with: " "
-    #    - text: "  instance:"
-    #      with: " "
-    #    - text: "    hostname: ${HOSTNAME}"
-    #      with: " "
-    #    - text: "    #nonSecurePort: 80"
-    #      with: " "
-    #    - text: "    #metadata-map:"
-    #      with: " "
-    #    - text: "    #  management:"
-    #      with: " "
-    #    - text: "    #    port: 80"
-    #      with: " "
+    - includes: ["web-ui/**"]
+      condition: "#webServiceDeployState == 'existingWebService'"
+      excludes: [ "web-ui/target","web-ui/config/**" ]
+      chain:
+      - type: ReplaceText
+        substitutions:
+        - text: "eureka:"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "  client:"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "    serviceUrl:"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "      defaultZone: ${EUREKA_URL}"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "    fetch-registry: true"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "  instance:"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "    hostname: ${HOSTNAME}"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "    #nonSecurePort: 80"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "    #metadata-map:"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "    #  management:"
+          with: " "
+      - type: ReplaceText
+        substitutions:
+        - text: "    #    port: 80"
+          with: " "
     - includes: ["web-ui/config/**"]
       condition: "#webServiceDeploy != false"
       chain:
