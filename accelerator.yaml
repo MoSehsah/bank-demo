@@ -550,7 +550,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#userServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
@@ -589,7 +589,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#quoteServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
@@ -628,7 +628,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#potfolioServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
@@ -667,7 +667,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#portfolioServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
@@ -753,7 +753,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#webServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
