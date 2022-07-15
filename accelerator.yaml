@@ -431,6 +431,7 @@ accelerator:
     defaultValue: main
 
   - name: blankValue
+    label: ""
     inputType: text
     display: false
     dataType: string
