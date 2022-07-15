@@ -38,6 +38,13 @@ accelerator:
     dataType: string
     defaultValue: xyz-asd-000
 
+  - name: blankValue
+    label: hidden
+    inputType: text
+    display: true
+    dataType: string
+    defaultValue: ""
+
   #discovery-server
   - name: eurekaState
     label: Auto Integrate with Service Discovery ?
@@ -485,7 +492,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: "eureka"
-              with: "#webServiceDeployState"
+              with: "#blankValue"
       #- type: ReplaceText
       #  substitutions:
       #  - text: '  client:'
