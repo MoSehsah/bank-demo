@@ -430,11 +430,8 @@ accelerator:
     dataType: string
     defaultValue: main
 
-  - name: blankValue
-    label: ""
-    inputType: text
+  - name: "blankValue"
     display: false
-    dataType: string
     defaultValue: ""
 ####################################################################################################################################
 
