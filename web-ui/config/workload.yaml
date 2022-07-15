@@ -3,7 +3,7 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: #@ data.values.webServiceDeployName
+  name: #@ data.values.webServiceDeployNameW
   namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
@@ -46,6 +46,11 @@ spec:
       value: "10000"
     - name: spring.cloud.config.retry.max-attempts
       value: "2000"
+    #@ if data.values.eurekaState:
+    - name: EUREKA_URL
+      value: #@ data.values.eurekaURL
+    #@ end
+    #@ if data.values.webServiceDeployState == "existingWebService":
     - name: accountServiceName
       value: #@ data.values.accountServiceNameW
     - name: quoteServiceName
@@ -56,6 +61,9 @@ spec:
       value: #@ data.values.portfolioServiceNameW
     - name: analyticsServiceName
       value: #@ data.values.analyticsServiceNameW
+    #@ end
+    - name: DEP_NS
+      value: #@ data.values.namespaceToDeploy
   source:
     git:
       url: #@ data.values.gitRepo

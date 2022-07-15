@@ -23,8 +23,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 
 @Service
@@ -33,8 +34,17 @@ public class QuotesService {
 	private static final Logger logger = LoggerFactory
 			.getLogger(QuotesService.class);
 	@Autowired
-	@LoadBalanced
+	//@LoadBalanced
 	private RestTemplate restTemplate;
+
+	@Autowired
+    private DiscoveryClient discoveryClient;
+
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
 
 	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
@@ -42,7 +52,8 @@ public class QuotesService {
 	@Value("${quoteServiceName:quote-svc}")
 	private String quotesService;
 	
-	@HystrixCommand(fallbackMethod = "getQuoteFallback")
+	// The below is commented out to demonstrate impact of lack of hystrix, and can be uncommented during presentation
+	//@HystrixCommand(fallbackMethod = "getQuoteFallback")
 	public Quote getQuote(String symbol) {
 		logger.debug("Fetching quote: " + symbol);
 		List<Quote> quotes = getMultipleQuotes(symbol);
@@ -61,10 +72,22 @@ public class QuotesService {
 		quote.setStatus("FAILED");
 		return quote;
 	}
-	@HystrixCommand(fallbackMethod = "getCompaniesFallback")
+	// The below is commented out to demonstrate impact of lack of hystrix, and can be uncommented during presentation
+	//@HystrixCommand(fallbackMethod = "getCompaniesFallback")
 	public List<CompanyInfo> getCompanies(String name) {
 		logger.debug("Fetching companies with name or symbol matching: " + name);
-		CompanyInfo[] infos = restTemplate.getForObject(downstreamProtocol + "://" + quotesService + "/v1/quotes?q={name}", CompanyInfo[].class, name);
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getScheme()+"://"+discoveryClient.getInstances("quote-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
+		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
+		String quoteServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": quoteServiceURI = externalQuoteServiceURI;
+					break;
+			default: quoteServiceURI = quoteServiceDiscoveredURI;
+					break;
+		}
+		CompanyInfo[] infos = restTemplate.getForObject(quoteServiceURI + "/v1/quotes?q={name}", CompanyInfo[].class, name);
 		return Arrays.asList(infos);
 	}
 	private List<CompanyInfo> getCompaniesFallback(String name) {
@@ -79,7 +102,18 @@ public class QuotesService {
 	 */
 	public List<Quote> getMultipleQuotes(String symbols) {
 		logger.debug("retrieving multiple quotes: " + symbols);
-		Quote[] quotesArr = restTemplate.getForObject(downstreamProtocol + "://" + quotesService + "/v1/quotes?q={symbols}", Quote[].class, symbols);
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getScheme()+"://"+discoveryClient.getInstances("quote-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
+		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
+		String quoteServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": quoteServiceURI = externalQuoteServiceURI;
+					break;
+			default: quoteServiceURI = quoteServiceDiscoveredURI;
+					break;
+		}
+		Quote[] quotesArr = restTemplate.getForObject(quoteServiceURI + "/v1/quotes?q={symbols}", Quote[].class, symbols);
 		List<Quote> quotes = Arrays.asList(quotesArr);
 		logger.debug("Received quotes: {}",quotes);
 		return quotes;

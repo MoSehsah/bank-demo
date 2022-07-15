@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -48,14 +49,23 @@ public class PortfolioService {
 	QuoteRemoteCallService quoteService;
 
 	@Autowired
-	@LoadBalanced
+	//@LoadBalanced
 	private RestTemplate restTemplate;
 
 	@Autowired
 	private PortfolioRepositoryService portfolioRepositoryService;
 
+	@Autowired
+    private DiscoveryClient discoveryClient;
+
 	@Value("${accountServiceName:account-svc}")
 	protected String accountsService;
+
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+	
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
 
 	/**
 	 * Retrieves the portfolio for the given accountId.
@@ -172,8 +182,22 @@ public class PortfolioService {
 			
 		}
 		
-		ResponseEntity<String> result = restTemplate.postForEntity(downstreamProtocol + "://"
-				+ accountsService
+		//protected String accountServiceDiscoveredURI = accountServiceURI;
+
+
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getScheme()+"://"+discoveryClient.getInstances("account-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
+		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
+		String accountServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": accountServiceURI = externalAccountServiceURI;
+					break;
+			default: accountServiceURI = accountServiceDiscoveredURI;
+					break;
+		}
+
+		ResponseEntity<String> result = restTemplate.postForEntity(accountServiceURI
 				+ "/accounts/transaction",
 				transaction, String.class);
 		

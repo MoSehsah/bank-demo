@@ -1,15 +1,15 @@
-SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='gcr.io/se-sehsahm-demo/quote-service-source')
+SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='containterRegistryURL/app-name-bundle')
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
-NAMESPACE = os.getenv("NAMESPACE", default='dev')
+NAMESPACE = os.getenv("NAMESPACE", default='nspace')
 
 k8s_custom_deploy(
-    'quote-service',
+    'app-name',
     apply_cmd="tanzu apps workload apply -f config/workload.yaml --live-update" +
                " --local-path " + LOCAL_PATH +
                " --source-image " + SOURCE_IMAGE +
                " --namespace " + NAMESPACE +
                " --yes >/dev/null" +
-               " && kubectl get workload quote-service --namespace " + NAMESPACE + " -o yaml",
+               " && kubectl get workload app-name --namespace " + NAMESPACE + " -o yaml",
     delete_cmd="tanzu apps workload delete -f config/workload.yaml --namespace " + NAMESPACE + " --yes",
     deps=['pom.xml', './target/classes'],
     container_selector='workload',
@@ -18,6 +18,6 @@ k8s_custom_deploy(
     ]
 )
 
-k8s_resource('quote-service', port_forwards=["8080:8080"],
-            extra_pod_selectors=[{'serving.knative.dev/service': 'quote-service'}])
-allow_k8s_contexts('gke_se-sehsahm-demo_europe-west1-b_tap-demo')
+k8s_resource('app-name', port_forwards=["8080:8080"],
+            extra_pod_selectors=[{'serving.knative.dev/service': 'app-name'}])
+allow_k8s_contexts('context-name')

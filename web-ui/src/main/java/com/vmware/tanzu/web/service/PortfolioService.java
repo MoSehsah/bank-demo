@@ -23,8 +23,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 
 @Service
@@ -33,8 +34,17 @@ public class PortfolioService {
 	private static final Logger logger = LoggerFactory
 			.getLogger(PortfolioService.class);
 	@Autowired
-	@LoadBalanced
+	//@LoadBalanced
 	private RestTemplate restTemplate;
+
+	@Autowired
+    private DiscoveryClient discoveryClient;
+
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
 
     @Value("${portfolioServiceName:portfolio-svc}")
 	private String portfolioService;
@@ -46,18 +56,40 @@ public class PortfolioService {
 		logger.debug("send order: " + order);
 		
 		//check result of http request to ensure its ok.
-		
-		ResponseEntity<Order>  result = restTemplate.postForEntity(downstreamProtocol + "://" + portfolioService + "/portfolio", order, Order.class);
+		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getScheme()+"://"+discoveryClient.getInstances("portfolio-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
+		String externalPortfolioServiceURI = downstreamProtocol + "://"+ portfolioService;
+		String portfolioServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": portfolioServiceURI = externalPortfolioServiceURI;
+					break;
+			default: portfolioServiceURI = portfolioServiceDiscoveredURI;
+					break;
+		}
+
+		ResponseEntity<Order>  result = restTemplate.postForEntity(portfolioServiceURI + "/portfolio", order, Order.class);
 		if (result.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
 			throw new OrderNotSavedException("Could not save the order");
 		}
 		logger.debug("Order saved:: " + result.getBody());
 		return result.getBody();
 	}
-	
-	@HystrixCommand(fallbackMethod = "getPortfolioFallback")
+	// The below is commented out to demonstrate impact of lack of hystrix, and can be uncommented during presentation
+	//@HystrixCommand(fallbackMethod = "getPortfolioFallback")
 	public Portfolio getPortfolio(String user) {
-		Portfolio folio = restTemplate.getForObject(downstreamProtocol + "://" + portfolioService + "/portfolio/{accountid}", Portfolio.class, user);
+		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getScheme()+"://"+discoveryClient.getInstances("portfolio-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
+		String externalPortfolioServiceURI = downstreamProtocol + "://"+ portfolioService;
+		String portfolioServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": portfolioServiceURI = externalPortfolioServiceURI;
+					break;
+			default: portfolioServiceURI = portfolioServiceDiscoveredURI;
+					break;
+		}
+		Portfolio folio = restTemplate.getForObject(portfolioServiceURI + "/portfolio/{accountid}", Portfolio.class, user);
 		logger.debug("Portfolio received: " + folio);
 		return folio;
 	}

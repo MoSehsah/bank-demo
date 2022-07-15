@@ -1,6 +1,6 @@
 package com.vmware.tanzu.web.service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.vmware.tanzu.web.domain.Quote;
 import com.vmware.tanzu.web.domain.Trade;
 import org.slf4j.Logger;
@@ -11,6 +11,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import java.util.*;
 
@@ -22,8 +23,17 @@ public class AnalyticsService {
 			.getLogger(AnalyticsService.class);
 
 	@Autowired
-	@LoadBalanced
+	//@LoadBalanced
 	private RestTemplate restTemplate;
+
+	@Autowired
+    private DiscoveryClient discoveryClient;
+
+	@Value("${EUREKA_URL:noEureka}")
+	protected String eurekaUrl;
+
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
 
 	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
@@ -31,10 +41,23 @@ public class AnalyticsService {
 	@Value("${analyticsServiceName:analytics-svc}")
 	private String analyticsService;
 	
-	@HystrixCommand(fallbackMethod = "getAnalyticsFallback")
+	// The below is commented out to demonstrate impact of lack of hystrix, and can be uncommented during presentation
+	//@HystrixCommand(fallbackMethod = "getAnalyticsFallback")
 	public List<Trade> getTrades(String symbol) {
 		logger.debug("Fetching trades: " + symbol);
-		Trade[] tradesArr = restTemplate.getForObject(downstreamProtocol + "://" + analyticsService + "/analytics/trades/{symbol}", Trade[].class, symbol);
+
+		String analyticsServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("analytics-service").get(0).getScheme()+"://"+discoveryClient.getInstances("analytics-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
+		String externalAnalyticsServiceURI = downstreamProtocol + "://"+ analyticsService;
+		String analyticsServiceURI = null;
+
+		switch (eurekaUrl)
+		{
+			case "noEureka": analyticsServiceURI = externalAnalyticsServiceURI;
+					break;
+			default: analyticsServiceURI = analyticsServiceDiscoveredURI;
+					break;
+		}
+		Trade[] tradesArr = restTemplate.getForObject(analyticsServiceURI + "/analytics/trades/{symbol}", Trade[].class, symbol);
 		List<Trade> trades = Arrays.asList(tradesArr);
 		logger.debug("Found " + trades.size() + " trades");
 		return trades;
