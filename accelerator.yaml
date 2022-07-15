@@ -560,8 +560,8 @@ engine:
             - text: com.vmware.tanzu
               with: "#pkgName"
         - type: RewritePath
-          regex: src/main/java/com/vmware/tanzu/(.*)
-          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+          regex: user-service/src/main/java/com/vmware/tanzu/user/(.*)
+          rewriteTo: "'user-service/src/main/java/' + #pkgName.replace('.', '/') + '/user/' + #g1"
         - type: ReplaceText
           substitutions:
           - text: "<groupId>com.vmware.tanzu</groupId>'"
@@ -599,8 +599,8 @@ engine:
             - text: com.vmware.tanzu
               with: "#pkgName"
         - type: RewritePath
-          regex: src/main/java/com/vmware/tanzu/(.*)
-          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+          regex: quote-service/src/main/java/com/vmware/tanzu/quote/(.*)
+          rewriteTo: "'quote-service/src/main/java/' + #pkgName.replace('.', '/') + '/quote/' + #g1"
         - type: ReplaceText
           substitutions:
           - text: "<groupId>com.vmware.tanzu</groupId>'"
@@ -638,8 +638,8 @@ engine:
             - text: com.vmware.tanzu
               with: "#pkgName"
         - type: RewritePath
-          regex: src/main/java/com/vmware/tanzu/(.*)
-          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+          regex: portfolio-service/src/main/java/com/vmware/tanzu/portfolio/(.*)
+          rewriteTo: "'portfolio-service/src/main/java/' + #pkgName.replace('.', '/') + '/portfolio/' + #g1"
         - type: ReplaceText
           substitutions:
           - text: "<groupId>com.vmware.tanzu</groupId>'"
@@ -677,8 +677,8 @@ engine:
             - text: com.vmware.tanzu
               with: "#pkgName"
         - type: RewritePath
-          regex: src/main/java/com/vmware/tanzu/(.*)
-          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+          regex: portfolio-service/src/main/java/com/vmware/tanzu/portfolio/(.*)
+          rewriteTo: "'portfolio-service/src/main/java/' + #pkgName.replace('.', '/') + '/portfolio/' + #g1"
         - type: ReplaceText
           substitutions:
           - text: "<groupId>com.vmware.tanzu</groupId>'"
@@ -763,8 +763,8 @@ engine:
             - text: com.vmware.tanzu
               with: "#pkgName"
         - type: RewritePath
-          regex: src/main/java/com/vmware/tanzu/(.*)
-          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+          regex: web-ui/src/main/java/com/vmware/tanzu/web/(.*)
+          rewriteTo: "'web-ui/src/main/java/' + #pkgName.replace('.', '/') + '/web/' + #g1"
         - type: ReplaceText
           substitutions:
           - text: "<groupId>com.vmware.tanzu</groupId>'"
