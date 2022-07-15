@@ -512,7 +512,7 @@ engine:
             - text: com.vmware.tanzu
               with: "#pkgName"
         - type: RewritePath
-          regex: src/main/java/com/vmware/tanzu/(.*)
+          regex: src/main/java/com/vmware/tanzu/account/(.*)
           rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
         - type: ReplaceText
           substitutions:
