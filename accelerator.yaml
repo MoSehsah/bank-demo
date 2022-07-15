@@ -780,8 +780,6 @@ engine:
     - includes: ["web-ui/**"]
       excludes: [ "web-ui/target","web-ui/config/**","web-ui/src/main/resources/bootstrap.yml" ]
       condition: "#webServiceDeployState == 'existingWebService'"
-    - includes: ["web-ui/src/main/resources/bootstrap.yml"]
-      condition: "#webServiceDeployState == 'existingWebService'"
       chain:
         - type: ReplaceText
           substitutions:
@@ -814,6 +812,9 @@ engine:
             with: "'<java.version>' + #javaVersion + '</java.version>'"
           - text: "<version>2.7.1</version>"
             with: "'<version>' + #springBootVersion + '</version>'"
+    - includes: ["web-ui/src/main/resources/bootstrap.yml"]
+      condition: "#webServiceDeployState == 'existingWebService'"
+      chain:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
