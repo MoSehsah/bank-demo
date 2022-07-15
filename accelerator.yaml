@@ -489,48 +489,48 @@ engine:
       chain:
         - type: ReplaceText
           substitutions:
-            - text: "eureka"
+            - text: "eureka:"
               with: "#blankValue"
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '  client:'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '    serviceUrl:'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '      defaultZone: ${EUREKA_URL}'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '    fetch-registry: true'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '  instance:'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '    hostname: ${HOSTNAME}'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '    #nonSecurePort: 80'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '    #metadata-map:'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '    #  management:'
-      #    with: ' '
-      #- type: ReplaceText
-      #  substitutions:
-      #  - text: '    #    port: 80'
-      #    with: ' '
+        - type: ReplaceText
+          substitutions:
+            - text: "  client:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    serviceUrl:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "      defaultZone: ${EUREKA_URL}"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    fetch-registry: true"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "  instance:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "      defaultZone: ${EUREKA_URL}"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #nonSecurePort: 80"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #metadata-map:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #  management:"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
+            - text: "    #    port: 80"
+              with: "#blankValue"
     - includes: ["web-ui/config/**"]
       condition: "#webServiceDeploy != false"
       chain:
