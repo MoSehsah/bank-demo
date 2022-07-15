@@ -697,51 +697,51 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "  client:"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "    serviceUrl:"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "    fetch-registry: true"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "  instance:"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "    hostname: ${HOSTNAME}"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "    #nonSecurePort: 80"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "    #metadata-map:"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "    #  management:"
-              with: "#blank"
+              with: #blank
         - type: ReplaceText
           substitutions:
             - text: "    #    port: 80"
-              with: "#blank"
+              with: #blank
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
