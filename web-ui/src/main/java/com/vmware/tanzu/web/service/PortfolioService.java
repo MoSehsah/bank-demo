@@ -43,6 +43,9 @@ public class PortfolioService {
 	@Value("${EUREKA_URL:noEureka}")
 	protected String eurekaUrl;
 
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
+
     @Value("${portfolioServiceName:portfolio-svc}")
 	private String portfolioService;
 
@@ -53,7 +56,7 @@ public class PortfolioService {
 		logger.debug("send order: " + order);
 		
 		//check result of http request to ensure its ok.
-		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getUri());
+		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getScheme()+"://"+discoveryClient.getInstances("portfolio-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalPortfolioServiceURI = downstreamProtocol + "://"+ portfolioService;
 		String portfolioServiceURI = null;
 
@@ -75,7 +78,7 @@ public class PortfolioService {
 	// The below is commented out to demonstrate impact of lack of hystrix, and can be uncommented during presentation
 	//@HystrixCommand(fallbackMethod = "getPortfolioFallback")
 	public Portfolio getPortfolio(String user) {
-		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getUri());
+		String portfolioServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("portfolio-service").get(0).getScheme()+"://"+discoveryClient.getInstances("portfolio-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalPortfolioServiceURI = downstreamProtocol + "://"+ portfolioService;
 		String portfolioServiceURI = null;
 

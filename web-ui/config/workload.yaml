@@ -62,6 +62,8 @@ spec:
     - name: analyticsServiceName
       value: #@ data.values.analyticsServiceNameW
     #@ end
+    - name: DEP_NS
+      value: #@ data.values.namespaceToDeploy
   source:
     git:
       url: #@ data.values.gitRepo

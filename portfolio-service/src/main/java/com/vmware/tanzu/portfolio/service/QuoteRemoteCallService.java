@@ -47,6 +47,9 @@ public class QuoteRemoteCallService {
 	@Value("${EUREKA_URL:noEureka}")
 	protected String eurekaUrl;
 
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
+
 	/**
 	 * Retrieve up to date quotes.
 	 * 
@@ -57,7 +60,7 @@ public class QuoteRemoteCallService {
 	@HystrixCommand(fallbackMethod = "getQuoteFallback")
 	public Quote getQuote(String symbol) {
 		logger.debug("Fetching quote: " + symbol);
-		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getScheme()+"://"+discoveryClient.getInstances("quote-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
 		String quoteServiceURI = null;
 
@@ -99,7 +102,7 @@ public class QuoteRemoteCallService {
 	 */
 	public List<Quote> getMultipleQuotes(String symbols) {
 		logger.debug("retrieving multiple quotes: " + symbols);
-		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getScheme()+"://"+discoveryClient.getInstances("quote-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
 		String quoteServiceURI = null;
 

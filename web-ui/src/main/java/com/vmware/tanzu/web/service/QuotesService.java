@@ -43,6 +43,9 @@ public class QuotesService {
 	@Value("${EUREKA_URL:noEureka}")
 	protected String eurekaUrl;
 
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
+
 	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
@@ -73,7 +76,7 @@ public class QuotesService {
 	//@HystrixCommand(fallbackMethod = "getCompaniesFallback")
 	public List<CompanyInfo> getCompanies(String name) {
 		logger.debug("Fetching companies with name or symbol matching: " + name);
-		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getScheme()+"://"+discoveryClient.getInstances("quote-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
 		String quoteServiceURI = null;
 
@@ -99,7 +102,7 @@ public class QuotesService {
 	 */
 	public List<Quote> getMultipleQuotes(String symbols) {
 		logger.debug("retrieving multiple quotes: " + symbols);
-		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getUri());
+		String quoteServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("quote-service").get(0).getScheme()+"://"+discoveryClient.getInstances("quote-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalQuoteServiceURI = downstreamProtocol + "://"+ quotesService;
 		String quoteServiceURI = null;
 

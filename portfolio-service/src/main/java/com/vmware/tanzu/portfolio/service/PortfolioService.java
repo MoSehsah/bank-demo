@@ -64,6 +64,8 @@ public class PortfolioService {
 	@Value("${EUREKA_URL:noEureka}")
 	protected String eurekaUrl;
 	
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
 
 	/**
 	 * Retrieves the portfolio for the given accountId.
@@ -183,7 +185,7 @@ public class PortfolioService {
 		//protected String accountServiceDiscoveredURI = accountServiceURI;
 
 
-		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getScheme()+"://"+discoveryClient.getInstances("account-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
 		String accountServiceURI = null;
 

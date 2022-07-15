@@ -32,6 +32,9 @@ public class AnalyticsService {
 	@Value("${EUREKA_URL:noEureka}")
 	protected String eurekaUrl;
 
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
+
 	@Value("${vmware.tanzu.downstream-protocol:http}")
 	protected String downstreamProtocol;
 
@@ -43,7 +46,7 @@ public class AnalyticsService {
 	public List<Trade> getTrades(String symbol) {
 		logger.debug("Fetching trades: " + symbol);
 
-		String analyticsServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("analytics-service").get(0).getUri());
+		String analyticsServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("analytics-service").get(0).getScheme()+"://"+discoveryClient.getInstances("analytics-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalAnalyticsServiceURI = downstreamProtocol + "://"+ analyticsService;
 		String analyticsServiceURI = null;
 

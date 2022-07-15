@@ -33,6 +33,9 @@ public class UserService {
 	@Value("${EUREKA_URL:noEureka}")
 	protected String eurekaUrl;
 	
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
+	
 	@Value("${userServiceName:user-svc}")
 	private String userService;
 
@@ -42,7 +45,8 @@ public class UserService {
 	public void createUser(User user) {
 		logger.debug("Creating user with userId: " + user.getUserid());
 		logger.debug(user.toString());
-		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getScheme()+"://"+discoveryClient.getInstances("user-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
+		logger.info("++++++++++++++"+userServiceDiscoveredURI);
 		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
 		String userServiceURI = null;
 
@@ -61,7 +65,7 @@ public class UserService {
 	public Map<String,Object> login(AuthenticationRequest request){
 		logger.debug("logging in with userId:" + request.getUsername());
 		@SuppressWarnings("unchecked")
-		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getScheme()+"://"+discoveryClient.getInstances("user-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
 		String userServiceURI = null;
 
@@ -79,7 +83,7 @@ public class UserService {
 	
 	public User getUser(String user) {
 		logger.debug("Looking for user with user name: " + user);
-		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getScheme()+"://"+discoveryClient.getInstances("user-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
 		String userServiceURI = null;
 
@@ -98,7 +102,7 @@ public class UserService {
 	
 	public void logout(String user) {
 		logger.debug("logging out user with userId: " + user);
-		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getUri());
+		String userServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("user-service").get(0).getScheme()+"://"+discoveryClient.getInstances("user-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalUserServiceURI = downstreamProtocol + "://"+ userService;
 		String userServiceURI = null;
 

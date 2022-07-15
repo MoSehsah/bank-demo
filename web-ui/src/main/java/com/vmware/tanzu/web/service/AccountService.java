@@ -33,6 +33,9 @@ public class AccountService {
 
 	@Value("${EUREKA_URL:noEureka}")
 	protected String eurekaUrl;
+
+	@Value("${DEP_NS:dev}")
+	protected String depNs;
 	
 	@Value("${accountServiceName:account-svc}")
 	private String accountsService;
@@ -42,7 +45,7 @@ public class AccountService {
 
 	public void createAccount(Account account) {
 		logger.debug("Creating account for userId: " + account.getUserid());
-		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getScheme()+"://"+discoveryClient.getInstances("account-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
 		String accountServiceURI = null;
 
@@ -62,7 +65,7 @@ public class AccountService {
 //	 @HystrixCommand(fallbackMethod = "getAccountsFallback")
 	public List<Account> getAccounts(String user) {
 		logger.debug("Looking for account with userId: " + user);
-		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getScheme()+"://"+discoveryClient.getInstances("account-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
 		String accountServiceURI = null;
 
@@ -85,7 +88,7 @@ public class AccountService {
 
 	public List<Account> getAccountsByType(String user, String type) {
 		logger.debug("Looking for account with userId: " + user + " and type: " + type);
-		String accountServiceDiscoveredURI = String.valueOf(discoveryClient.getInstances("account-service").get(0).getUri());
+		String accountServiceDiscoveredURI =String.valueOf(discoveryClient.getInstances("account-service").get(0).getScheme()+"://"+discoveryClient.getInstances("account-service").get(0).getServiceId().toLowerCase()+"."+depNs+".svc.cluster.local");
 		String externalAccountServiceURI = downstreamProtocol + "://"+ accountsService;
 		String accountServiceURI = null;
 
