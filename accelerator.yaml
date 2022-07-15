@@ -513,6 +513,10 @@ engine:
               with: "#blankValue"
         - type: ReplaceText
           substitutions:
+            - text: "    hostname: ${HOSTNAME}"
+              with: "#blankValue"
+        - type: ReplaceText
+          substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
               with: "#blankValue"
         - type: ReplaceText
