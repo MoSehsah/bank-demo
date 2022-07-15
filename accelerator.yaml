@@ -482,10 +482,10 @@ engine:
     - includes: ["web-ui/src/main/resources/bootstrap.yml"]
       condition: "#webServiceDeployState == 'existingWebService'"
       chain:
-      - type: ReplaceText
-        substitutions:
-        - text: "eureka"
-          with: ""
+        - type: ReplaceText
+          substitutions:
+          - text: "eureka"
+            with: ""
       #- type: ReplaceText
       #  substitutions:
       #  - text: '  client:'
