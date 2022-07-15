@@ -41,7 +41,7 @@ accelerator:
   - name: blankValue
     label: hidden
     inputType: text
-    display: true
+    display: false
     dataType: string
     defaultValue: ""
 
