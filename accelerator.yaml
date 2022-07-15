@@ -432,7 +432,7 @@ accelerator:
 
   - name: "blankValue"
     display: false
-    defaultValue: "1"
+    defaultValue: ""
 ####################################################################################################################################
 
 #  - name: You can access the output with CLI as well
