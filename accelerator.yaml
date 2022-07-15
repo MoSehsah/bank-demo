@@ -485,10 +485,6 @@ accelerator:
 #      tanzu accelerator generate spring-data-services --server-url http://localhost:8877 --options='{"gitRepo":"https://github.com/gorkemozlu/spring-petclinic-tap-mysql","parentApp":"petclinic-app","hasTests":false,"addToComponent":true,"branchName":"main","namespaceToDeploy":"my-apps","addDB":true,"dbType":"MySQL","dbName":"petclinic-db","appDeploymentType":"tap"}'
 
 engine:
-  let:
-    - name: blank
-      expression:
-        "#myBlankValue == ''"
   merge:
     #generic transformations
     - includes: ["account-service/**"]
@@ -517,7 +513,7 @@ engine:
               with: "#pkgName"
         - type: RewritePath
           regex: src/main/java/com/vmware/tanzu/account/(.*)
-          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '.', '/', 'acccount') + '/' + #g1"
+          rewriteTo: "'src/main/java/' + #pkgName.replaceAll('.', '/') + '/account/' + #g1"
         - type: ReplaceText
           substitutions:
           - text: "<groupId>com.vmware.tanzu</groupId>'"
@@ -697,51 +693,51 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "  client:"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "    serviceUrl:"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "    fetch-registry: true"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "  instance:"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "    hostname: ${HOSTNAME}"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "    #nonSecurePort: 80"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "    #metadata-map:"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "    #  management:"
-              with: #blank
+              with: "#blankValue"
         - type: ReplaceText
           substitutions:
             - text: "    #    port: 80"
-              with: #blank
+              with: "#blankValue"
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
