@@ -38,12 +38,6 @@ accelerator:
     dataType: string
     defaultValue: xyz-asd-000
 
-  - name: blankValue
-    label: hidden
-    inputType: text
-    display: false
-    dataType: string
-    defaultValue: ""
 
   #discovery-server
   - name: eurekaState
@@ -435,6 +429,12 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: main
+
+  - name: blankValue
+    inputType: text
+    display: false
+    dataType: string
+    defaultValue: ""
 ####################################################################################################################################
 
 #  - name: You can access the output with CLI as well
