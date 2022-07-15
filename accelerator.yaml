@@ -38,6 +38,19 @@ accelerator:
     dataType: string
     defaultValue: xyz-asd-000
 
+  - name: containterRegistryURL
+    label: Container Registry URL for Tiltfile
+    description: Please type the URL
+    inputType: text
+    dataType: string
+    defaultValue: harbor.dorn.gorke.ml/tap
+
+  - name: k8sContextName
+    label: Kubernetes Context Name for Tiltfile
+    description: Please type the context name
+    inputType: text
+    dataType: string
+    defaultValue: gke_gorkemozlu_europe-central2-c_tap-gke02
 
   #discovery-server
   - name: eurekaState
@@ -448,10 +461,28 @@ engine:
     - includes: ["account-service/**"]
       condition: "#accountServiceDeployState == 'newAccountServiceDevelop'"
       excludes: [ "account-service/target","account-service/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#accountServiceDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
     - includes: ["account-service/config/**"]
       condition: "#accountServiceDeploy != false"
       chain:
         - type: YTT
+    #- includes: [ "account-service/Tiltfile" ]
     - includes: ["config-server/config/**"]
       condition: "#configServerDeploy != false"
       chain:
@@ -463,6 +494,23 @@ engine:
     - includes: ["user-service/**"]
       condition: "#userServiceDeployState == 'newUserServiceDevelop'"
       excludes: [ "user-service/target","user-service/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#accountServiceDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
     - includes: ["user-service/config/**"]
       condition: "#userServiceDeploy != false"
       chain:
@@ -470,6 +518,23 @@ engine:
     - includes: ["quote-service/**"]
       condition: "#quoteServiceDeployState == 'newQuoteServiceDevelop'"
       excludes: [ "quote-service/target","quote-service/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#accountServiceDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:
@@ -477,6 +542,23 @@ engine:
     - includes: ["portfolio-service/**"]
       condition: "#portfolioServiceDeployState == 'newPortfolioServiceDevelop'"
       excludes: [ "portfolio-service/target","portfolio-service/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#accountServiceDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
     - includes: ["portfolio-service/config/**"]
       condition: "#portfolioServiceDeploy != false"
       chain:
@@ -484,6 +566,23 @@ engine:
     - includes: ["portfolio-service/**"]
       excludes: [ "portfolio-service/target","portfolio-service/config/**","portfolio-service/src/main/resources/bootstrap.yml" ]
       condition: "#portfolioServiceDeployState == 'existingPortfolioService'"
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#accountServiceDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
     - includes: ["portfolio-service/src/main/resources/bootstrap.yml"]
       condition: "#portfolioServiceDeployState == 'existingPortfolioService'"
       chain:
@@ -538,6 +637,23 @@ engine:
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#accountServiceDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
     - includes: ["web-ui/config/**"]
       condition: "#webServiceDeploy != false"
       chain:
