@@ -42,7 +42,7 @@ accelerator:
   #discovery-server
   - name: eurekaState
     label: Auto Integrate with Service Discovery ?
-    inputType: toggle
+    inputType: checkbox
     display: true
     dataType: boolean
     defaultValue: false
@@ -59,7 +59,7 @@ accelerator:
   #auto-scaling
   - name: autoScalingState
     label: Add autoscaling capabilities ?
-    inputType: toggle
+    inputType: checkbox
     display: true
     dataType: boolean
     defaultValue: false
@@ -155,7 +155,7 @@ accelerator:
     defaultValue: existingAccountService
     choices:
       - value: newAccountServiceDevelop
-        text: Develop from source code
+        text: Develop using Discovery-Server
       - value: newAccountServiceDeploy
         text: Deploy using Discovery-Server
   - name: accountServiceDeployName
@@ -201,7 +201,7 @@ accelerator:
     defaultValue: existingUserService
     choices:
       - value: newUserServiceDevelop
-        text: Develop from source code
+        text: Develop using Discovery-Server
       - value: newUserServiceDeploy
         text: Deploy using Discovery-Server
   - name: userServiceDeployName
@@ -247,7 +247,7 @@ accelerator:
     defaultValue: existingQuoteService
     choices:
       - value: newQuoteServiceDevelop
-        text: Develop from source code
+        text: Develop using Discovery-Server
       - value: newQuoteServiceDeploy
         text: Deploy using Discovery-Server
   - name: quoteServiceDeployName
@@ -293,11 +293,11 @@ accelerator:
     defaultValue: newPortfolioServiceDeploy
     choices:
       - value: newPortfolioServiceDevelop
-        text: Develop from source code
+        text: Develop using Discovery-Server
       - value: newPortfolioServiceDeploy
         text: Deploy using Discovery-Server
       - value: existingPortfolioService
-        text: Deploy using External Services
+        text: Develop using External Services
   - name: portfolioServiceDeployName
     label: Choose service name of Portfolio-Service.
     describe: Change default value if needed
@@ -357,11 +357,11 @@ accelerator:
     defaultValue: newWebServiceDeploy
     choices:
       - value: newWebServiceDevelop
-        text: Develop from source code
+        text: Develop using Discovery-Server
       - value: newWebServiceDeploy
         text: Deploy using Discovery-Server
       - value: existingWebService
-        text: Deploy using External Services
+        text: Develop using External Services
   - name: webServiceDeployNameW
     label: Choose service name of Web-Service.
     describe: Change default value if needed
@@ -484,6 +484,13 @@ engine:
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
+    - includes: ["web-ui/config/**"]
+      condition: "#webServiceDeploy != false"
+      chain:
+        - type: YTT
+    - includes: ["web-ui/**"]
+      excludes: [ "web-ui/target","web-ui/config/**","web-ui/src/main/resources/bootstrap.yml" ]
+      condition: "#webServiceDeployState == 'existingWebService'"
     - includes: ["web-ui/src/main/resources/bootstrap.yml"]
       condition: "#webServiceDeployState == 'existingWebService'"
       chain:
@@ -535,10 +542,6 @@ engine:
           substitutions:
             - text: "    #    port: 80"
               with: "#blankValue"
-    - includes: ["web-ui/config/**"]
-      condition: "#webServiceDeploy != false"
-      chain:
-        - type: YTT
       #chain:
       #  - type: ReplaceText
       #    substitutions:
