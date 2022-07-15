@@ -637,7 +637,7 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#potfolioServiceDeployName"
+              with: "#portfolioServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
