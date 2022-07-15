@@ -34,7 +34,12 @@ spec:
   build:
     env:
     - name: BP_JVM_VERSION
+      #@ if data.values.javaVersion == "17":
       value: "17.*"
+      #@ end
+      #@ if data.values.javaVersion == "11":
+      value: "11.*"
+      #@ end
   env:
     - name: WAVEFRONT_TOKEN
       value: #@ data.values.wavefrontToken

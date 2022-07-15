@@ -24,6 +24,35 @@ accelerator:
     dataType: string
     defaultValue: banking-demo
 
+  - name: pkgName
+    label: Package name
+    inputType: text
+    defaultValue: "com.vmware.tanzu"
+    required: true
+
+  - name: javaVersion
+    label: Java version
+    inputType: radio
+    dataType: number
+    defaultValue: 17
+    choices:
+      - value: 11
+        text: 11
+      - value: 17
+        text: 17
+    required: true
+
+  - name: springBootVersion
+    label: Spring Boot version
+    inputType: select
+    choices:
+    - value: 2.7.1
+      text: 2.7.1
+    - value: 2.7.2-SNAPSHOT
+      text: 2.7.2-SNAPSHOT
+    defaultValue: "2.7.1"
+    required: true
+
   - name: namespaceToDeploy
     label: Namespace to deploy
     description: Please type the namespace to deploy
@@ -478,6 +507,21 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: src/main/java/com/vmware/tanzu/(.*)
+          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["account-service/config/**"]
       condition: "#accountServiceDeploy != false"
       chain:
@@ -511,6 +555,21 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: src/main/java/com/vmware/tanzu/(.*)
+          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["user-service/config/**"]
       condition: "#userServiceDeploy != false"
       chain:
@@ -535,6 +594,21 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: src/main/java/com/vmware/tanzu/(.*)
+          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:
@@ -559,6 +633,21 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: src/main/java/com/vmware/tanzu/(.*)
+          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["portfolio-service/config/**"]
       condition: "#portfolioServiceDeploy != false"
       chain:
@@ -583,6 +672,21 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: src/main/java/com/vmware/tanzu/(.*)
+          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["portfolio-service/src/main/resources/bootstrap.yml"]
       condition: "#portfolioServiceDeployState == 'existingPortfolioService'"
       chain:
@@ -654,6 +758,21 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: src/main/java/com/vmware/tanzu/(.*)
+          rewriteTo: "'src/main/java/' + #pkgName.replace('.', '/') + '/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["web-ui/config/**"]
       condition: "#webServiceDeploy != false"
       chain:
