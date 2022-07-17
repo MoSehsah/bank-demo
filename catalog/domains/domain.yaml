@@ -1,0 +1,7 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: next-gen-banking
+  description: Next Generation Banking on Tanzu
+spec:
+  owner: tr-banking

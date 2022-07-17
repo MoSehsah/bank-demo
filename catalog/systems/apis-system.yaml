@@ -2,10 +2,10 @@
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name:  banking-demo-system
+  name:  tanzu-banking-system
   description: Banking Demo System
   annotations:
     'backstage.io/techdocs-ref': dir:.
 spec:
-  owner: banking-demo-product-team
-
+  owner: bank-team-a
+  domain: next-gen-banking

@@ -12,6 +12,6 @@ metadata:
     'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=iex-trading'
 spec:
   type: website
-  owner: banking-demo-product-team
-  system: banking-demo-system
+  owner: bank-team-a
+  system: tanzu-banking-system
   lifecycle: experimental

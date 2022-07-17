@@ -13,8 +13,8 @@ metadata:
     'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=discovery-server'
 spec:
   type: service
-  owner: banking-demo-product-team
-  system: banking-demo-system
+  owner: bank-team-a
+  system: tanzu-banking-system
   lifecycle: experimental
   dependsOn:
     - component:config-server

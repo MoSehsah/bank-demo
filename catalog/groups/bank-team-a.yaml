@@ -1,0 +1,57 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: bank-team-a
+  description: Team A - Tanzu Bank
+spec:
+  type: team
+  profile:
+    displayName: Team A - Tanzu Bank
+    email: bank-team-a@vmware.com
+    picture: https://blogs.vmware.com/wp-content/themes/blog-landing-0.2.0/dist/images/vmware-logo-large.png
+  parent: tr-market
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+spec:
+  profile:
+    displayName: Default User
+    email: guest@example.com
+    picture: https://blogs.vmware.com/wp-content/uploads/2022/04/logo-vmware-tanzu-square-Header-297x300-1-208x210.png
+  memberOf: [bank-team-a,team-petclinic-product-catalog]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: breanna.davison
+spec:
+  profile:
+    # Intentional no displayName for testing
+    email: breanna-davison@example.com
+    picture: https://avatars.dicebear.com/api/avataaars/breanna-davison@example.com.svg?background=%23fff
+  memberOf: [bank-team-a]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: janelle.dawe
+spec:
+  profile:
+    displayName: Janelle Dawe
+    email: janelle-dawe@example.com
+    picture: https://avatars.dicebear.com/api/avataaars/janelle-dawe@example.com.svg?background=%23fff
+  memberOf: [bank-team-a]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: nigel.manning
+spec:
+  profile:
+    displayName: Nigel Manning
+    email: nigel-manning@example.com
+    picture: https://avatars.dicebear.com/api/avataaars/nigel-manning@example.com.svg?background=%23fff
+  memberOf: [bank-team-a]

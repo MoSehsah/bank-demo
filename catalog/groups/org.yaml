@@ -22,4 +22,5 @@ metadata:
 spec:
   targets:
     - ./department.yaml
-    - ./team.yaml
+    - ./bank-team-a.yaml
+    - ./bank-team-b.yaml

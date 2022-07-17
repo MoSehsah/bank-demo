@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
-  name: banking-demo-apis-location
-  description: APIs for Banking Demo
+  name: banking-demo-location
+  description: A collection of all Backstage example entities for Tanzu Banking Demo
   annotations:
     'backstage.io/techdocs-ref': dir:.
 spec:
@@ -10,6 +10,7 @@ spec:
     - ./systems/apis-system.yaml
     - ./groups/org.yaml
     - ./apis/api.yaml
+    - ./domains/domain.yaml
     - ./components/account-service/account-service.yaml
     - ./components/portfolio-service/portfolio-service.yaml
     - ./components/quote-service/quote-service.yaml

@@ -1,0 +1,47 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: bank-team-b
+  description: Team B - Tanzu Bank
+spec:
+  type: team
+  profile:
+    displayName: Team B - Tanzu Bank
+    email: bank-team-b@vmware.com
+    picture: https://blogs.vmware.com/wp-content/themes/blog-landing-0.2.0/dist/images/vmware-logo-large.png
+  parent: tr-market
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: amelia.park
+spec:
+  profile:
+    displayName: Amelia Park
+    email: amelia-park@example.com
+    picture: https://avatars.dicebear.com/api/avataaars/amelia-park@example.com.svg?background=%23fff
+  memberOf: [bank-team-b]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: colette.brock
+spec:
+  profile:
+    displayName: Colette Brock
+    email: colette-brock@example.com
+    picture: https://avatars.dicebear.com/api/avataaars/colette-brock@example.com.svg?background=%23fff
+  memberOf: [bank-team-b]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: jenny.doe
+spec:
+  profile:
+    displayName: Jenny Doe
+    email: jenny-doe@example.com
+    picture: https://avatars.dicebear.com/api/avataaars/jenny-doe@example.com.svg?background=%23fff
+  memberOf: [bank-team-b]
+---

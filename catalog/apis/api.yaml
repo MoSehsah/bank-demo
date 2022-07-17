@@ -11,8 +11,8 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
-  owner: banking-demo-product-team
-  system: banking-demo-system
+  owner: bank-team-a
+  system: tanzu-banking-system
   definition:
     $text: ../../account-service/openapi.yaml
 ---
@@ -29,8 +29,8 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
-  owner: banking-demo-product-team
-  system: banking-demo-system
+  owner: bank-team-a
+  system: tanzu-banking-system
   definition:
     $text: ../../portfolio-service/openapi.yaml
 ---
@@ -47,8 +47,8 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
-  owner: banking-demo-product-team
-  system: banking-demo-system
+  owner: bank-team-a
+  system: tanzu-banking-system
   definition:
     $text: ../../quote-service/openapi.yaml
 ---
@@ -65,7 +65,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: experimental
-  owner: banking-demo-product-team
-  system: banking-demo-system
+  owner: bank-team-a
+  system: tanzu-banking-system
   definition:
     $text: ../../user-service/openapi.yaml

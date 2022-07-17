@@ -13,8 +13,8 @@ metadata:
 spec:
   type: service
   lifecycle: experimental
-  owner: banking-demo-product-team
-  system: banking-demo-system
+  owner: bank-team-a
+  system: tanzu-banking-system
   dependsOn:
     - component:config-server
     - component:discovery-server
