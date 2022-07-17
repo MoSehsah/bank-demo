@@ -21,4 +21,4 @@ spec:
     displayName: Default User
     email: guest@example.com
     picture: https://blogs.vmware.com/wp-content/uploads/2022/04/logo-vmware-tanzu-square-Header-297x300-1-208x210.png
-  memberOf: [banking-demo-product-team]
+  memberOf: [banking-demo-product-team,team-petclinic-product-catalog]
