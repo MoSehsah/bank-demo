@@ -11,7 +11,7 @@ metadata:
   annotations:
     'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=iex-trading'
 spec:
-  type: service
+  type: website
   owner: banking-demo-product-team
   system: banking-demo-system
   lifecycle: experimental
