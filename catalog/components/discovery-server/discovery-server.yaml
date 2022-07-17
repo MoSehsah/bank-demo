@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: banking-demo-discovery-server
+  name: discovery-server
   description: Tanzu Banking Demo - Spring Discovery Server
   tags:
     - spring
@@ -17,4 +17,4 @@ spec:
   system: banking-demo-system
   lifecycle: experimental
   dependsOn:
-    - component:dev/banking-demo-config-server
+    - component:dev/config-server

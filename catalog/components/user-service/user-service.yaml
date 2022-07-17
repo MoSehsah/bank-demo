@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: banking-demo-user-service
+  name: user-service
   description: Tanzu Banking Demo - user Service
   tags:
     - spring
@@ -16,7 +16,7 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/banking-demo-config-server
-    - component:dev/banking-demo-discovery-server
+    - component:dev/config-server
+    - component:dev/discovery-server
   providesApis:
     - user-service

@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: banking-demo-iex-trading
+  name: iex-trading
   description: Tanzu Banking Demo - IEX Trading
   tags:
     - spring

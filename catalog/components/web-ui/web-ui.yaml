@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: banking-demo-web-ui-service
+  name: web-ui-service
   description: Tanzu Banking Demo - Web Service
   tags:
     - spring
@@ -16,13 +16,12 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/banking-demo-config-server
-    - component:dev/banking-demo-discovery-server
-    - component:dev/banking-demo-account-service
-    - component:dev/banking-demo-quote-service
-    - component:dev/banking-demo-user-service
-    - component:dev/banking-demo-portfolio-service
-    - component:dev/banking-demo-analytics-service
+    - component:dev/config-server
+    - component:dev/discovery-server
+    - component:dev/account-service
+    - component:dev/quote-service
+    - component:dev/user-service
+    - component:dev/portfolio-service
   consumesApi:
     - account-service
     - quote-service
