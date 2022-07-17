@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: banking-demo-iex-trading
+  description: Tanzu Banking Demo - IEX Trading
+  tags:
+    - spring
+    - java
+    - banking-demo
+    - iex-trading
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=iex-trading'
+spec:
+  type: service
+  owner: banking-demo-product-team
+  system: banking-demo-system
+  dependencyOf:
+    - component:dev/banking-demo-quote-service
