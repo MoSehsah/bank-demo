@@ -1,5 +1,5 @@
 apiVersion: backstage.io/v1alpha1
-kind: Resource
+kind: Component
 metadata:
   name: banking-demo-iex-trading
   description: Tanzu Banking Demo - IEX Trading
@@ -14,5 +14,4 @@ spec:
   type: service
   owner: banking-demo-product-team
   system: banking-demo-system
-  dependencyOf:
-    - component:dev/banking-demo-quote-service
+  lifecycle: experimental
