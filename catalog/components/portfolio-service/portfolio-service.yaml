@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: banking-demo-portfolio-service
+  name: portfolio-service
   description: Tanzu Banking Demo - portfolio Service
   tags:
     - spring
@@ -16,10 +16,10 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/banking-demo-config-server
-    - component:dev/banking-demo-discovery-server
-    - component:dev/banking-demo-account-service
-    - component:dev/banking-demo-quote-service
+    - component:dev/config-server
+    - component:dev/discovery-server
+    - component:dev/account-service
+    - component:dev/quote-service
   providesApis:
     - portfolio-service
   consumesApi:

@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: banking-demo-quote-service
+  name: quote-service
   description: Tanzu Banking Demo - Quote Service
   tags:
     - spring
@@ -16,8 +16,8 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/banking-demo-config-server
-    - component:dev/banking-demo-discovery-server
-    - component:dev/banking-demo-iex-trading
+    - component:dev/config-server
+    - component:dev/discovery-server
+    - component:dev/iex-trading
   providesApis:
     - quote-service
