@@ -16,6 +16,7 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/discovery-server
+    - component:config-server
+    - component:discovery-server
   providesApis:
     - user-service
