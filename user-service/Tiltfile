@@ -1,3 +1,5 @@
+# to update maven wrapper, run below command first:
+# mvn -N io.takari:maven:wrapper
 SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='containterRegistryURL/app-name-bundle')
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
 NAMESPACE = os.getenv("NAMESPACE", default='nspace')
