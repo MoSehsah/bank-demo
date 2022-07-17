@@ -11,12 +11,11 @@ metadata:
   annotations:
     'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=web-ui-service'
 spec:
-  type: service
+  type: website
   lifecycle: experimental
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/config-server
     - component:dev/discovery-server
     - component:dev/account-service
     - component:dev/quote-service
