@@ -17,4 +17,4 @@ spec:
   system: banking-demo-system
   lifecycle: experimental
   dependsOn:
-    - component:dev/config-server
+    - component:config-server

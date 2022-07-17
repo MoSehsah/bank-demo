@@ -16,7 +16,8 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/discovery-server
-    - component:dev/iex-trading
+    - component:config-server
+    - component:discovery-server
+    - component:iex-trading
   providesApis:
     - quote-service

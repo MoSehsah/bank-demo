@@ -16,9 +16,10 @@ spec:
   owner: banking-demo-product-team
   system: banking-demo-system
   dependsOn:
-    - component:dev/discovery-server
-    - component:dev/account-service
-    - component:dev/quote-service
+    - component:config-server
+    - component:discovery-server
+    - component:account-service
+    - component:quote-service
   providesApis:
     - portfolio-service
   consumesApi:
