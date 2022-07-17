@@ -332,7 +332,7 @@ accelerator:
     dependsOn:
       name: portfolioServiceDeploy
     inputType: select
-    defaultValue: newPortfolioServiceDeploy
+    defaultValue: newPortfolioServiceDevelop
     choices:
       - value: newPortfolioServiceDevelop
         text: Develop using Discovery-Server
