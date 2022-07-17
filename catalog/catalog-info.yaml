@@ -15,6 +15,6 @@ spec:
     - ./components/quote-service/quote-service.yaml
     - ./components/user-service/user-service.yaml
     - ./components/web-ui/web-ui.yaml
-    - ./resources/config-server/config-server.yaml
-    - ./resources/discovery-server/discovery-server.yaml
-    - ./resources/iex-trading/iex-trading.yaml
+    - ./components/config-server/config-server.yaml
+    - ./components/discovery-server/discovery-server.yaml
+    - ./components/iex-trading/iex-trading.yaml
