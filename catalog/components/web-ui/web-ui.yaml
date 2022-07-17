@@ -22,7 +22,7 @@ spec:
     - component:quote-service
     - component:user-service
     - component:portfolio-service
-  consumesApi:
+  consumesApis:
     - account-service
     - quote-service
     - user-service
