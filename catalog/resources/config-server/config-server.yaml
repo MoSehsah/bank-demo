@@ -1,5 +1,5 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: banking-demo-config-server
   description: Tanzu Banking Demo - Spring Config Server
@@ -12,6 +12,12 @@ metadata:
     'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=config-server'
 spec:
   type: service
-  lifecycle: experimental
   owner: banking-demo-product-team
   system: banking-demo-system
+  dependencyOf:
+    - resource:dev/banking-demo-discovery-server
+    - component:dev/banking-demo-account-service
+    - component:dev/banking-demo-portfolio-service
+    - component:dev/banking-demo-quote-service
+    - component:dev/banking-demo-user-service
+    - component:dev/banking-demo-web-ui-service

@@ -15,3 +15,9 @@ spec:
   lifecycle: experimental
   owner: banking-demo-product-team
   system: banking-demo-system
+  dependsOn:
+    - resource:dev/banking-demo-config-server
+    - resource:dev/banking-demo-discovery-server
+    - resource:dev/banking-demo-iex-trading
+  providesApis:
+    - quote-service
