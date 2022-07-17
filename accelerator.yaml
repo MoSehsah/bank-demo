@@ -48,9 +48,9 @@ accelerator:
     choices:
     - value: 2.7.1
       text: 2.7.1
-    - value: 2.7.2-SNAPSHOT
-      text: 2.7.2-SNAPSHOT
-    defaultValue: "2.7.1"
+    - value: 2.6.9
+      text: 2.6.9
+    defaultValue: "2.6.9"
     required: true
 
   - name: namespaceToDeploy
