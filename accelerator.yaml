@@ -24,6 +24,35 @@ accelerator:
     dataType: string
     defaultValue: banking-demo
 
+  - name: pkgName
+    label: Package name
+    inputType: text
+    defaultValue: "com.vmware.tanzu"
+    required: true
+
+  - name: javaVersion
+    label: Java version
+    inputType: radio
+    dataType: number
+    defaultValue: 17
+    choices:
+      - value: 11
+        text: 11
+      - value: 17
+        text: 17
+    required: true
+
+  - name: springBootVersion
+    label: Spring Boot version
+    inputType: select
+    choices:
+    - value: 2.7.1
+      text: 2.7.1
+    - value: 2.6.9
+      text: 2.6.9
+    defaultValue: "2.6.9"
+    required: true
+
   - name: namespaceToDeploy
     label: Namespace to deploy
     description: Please type the namespace to deploy
@@ -303,7 +332,7 @@ accelerator:
     dependsOn:
       name: portfolioServiceDeploy
     inputType: select
-    defaultValue: newPortfolioServiceDeploy
+    defaultValue: newPortfolioServiceDevelop
     choices:
       - value: newPortfolioServiceDevelop
         text: Develop using Discovery-Server
@@ -443,9 +472,6 @@ accelerator:
     dataType: string
     defaultValue: main
 
-  - name: "blankValue"
-    display: false
-    defaultValue: ""
 ####################################################################################################################################
 
 #  - name: You can access the output with CLI as well
@@ -456,6 +482,9 @@ accelerator:
 #      tanzu accelerator generate spring-data-services --server-url http://localhost:8877 --options='{"gitRepo":"https://github.com/gorkemozlu/spring-petclinic-tap-mysql","parentApp":"petclinic-app","hasTests":false,"addToComponent":true,"branchName":"main","namespaceToDeploy":"my-apps","addDB":true,"dbType":"MySQL","dbName":"petclinic-db","appDeploymentType":"tap"}'
 
 engine:
+  let:
+    - name: emptyVar
+      expression: "''"
   merge:
     #generic transformations
     - includes: ["account-service/**"]
@@ -478,6 +507,24 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: account-service/src/main/java/com/vmware/tanzu/account/(.*)
+          rewriteTo: "'account-service/src/main/java/' + #pkgName.replace('.', '/') + '/account/' + #g1"
+        - type: RewritePath
+          regex: account-service/src/test/java/com/vmware/tanzu/account/(.*)
+          rewriteTo: "'account-service/src/test/java/' + #pkgName.replace('.', '/') + '/account/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["account-service/config/**"]
       condition: "#accountServiceDeploy != false"
       chain:
@@ -506,11 +553,29 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#userServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: user-service/src/main/java/com/vmware/tanzu/user/(.*)
+          rewriteTo: "'user-service/src/main/java/' + #pkgName.replace('.', '/') + '/user/' + #g1"
+        - type: RewritePath
+          regex: user-service/src/test/java/com/vmware/tanzu/user/(.*)
+          rewriteTo: "'user-service/src/test/java/' + #pkgName.replace('.', '/') + '/user/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["user-service/config/**"]
       condition: "#userServiceDeploy != false"
       chain:
@@ -530,11 +595,29 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#quoteServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: quote-service/src/main/java/com/vmware/tanzu/quotes/(.*)
+          rewriteTo: "'quote-service/src/main/java/' + #pkgName.replace('.', '/') + '/quotes/' + #g1"
+        - type: RewritePath
+          regex: quote-service/src/test/java/com/vmware/tanzu/quotes/(.*)
+          rewriteTo: "'quote-service/src/test/java/' + #pkgName.replace('.', '/') + '/quotes/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:
@@ -554,11 +637,29 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#portfolioServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: portfolio-service/src/main/java/com/vmware/tanzu/portfolio/(.*)
+          rewriteTo: "'portfolio-service/src/main/java/' + #pkgName.replace('.', '/') + '/portfolio/' + #g1"
+        - type: RewritePath
+          regex: portfolio-service/src/test/java/com/vmware/tanzu/portfolio/(.*)
+          rewriteTo: "'portfolio-service/src/test/java/' + #pkgName.replace('.', '/') + '/portfolio/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["portfolio-service/config/**"]
       condition: "#portfolioServiceDeploy != false"
       chain:
@@ -578,65 +679,125 @@ engine:
         - type: ReplaceText
           substitutions:
             - text: app-name
-              with: "#accountServiceDeployName"
+              with: "#portfolioServiceDeployName"
         - type: ReplaceText
           substitutions:
             - text: context-name
               with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: portfolio-service/src/main/java/com/vmware/tanzu/portfolio/(.*)
+          rewriteTo: "'portfolio-service/src/main/java/' + #pkgName.replace('.', '/') + '/portfolio/' + #g1"
+        - type: RewritePath
+          regex: portfolio-service/src/test/java/com/vmware/tanzu/portfolio/(.*)
+          rewriteTo: "'portfolio-service/src/test/java/' + #pkgName.replace('.', '/') + '/portfolio/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["portfolio-service/src/main/resources/bootstrap.yml"]
       condition: "#portfolioServiceDeployState == 'existingPortfolioService'"
       chain:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  client:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    serviceUrl:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    fetch-registry: true"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  instance:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    hostname: ${HOSTNAME}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #nonSecurePort: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #metadata-map:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #  management:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #    port: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
     - includes: ["web-ui/**"]
       condition: "#webServiceDeployState == 'newWebServiceDevelop'"
       excludes: [ "web-ui/target","web-ui/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#webServiceDeployNameW"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: web-ui/src/main/java/com/vmware/tanzu/web/(.*)
+          rewriteTo: "'web-ui/src/main/java/' + #pkgName.replace('.', '/') + '/web/' + #g1"
+        - type: RewritePath
+          regex: web-ui/src/test/java/com/vmware/tanzu/web/(.*)
+          rewriteTo: "'web-ui/src/test/java/' + #pkgName.replace('.', '/') + '/web/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
+    - includes: ["web-ui/config/**"]
+      condition: "#webServiceDeploy != false"
+      chain:
+        - type: YTT
+    - includes: ["web-ui/**"]
+      excludes: [ "web-ui/target","web-ui/config/**","web-ui/src/main/resources/bootstrap.yml" ]
+      condition: "#webServiceDeployState == 'existingWebService'"
       chain:
         - type: ReplaceText
           substitutions:
@@ -654,64 +815,75 @@ engine:
           substitutions:
             - text: context-name
               with: "#k8sContextName"
-    - includes: ["web-ui/config/**"]
-      condition: "#webServiceDeploy != false"
-      chain:
-        - type: YTT
-    - includes: ["web-ui/**"]
-      excludes: [ "web-ui/target","web-ui/config/**","web-ui/src/main/resources/bootstrap.yml" ]
-      condition: "#webServiceDeployState == 'existingWebService'"
+        - type: ReplaceText
+          substitutions:
+            - text: com.vmware.tanzu
+              with: "#pkgName"
+        - type: RewritePath
+          regex: web-ui/src/main/java/com/vmware/tanzu/web/(.*)
+          rewriteTo: "'web-ui/src/main/java/' + #pkgName.replace('.', '/') + '/web/' + #g1"
+        - type: RewritePath
+          regex: web-ui/src/test/java/com/vmware/tanzu/web/(.*)
+          rewriteTo: "'web-ui/src/test/java/' + #pkgName.replace('.', '/') + '/web/' + #g1"
+        - type: ReplaceText
+          substitutions:
+          - text: "<groupId>com.vmware.tanzu</groupId>'"
+            with: "'<groupId>' + #pkgName + '</groupId>'"
+          - text: "<java.version>17</java.version>"
+            with: "'<java.version>' + #javaVersion + '</java.version>'"
+          - text: "<version>2.7.1</version>"
+            with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["web-ui/src/main/resources/bootstrap.yml"]
       condition: "#webServiceDeployState == 'existingWebService'"
       chain:
         - type: ReplaceText
           substitutions:
             - text: "eureka:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  client:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    serviceUrl:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    fetch-registry: true"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "  instance:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    hostname: ${HOSTNAME}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "      defaultZone: ${EUREKA_URL}"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #nonSecurePort: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #metadata-map:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #  management:"
-              with: "#blankValue"
+              with: "#emptyVar"
         - type: ReplaceText
           substitutions:
             - text: "    #    port: 80"
-              with: "#blankValue"
+              with: "#emptyVar"
       #chain:
       #  - type: ReplaceText
       #    substitutions:
