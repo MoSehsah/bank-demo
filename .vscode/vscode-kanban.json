@@ -1,0 +1,303 @@
+{
+  "todo": [
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:15:38.135Z",
+      "description": {
+        "content": " - [] Postgres to one micro service\n - [] Add standalone app-accelerator\n - [] add custom clustersupplychain",
+        "mime": "text/markdown"
+      },
+      "id": "3",
+      "prio": 5,
+      "references": [],
+      "title": "Add Stateful Scenarios",
+      "type": "emergency"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:25:20.391Z",
+      "details": {
+        "content": "https://github.com/macsux/dotnet-accelerator\nhttps://vmware.zoom.us/rec/play/ZI5ocUiE8d7IPslHhwlIWwR0QfQKUavHjESzjGIlvWa-poEfk0cr0AWb7P2_4Y35uxyLkugbk8PpQYlv.nelcPnm3qkFfpitS?startTime=1651849502000&_x_zm_rtaid=rxa05ztUSJGxYtZpG98wXQ.1658206889782.8a3db42b8b8c2f7ef3d1f41b2969ea9b&_x_zm_rhtaid=554",
+        "mime": "text/markdown"
+      },
+      "id": "19",
+      "prio": 4,
+      "references": [],
+      "title": "Add .net-core app to bank-demo",
+      "description": {
+        "content": "- [] change quote service\n- [] new dummy service",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:24:50.586Z",
+      "details": {
+        "content": "https://www.vrabbi.cloud/post/easy-customization-of-tap-1-2\nhttps://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.2/tap/GUID-tap-gui-techdocs-usage.html\nhttps://backstage.io/docs/features/techdocs/configuring-ci-cd",
+        "mime": "text/markdown"
+      },
+      "id": "18",
+      "prio": 3,
+      "references": [],
+      "title": "Techdocs"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Build",
+      "creation_time": "2022-08-02T07:14:52.122Z",
+      "id": "1",
+      "prio": 2,
+      "references": [],
+      "title": "Dockerfile to Image"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Build",
+      "creation_time": "2022-08-02T07:15:09.581Z",
+      "id": "2",
+      "prio": 2,
+      "references": [],
+      "title": "Existing Image to Deploy",
+      "description": {
+        "content": "- [] use config-server image to deploy",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Build",
+      "creation_time": "2022-08-02T07:23:45.044Z",
+      "id": "14",
+      "prio": 2,
+      "references": [],
+      "title": "Gradle Based Builds",
+      "description": {
+        "content": "- [] build one service with grade\n",
+        "mime": "text/markdown"
+      },
+      "details": {
+        "content": "from app accelerator, customer will choose gradle for maven for the XY service, then it will build depending on the selection.",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Build",
+      "creation_time": "2022-08-02T07:24:15.730Z",
+      "id": "16",
+      "prio": 2,
+      "references": [],
+      "title": "jar to image"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:37:56.600Z",
+      "id": "23",
+      "prio": 1,
+      "references": [],
+      "title": "Bitbucket Integration for YKB"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "creation_time": "2022-08-02T09:21:08.184Z",
+      "id": "26",
+      "references": [],
+      "title": "Add/Enhance CI Testing"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Integration",
+      "creation_time": "2022-08-02T07:23:02.985Z",
+      "id": "12",
+      "references": [],
+      "title": "ArgoCD Integration"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Integration",
+      "creation_time": "2022-08-02T07:22:51.635Z",
+      "id": "11",
+      "references": [],
+      "title": "Checkmarx Integration"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:23:56.389Z",
+      "id": "15",
+      "references": [],
+      "title": "Custom Conventions",
+      "description": {
+        "content": "- [] simple convention for .net-core",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Integration",
+      "creation_time": "2022-08-02T07:22:39.244Z",
+      "id": "10",
+      "references": [],
+      "title": "Istio Scenarios"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:42:15.133Z",
+      "id": "25",
+      "prio": 0,
+      "references": [],
+      "title": "Move discovery-server + config-server into new system called platform-services"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:37:37.261Z",
+      "id": "22",
+      "references": [],
+      "title": "Separate App Accelerator for all"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Scenario",
+      "creation_time": "2022-08-02T07:22:29.068Z",
+      "id": "9",
+      "references": [],
+      "title": "Spring Gateway Scenarios"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:36:44.161Z",
+      "id": "21",
+      "references": [],
+      "title": "tanzuignorefile"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Scenario",
+      "creation_time": "2022-08-02T07:24:33.194Z",
+      "id": "17",
+      "references": [],
+      "title": "TAP Multicluster"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Integration",
+      "creation_time": "2022-08-02T07:23:14.741Z",
+      "id": "13",
+      "references": [],
+      "title": "VM Service Integration"
+    }
+  ],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "creation_time": "2022-08-02T07:19:42.291Z",
+      "id": "5",
+      "prio": 3,
+      "references": [],
+      "title": "Sonarqube Integration"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "creation_time": "2022-08-02T07:18:59.178Z",
+      "description": {
+        "content": "- [x] Autoscale options\n- [] Domainmapping\n- [] Clusterdomainclaim",
+        "mime": "text/markdown"
+      },
+      "id": "4",
+      "references": [],
+      "title": "Knative"
+    }
+  ],
+  "testing": [],
+  "done": [
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:28:53.157Z",
+      "id": "20",
+      "references": [],
+      "title": "Add All Catalog Components APIs etc."
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:21:13.020Z",
+      "id": "7",
+      "references": [],
+      "title": "Deploy Eureka Server"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:21:39.002Z",
+      "id": "8",
+      "references": [],
+      "title": "Integrate apps with Eureka"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
+      "creation_time": "2022-08-02T07:20:25.775Z",
+      "id": "6",
+      "references": [],
+      "title": "One App Accelerator for all"
+    }
+  ]
+}
