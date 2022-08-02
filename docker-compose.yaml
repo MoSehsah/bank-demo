@@ -1,6 +1,14 @@
 #mvn spring-boot:build-image  -DskipTests
 version: '3.4'
 services:
+  postgresql-svc:
+    image: docker.io/bitnami/postgresql:14
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+    environment:
+      - 'ALLOW_EMPTY_PASSWORD=yes'
   config-server:
     container_name: config-server
     image: docker.io/library/config:0.0.1-SNAPSHOT
@@ -14,6 +22,7 @@ services:
     depends_on:
       - "discovery-svc"
     environment:
+      'spring.jpa.datasource.url': 'jdbc:postgresql://postgresql-svc:5432/'
       'spring.cloud.config.uri' : 'http://config-server:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
@@ -30,6 +39,7 @@ services:
     depends_on:
       - "discovery-svc"
     environment:
+      'spring.jpa.datasource.url': 'jdbc:postgresql://postgresql-svc:5432/'
       'spring.cloud.config.uri' : 'http://config-server:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
@@ -62,6 +72,7 @@ services:
     depends_on:
       - "discovery-svc"
     environment:
+      'spring.jpa.datasource.url': 'jdbc:postgresql://postgresql-svc:5432/'
       accountServiceName: 'account-svc:8080'
       quoteServiceName: 'quote-svc:8080'
       'spring.cloud.config.uri' : 'http://config-server:8888'
@@ -101,7 +112,7 @@ services:
     depends_on:
       - "config-server"
     environment:
-      'spring.cloud.config.uri' : 'http://config-server:8888'
+      'spring.cloud.config.uri' : 'http://localhost:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
       'spring.cloud.config.retry.max-attempts': 2000
@@ -121,3 +132,6 @@ services:
       - '2878:2878'
     expose:
       - '2878'
+volumes:
+  postgresql_data:
+    driver: local
