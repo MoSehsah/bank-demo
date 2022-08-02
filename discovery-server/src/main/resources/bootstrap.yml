@@ -52,7 +52,7 @@ management:
   metrics:
     export:
       wavefront:
-        api-token: 2714d258-c8d6-4911-bf7c-a3f3251eef2c
+        api-token: ${WAVEFRONT_TOKEN}
         uri: proxy://localhost:2878
 # logging:
 #   level:
