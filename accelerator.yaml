@@ -197,7 +197,7 @@ accelerator:
     label: Set the High Availability
     dependsOn:
       name: addPostgresServiceClaim
-    inputType: checkbox
+    inputType: toggle
     display: true
     dataType: boolean
     defaultValue: false
