@@ -145,6 +145,54 @@ accelerator:
     dataType: string
     defaultValue: "10m"
 
+  #Add-posgres-section
+
+  - name: addPostgresServiceClaim
+    label: Use Tanzu PostgreSQL
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: postgresVersion
+    label: Choose postgres version
+    dependsOn:
+      name: addPostgresServiceClaim
+    inputType: select
+    defaultValue: postgres-14
+    choices:
+      - value: postgres-12
+        text: postgres-12
+      - value: postgres-13
+        text: postgres-13
+      - value: postgres-14
+        text: postgres-14
+
+  - name: postgresName
+    label: Set postgres name
+    description: Give a deployment name for postgres
+    dependsOn:
+      name: addPostgresServiceClaim
+    inputType: text
+    dataType: string
+    defaultValue: postgres
+
+  - name: postgresStorageClassName
+    label: Set the Storage Class name
+    dependsOn:
+      name: addPostgresServiceClaim
+    inputType: text
+    dataType: string
+    defaultValue: standard
+
+  - name: postgresDBName
+    label: Set the Database name
+    dependsOn:
+      name: addPostgresServiceClaim
+    inputType: text
+    dataType: string
+    defaultValue: tanzubank
+
 ####################################################################################################################################
   #config-server
   - name: configServerDeploy
