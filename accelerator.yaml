@@ -148,7 +148,7 @@ accelerator:
   #Add-posgres-section
 
   - name: addPostgresServiceClaim
-    label: Use Tanzu PostgreSQL
+    label: Auto Integrate with Tanzu PostgreSQL ?
     inputType: checkbox
     display: true
     dataType: boolean
@@ -192,6 +192,15 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: tanzubank
+
+  - name: postgresHaMode
+    label: Set the High Availability
+    dependsOn:
+      name: addPostgresServiceClaim
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
 
 ####################################################################################################################################
   #config-server

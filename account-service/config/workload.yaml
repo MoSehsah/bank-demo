@@ -74,9 +74,9 @@ spec:
     subPath: account-service
   #@ if data.values.addPostgresServiceClaim:
   serviceClaims:
-  - name: #@ data.values.accountServiceDeployName + "-claim"
+  - name: #@ data.values.accountServiceDeployName + "postgres-claim"
     ref:
       apiVersion: sql.tanzu.vmware.com/v1
       kind: Postgres
-      name: #@ data.values.postgresName
+      name: #@ data.values.parentApp + "postgres-db"
   #@ end
