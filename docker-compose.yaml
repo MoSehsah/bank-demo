@@ -1,6 +1,15 @@
 #mvn spring-boot:build-image  -DskipTests
 version: '3.4'
 services:
+  postgresql-svc:
+    container_name: postgresql-svc
+    image: docker.io/bitnami/postgresql:14
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+    environment:
+      - 'ALLOW_EMPTY_PASSWORD=yes'
   config-server:
     container_name: config-server
     image: docker.io/library/config:0.0.1-SNAPSHOT
@@ -14,6 +23,9 @@ services:
     depends_on:
       - "discovery-svc"
     environment:
+      'spring.datasource.url': 'jdbc:postgresql://postgresql-svc:5432/'
+      'spring.datasource.username': 'postgres'
+      'spring.jpa.database-platform': 'org.hibernate.dialect.PostgreSQLDialect'
       'spring.cloud.config.uri' : 'http://config-server:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
@@ -30,6 +42,9 @@ services:
     depends_on:
       - "discovery-svc"
     environment:
+      'spring.datasource.url': 'jdbc:postgresql://postgresql-svc:5432/'
+      'spring.datasource.username': 'postgres'
+      'spring.jpa.database-platform': 'org.hibernate.dialect.PostgreSQLDialect'
       'spring.cloud.config.uri' : 'http://config-server:8888'
       'spring.cloud.config.fail-fast' : 'true'
       'spring.cloud.config.retry.max-interval': 10000
@@ -62,6 +77,9 @@ services:
     depends_on:
       - "discovery-svc"
     environment:
+      'spring.datasource.url': 'jdbc:postgresql://postgresql-svc:5432/'
+      'spring.datasource.username': 'postgres'
+      'spring.jpa.database-platform': 'org.hibernate.dialect.PostgreSQLDialect'
       accountServiceName: 'account-svc:8080'
       quoteServiceName: 'quote-svc:8080'
       'spring.cloud.config.uri' : 'http://config-server:8888'
@@ -101,11 +119,8 @@ services:
     depends_on:
       - "config-server"
     environment:
-      'spring.cloud.config.uri' : 'http://config-server:8888'
-      'spring.cloud.config.fail-fast' : 'true'
-      'spring.cloud.config.retry.max-interval': 10000
-      'spring.cloud.config.retry.max-attempts': 2000
-      WAVEFRONT_TOKEN: 'change-me'
+      'management.metrics.export.wavefront.uri': 'proxy://wf-proxy:2878'
+      'management.metrics.export.wavefront.api-token': 'change-me'
     ports:
       - '8761:8761'
     expose:
@@ -116,8 +131,12 @@ services:
     environment:
       WAVEFRONT_URL: 'https://vmware.wavefront.com/api'
       WAVEFRONT_TOKEN: 'change-me'
+      WAVEFRONT_URL: 'https://wavefront.surf/api'
       JAVA_HEAP_USAGE: '1650m'
     ports:
       - '2878:2878'
     expose:
       - '2878'
+volumes:
+  postgresql_data:
+    driver: local

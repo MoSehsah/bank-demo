@@ -6,7 +6,11 @@ metadata:
   name: #@ data.values.userServiceDeployName
   namespace: #@ data.values.namespaceToDeploy
   labels:
+    #@ if data.values.addPostgresServiceClaim:
+    apps.tanzu.vmware.com/workload-type: web-postgres
+    #@ else:
     apps.tanzu.vmware.com/workload-type: web
+    #@ end
     app.kubernetes.io/part-of: user-service
     #@ if data.values.hasTestsUserService:
     apps.tanzu.vmware.com/has-tests: "true"
@@ -55,9 +59,21 @@ spec:
     - name: EUREKA_URL
       value: #@ data.values.eurekaURL
     #@ end
+    #@ if data.values.addPostgresServiceClaim:
+    - name: spring.jpa.database-platform
+      value: 'org.hibernate.dialect.PostgreSQLDialect'
+    #@ end
   source:
     git:
       url: #@ data.values.gitRepo
       ref:
         branch: #@ data.values.branchNameUserService
     subPath: user-service
+  #@ if data.values.addPostgresServiceClaim:
+  serviceClaims:
+  - name: #@ data.values.parentApp + "-postgres-claim"
+    ref:
+      apiVersion: sql.tanzu.vmware.com/v1
+      kind: Postgres
+      name: #@ data.values.parentApp + "-postgres-db"
+  #@ end

@@ -6,7 +6,7 @@ spring:
          name: admin
          password: admin
 server:
-  port: 8080
+  port: ${PORT:8761}
   servlet:
     context-path: /
 eureka:
@@ -53,7 +53,7 @@ management:
     export:
       wavefront:
         api-token: ${WAVEFRONT_TOKEN}
-        uri: proxy://wf-proxy:2878
+        uri: proxy://localhost:2878
 # logging:
 #   level:
 #     ROOT: DEBUG

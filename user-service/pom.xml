@@ -125,6 +125,12 @@
 			<artifactId>spring-retry</artifactId>
 		</dependency>
 		<!-- for auto retry -->
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
