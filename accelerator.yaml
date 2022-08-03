@@ -309,14 +309,12 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: userServiceDeploy
-    inputType: toggle
     display: true
     dataType: boolean
     defaultValue: false
 
   - name: addPostgresServiceClaim
     label: Auto Deploy and Integrate with Tanzu PostgreSQL ?
-    inputType: toggle
     dependsOn:
       name: userServiceDeploy
     display: true
@@ -364,7 +362,6 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: quoteServiceDeploy
-    inputType: toggle
     display: true
     dataType: boolean
     defaultValue: false
@@ -427,7 +424,6 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: portfolioServiceDeploy
-    inputType: toggle
     display: true
     dataType: boolean
     defaultValue: false
@@ -517,7 +513,6 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: webServiceDeploy
-    inputType: toggle
     display: true
     dataType: boolean
     defaultValue: false
