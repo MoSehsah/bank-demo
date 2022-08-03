@@ -6,14 +6,7 @@ metadata:
   name: #@ data.values.portfolioServiceDeployName
   namespace: #@ data.values.namespaceToDeploy
   labels:
-    #@ if data.values.addPostgresServiceClaim:
-    apps.tanzu.vmware.com/workload-type: web-postgres
-    postgres/storage-class-name: #@ data.values.postgresStorageClassName
-    postgres/db-name: #@ data.values.postgresDBName
-    postgres/pg-version: #@ data.values.postgresVersion
-    #@ else:
     apps.tanzu.vmware.com/workload-type: web
-    #@ end
     app.kubernetes.io/part-of: portfolio-service
     #@ if data.values.hasTestsPortfolioService:
     apps.tanzu.vmware.com/has-tests: "true"
@@ -62,10 +55,6 @@ spec:
     - name: EUREKA_URL
       value: #@ data.values.eurekaURL
     #@ end
-    #@ if data.values.addPostgresServiceClaim:
-    - name: spring.jpa.database-platform
-      value: 'org.hibernate.dialect.PostgreSQLDialect'
-    #@ end
     #@ if data.values.portfolioServiceDeployState == "existingPortfolioService":
     - name: accountServiceName
       value: #@ data.values.accountServiceName
@@ -80,11 +69,3 @@ spec:
       ref:
         branch: #@ data.values.branchNamePortfolioService
     subPath: portfolio-service
-  #@ if data.values.addPostgresServiceClaim:
-  serviceClaims:
-  - name: #@ data.values.portfolioServiceDeployName + "-postgres-claim"
-    ref:
-      apiVersion: sql.tanzu.vmware.com/v1
-      kind: Postgres
-      name: #@ data.values.parentApp + "-postgres-db"
-  #@ end
