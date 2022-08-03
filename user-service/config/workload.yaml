@@ -8,9 +8,6 @@ metadata:
   labels:
     #@ if data.values.addPostgresServiceClaim:
     apps.tanzu.vmware.com/workload-type: web-postgres
-    postgres/storage-class-name: #@ data.values.postgresStorageClassName
-    postgres/db-name: #@ data.values.postgresDBName
-    postgres/pg-version: #@ data.values.postgresVersion
     #@ else:
     apps.tanzu.vmware.com/workload-type: web
     #@ end
@@ -74,7 +71,7 @@ spec:
     subPath: user-service
   #@ if data.values.addPostgresServiceClaim:
   serviceClaims:
-  - name: #@ data.values.userServiceDeployName + "-postgres-claim"
+  - name: #@ data.values.parentApp + "-postgres-claim"
     ref:
       apiVersion: sql.tanzu.vmware.com/v1
       kind: Postgres
