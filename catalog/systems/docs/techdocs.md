@@ -14,7 +14,7 @@ tap_gui:
                     credentials:
                         accessKeyId: admin
                         secretAccessKey: password
-                    region: minio
+                    region: s3-stor
                     endpoint: http://s3-object-storage-url
                     s3ForcePathStyle: true
 ```
@@ -24,5 +24,6 @@ tap_gui:
 ```
 npm install -g npx
 npx @techdocs/cli generate --source-dir catalog/systems/ --no-docker --output-dir ./site
-mc cp --recursive site/  minio/techdocs/default/system/tanzu-banking-system
+mc alias set s3-stor http://s3-object-storage-url admin pass
+mc cp --recursive site/  s3-stor/samplebucketname/default/system/tanzu-banking-system
 ```
