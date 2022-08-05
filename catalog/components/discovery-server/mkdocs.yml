@@ -1,7 +1,0 @@
-site_name: 'discovery-service'
-
-nav:
-  - Home: index.md
-
-plugins:
-  - techdocs-core

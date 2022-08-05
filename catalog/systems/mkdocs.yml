@@ -1,10 +1,13 @@
 
 
-site_name: 'banking-demo-apis-system'
+site_name: 'Banking Demo Docs'
 
 nav:
   - Home: index.md
-  - account: account-service.md
+  - account service: account-service.md
+  - portfolio service: portfolio-service.md
+  - quote service: quote-service.md
+  - techdocs: techdocs.md
 
 plugins:
   - techdocs-core
