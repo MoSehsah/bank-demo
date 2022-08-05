@@ -145,6 +145,56 @@ accelerator:
     dataType: string
     defaultValue: "10m"
 
+  #Add-posgres-section
+
+#  - name: postgresVersion
+#    label: Choose postgres version
+#    dependsOn:
+#      name: addPostgresServiceClaim
+#    inputType: select
+#    defaultValue: postgres-14
+#    choices:
+#      - value: postgres-12
+#        text: postgres-12
+#      - value: postgres-13
+#        text: postgres-13
+#      - value: postgres-14
+#        text: postgres-14
+#
+#  - name: postgresName
+#    label: Set postgres name
+#    description: Give a deployment name for postgres
+#    dependsOn:
+#      name: addPostgresServiceClaim
+#    inputType: text
+#    dataType: string
+#    defaultValue: postgres
+#
+#  - name: postgresStorageClassName
+#    label: Set the Storage Class name
+#    dependsOn:
+#      name: addPostgresServiceClaim
+#    inputType: text
+#    dataType: string
+#    defaultValue: standard
+#
+#  - name: postgresDBName
+#    label: Set the Database name
+#    dependsOn:
+#      name: addPostgresServiceClaim
+#    inputType: text
+#    dataType: string
+#    defaultValue: tanzubank
+#
+#  - name: postgresHaMode
+#    label: Set the High Availability
+#    dependsOn:
+#      name: addPostgresServiceClaim
+#    inputType: toggle
+#    display: true
+#    dataType: boolean
+#    defaultValue: false
+
 ####################################################################################################################################
   #config-server
   - name: configServerDeploy
@@ -259,7 +309,14 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: userServiceDeploy
-    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: addPostgresServiceClaim
+    label: Auto Deploy and Integrate with Tanzu PostgreSQL ?
+    dependsOn:
+      name: userServiceDeploy
     display: true
     dataType: boolean
     defaultValue: false
@@ -305,7 +362,6 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: quoteServiceDeploy
-    inputType: checkbox
     display: true
     dataType: boolean
     defaultValue: false
@@ -332,7 +388,7 @@ accelerator:
     dependsOn:
       name: portfolioServiceDeploy
     inputType: select
-    defaultValue: newPortfolioServiceDevelop
+    defaultValue: dummyDefaultValue
     choices:
       - value: newPortfolioServiceDevelop
         text: Develop using Discovery-Server
@@ -368,7 +424,6 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: portfolioServiceDeploy
-    inputType: checkbox
     display: true
     dataType: boolean
     defaultValue: false
@@ -458,7 +513,6 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: webServiceDeploy
-    inputType: checkbox
     display: true
     dataType: boolean
     defaultValue: false

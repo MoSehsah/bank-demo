@@ -1,0 +1,28 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: resource-claims-postgres
+  labels:
+    resourceclaims.services.apps.tanzu.vmware.com/controller: "true"
+rules:
+- apiGroups: ["sql.tanzu.vmware.com"]
+  resources: ["postgres"]
+  verbs: ["get", "list", "watch", "update"]
+---
+apiVersion: sql.tanzu.vmware.com/v1
+kind: Postgres
+metadata:
+  name: postgres
+  namespace: dev
+spec:
+  storageClassName: standard
+  storageSize: 800M
+  monitorStorageClassName: standard
+  monitorStorageSize: 1G
+  pgConfig:
+    dbname: tanzubank
+    username: pgadmin
+  postgresVersion:
+    name: postgres-14
+  serviceType: LoadBalancer
