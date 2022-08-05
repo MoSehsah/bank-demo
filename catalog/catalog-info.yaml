@@ -3,8 +3,8 @@ kind: Location
 metadata:
   name: banking-demo-location
   description: A collection of all Backstage example entities for Tanzu Banking Demo
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
+  #annotations:
+  #  'backstage.io/techdocs-ref': dir:.
 spec:
   targets:
     - ./systems/apis-system.yaml

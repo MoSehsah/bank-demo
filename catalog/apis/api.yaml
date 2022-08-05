@@ -6,8 +6,8 @@ metadata:
   tags:
     - account-service
     - banking-demo
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
+  #annotations:
+  #  'backstage.io/techdocs-ref': dir:.
 spec:
   type: openapi
   lifecycle: experimental
@@ -24,8 +24,8 @@ metadata:
   tags:
     - portfolio-service
     - banking-demo
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
+  #annotations:
+  #  'backstage.io/techdocs-ref': dir:.
 spec:
   type: openapi
   lifecycle: experimental
@@ -42,8 +42,8 @@ metadata:
   tags:
     - quote-service
     - banking-demo
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
+  #annotations:
+  #  'backstage.io/techdocs-ref': dir:.
 spec:
   type: openapi
   lifecycle: experimental
@@ -60,8 +60,8 @@ metadata:
   tags:
     - user-service
     - banking-demo
-  annotations:
-    'backstage.io/techdocs-ref': dir:.
+  #annotations:
+  #  'backstage.io/techdocs-ref': dir:.
 spec:
   type: openapi
   lifecycle: experimental
