@@ -32,7 +32,9 @@ spec:
         - name: EUREKA_URL
           value: #@ "http://discovery-server."+ data.values.namespace + ".svc.cluster.local/eureka"
         - name: DEP_NS
-          value:  #@ data.values.namespace
+          value: #@ data.values.namespace
+        - name: customFrontendVar
+          value: #@ data.values.web_ui.customFrontendVar
 ---
 apiVersion: v1
 kind: Service

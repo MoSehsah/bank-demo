@@ -7,3 +7,5 @@ wavefront:
   url: longboard.wavefront.com
 service:
   type: ClusterIP # ClusterIP or LoadBalancer
+web_ui:
+  customFrontendVar: v1
