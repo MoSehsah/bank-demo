@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="https://tanzu.vmware.com/">
-                <img alt="Pivotal" src="../images/pivotal-square-logo.svg" width="22px;"/>
+                <img alt="Pivotal" src="../images/tanzu-logo.png" width="22px;"/>
             </a>
         </div>
         <div class="collapse navbar-collapse" id="trader-navbar-collapse">
@@ -76,11 +76,16 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="https://tanzu.vmware.com/">
-                <img alt="Pivotal" src="../images/pivotal-square-logo.svg" width="22px;"/>
+                <img alt="Pivotal" src="../images/tanzu-logo.png" width="22px;"/>
             </a>
         </div>
         <div class="collapse navbar-collapse" id="empty-navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="navbar-brand" href="#">
+                        <i th:text="${@environment.getProperty('customFrontendVar')}"></i>
+                    </a>
+                </li>
                 <li>
                     <a class="navbar-brand" href="#">
                         <img alt="Spring Trader" src="../images/logo.png" width="120px;"/>

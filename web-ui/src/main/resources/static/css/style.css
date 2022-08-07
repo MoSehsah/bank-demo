@@ -1,3 +1,6 @@
+.navbar.navbar-inverse.navbar-fixed-top {
+    background-color: #314150 !important;
+}
 a {
     cursor: pointer;
 }
