@@ -1,10 +1,12 @@
+#@ load("@ytt:data", "data")
+---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: wf-proxy
   name: wf-proxy
-  namespace: dev
+  namespace: #@ data.values.namespace
 spec:
   ports:
     - name: "2878"
@@ -19,7 +21,7 @@ metadata:
   labels:
     app: wf-proxy
   name: wf-proxy
-  namespace: dev
+  namespace: #@ data.values.namespace
 spec:
   replicas: 1
   selector:
@@ -36,10 +38,10 @@ spec:
             - name: JAVA_HEAP_USAGE
               value: 1650m
             - name: WAVEFRONT_TOKEN
-              value: change-me
+              value: #@ data.values.wavefront.token
             - name: WAVEFRONT_URL
-              value: https://vmware.wavefront.com/api
-          image: wavefronthq/proxy:latest
+              value: #@ "https://" + data.values.wavefront.url + "/api"
+          image: harbor.dorn.gorke.ml/banking-demo/wf-proxy:latest
           name: wf-proxy
           ports:
             - containerPort: 2878

@@ -1,0 +1,43 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-server-deployment
+  namespace: #@ data.values.namespace
+spec:
+  selector:
+    matchLabels:
+      app: discovery-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: discovery-server
+    spec:
+      containers:
+      - name: discovery-server
+        image: harbor.dorn.gorke.ml/banking-demo/discovery-server:0.0.1-SNAPSHOT
+        env:
+        - name: management.metrics.export.wavefront.uri
+          value: #@ "proxy://" + data.values.wavefront.service_name + ":2878"
+        - name: management.metrics.export.wavefront.api-token
+          value: #@ data.values.wavefront.token
+        - name: PORT
+          value: "8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-server
+  namespace: #@ data.values.namespace
+  labels:
+    app: discovery-server
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: discovery-server
+  type: #@ data.values.service.type

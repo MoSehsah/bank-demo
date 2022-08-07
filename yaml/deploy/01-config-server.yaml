@@ -1,0 +1,41 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server-deployment
+  namespace: #@ data.values.namespace
+spec:
+  selector:
+    matchLabels:
+      app: config-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+      - name: config-server
+        image: harbor.dorn.gorke.ml/banking-demo/config-server:0.0.1-SNAPSHOT
+        env:
+        - name: WAVEFRONT_TOKEN
+          value: #@ data.values.wavefront.token
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+  namespace: #@ data.values.namespace
+  labels:
+    app: config-server
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8888
+  selector:
+    app: config-server
+  type: #@ data.values.service.type
+---
+

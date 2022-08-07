@@ -1,0 +1,9 @@
+#@data/values
+---
+namespace: test-app
+wavefront:
+  service_name: wf-proxy
+  token: change-me
+  url: longboard.wavefront.com
+service:
+  type: ClusterIP # ClusterIP or LoadBalancer
