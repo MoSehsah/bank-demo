@@ -683,10 +683,6 @@ engine:
             with: "'<version>' + #springBootVersion + '</version>'"
         - type: ReplaceText
           substitutions:
-            - text: com.vmware.tanzu
-              with: "#pkgName"
-        - type: ReplaceText
-          substitutions:
           - text: EnableCaching
             with: abc
           # condition: "#enableRedisCachingQuoteService"
