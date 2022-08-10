@@ -688,7 +688,7 @@ engine:
         - type: ReplaceText
           substitutions:
           - text: EnableCaching
-            with: “abc”
+            with: abc
           # condition: "#enableRedisCachingQuoteService"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
