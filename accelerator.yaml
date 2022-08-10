@@ -683,8 +683,8 @@ engine:
             with: "'<version>' + #springBootVersion + '</version>'"
         - type: ReplaceText
           substitutions:
-          - text: EnableCaching
-            with: "abc"
+          - text: '@EnableCaching'
+            with: 'abc'
           # condition: "#enableRedisCachingQuoteService"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
