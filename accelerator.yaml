@@ -377,6 +377,8 @@ accelerator:
 
   - name: enableRedisCachingQuoteService
     label: Enable Redis Caching
+    dependsOn:
+      name: quoteServiceDeploy
     display: true
     dataType: boolean
     defaultValue: false
