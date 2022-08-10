@@ -685,7 +685,7 @@ engine:
           substitutions:
           - text: "EnableCaching"
             with: “ ”
-          condition: "!#enableRedisCachingQuoteService"
+          condition: "#enableRedisCachingQuoteService"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:
