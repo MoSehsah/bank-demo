@@ -375,8 +375,8 @@ accelerator:
     dataType: string
     defaultValue: main
 
-  - name: enableRedisCachingQuoteService
-    label: Enable Redis Caching
+  - name: disableRedisCachingQuoteService
+    label: Disable Redis Caching
     dependsOn:
       name: quoteServiceDeploy
     display: true
@@ -685,7 +685,7 @@ engine:
           substitutions:
           - text: '@EnableCaching'
             with: "#emptyVar"
-          condition: "!#enableRedisCachingQuoteService"
+          condition: "#disableRedisCachingQuoteService"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:
