@@ -56,7 +56,7 @@ spec:
       value: #@ data.values.eurekaURL
     #@ end
 
-    #@ if data.values.enableRedisCachingQuoteService
+    #@ if data.values.enableRedisCachingQuoteService:
     - name: spring.cache.type
       value: 'redis'
     - name: spring.redis.host
