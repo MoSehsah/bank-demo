@@ -23,6 +23,20 @@
       "assignedTo": {
         "name": "Gorkem Ozlu"
       },
+      "creation_time": "2022-08-08T11:50:21.903Z",
+      "description": {
+        "content": "- [] local\n- [] docker-compose\n- [] tap\n- [] small documentation",
+        "mime": "text/markdown"
+      },
+      "id": "27",
+      "prio": 5,
+      "references": [],
+      "title": "refactor profiles & config"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
       "category": "Build",
       "creation_time": "2022-08-02T07:14:52.122Z",
       "id": "1",
@@ -249,6 +263,25 @@
         "name": "Gorkem Ozlu"
       },
       "category": "Functionality",
+      "creation_time": "2022-08-02T07:24:50.586Z",
+      "details": {
+        "content": "https://www.vrabbi.cloud/post/easy-customization-of-tap-1-2\nhttps://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.2/tap/GUID-tap-gui-techdocs-usage.html\nhttps://backstage.io/docs/features/techdocs/configuring-ci-cd\ntap_gui:\n    app_config:\n        techdocs:\n            builder: 'external'\n            publisher:\n                type: 'awsS3'\n                awsS3:\n                    bucketName: samplebucketname\n                    credentials:\n                        accessKeyId: admin\n                        secretAccessKey: password\n                    region: s3-stor\n                    endpoint: http://s3-object-storage-url\n                    s3ForcePathStyle: true",
+        "mime": "text/markdown"
+      },
+      "id": "18",
+      "prio": 3,
+      "references": [],
+      "title": "Techdocs",
+      "description": {
+        "content": "- [x] use minio for techdocs",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
+      "category": "Functionality",
       "creation_time": "2022-08-02T07:28:53.157Z",
       "id": "20",
       "references": [],
@@ -283,25 +316,6 @@
       "id": "6",
       "references": [],
       "title": "One App Accelerator for all"
-    },
-    {
-      "assignedTo": {
-        "name": "Gorkem Ozlu"
-      },
-      "category": "Functionality",
-      "creation_time": "2022-08-02T07:24:50.586Z",
-      "details": {
-        "content": "https://www.vrabbi.cloud/post/easy-customization-of-tap-1-2\nhttps://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.2/tap/GUID-tap-gui-techdocs-usage.html\nhttps://backstage.io/docs/features/techdocs/configuring-ci-cd\ntap_gui:\n    app_config:\n        techdocs:\n            builder: 'external'\n            publisher:\n                type: 'awsS3'\n                awsS3:\n                    bucketName: samplebucketname\n                    credentials:\n                        accessKeyId: admin\n                        secretAccessKey: password\n                    region: s3-stor\n                    endpoint: http://s3-object-storage-url\n                    s3ForcePathStyle: true",
-        "mime": "text/markdown"
-      },
-      "id": "18",
-      "prio": 3,
-      "references": [],
-      "title": "Techdocs",
-      "description": {
-        "content": "- [x] use minio for techdocs",
-        "mime": "text/markdown"
-      }
     }
   ]
 }
