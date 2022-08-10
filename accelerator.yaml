@@ -332,7 +332,7 @@ accelerator:
 ####################################################################################################################################
   #quote-service
   - name: quoteServiceDeploy
-    label: Deploy Quote-Service ?
+    label: Deploy Quote-Service ? 
     inputType: checkbox
     display: true
     dataType: boolean
@@ -374,6 +374,13 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: main
+
+  - name: enableRedisCachingQuoteService
+    label: Enable Redis Caching
+    display: true
+    dataType: boolean
+    defaultValue: false
+
 ####################################################################################################################################
   #portfolio-service
   - name: portfolioServiceDeploy
@@ -672,6 +679,11 @@ engine:
             with: "'<java.version>' + #javaVersion + '</java.version>'"
           - text: "<version>2.7.1</version>"
             with: "'<version>' + #springBootVersion + '</version>'"
+        - type: ReplaceText
+          substitutions:
+            - text: "@EnableCaching"
+              with: ""
+          condition: "!#enableRedisCachingQuoteService"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:

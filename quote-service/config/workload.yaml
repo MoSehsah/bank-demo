@@ -55,6 +55,16 @@ spec:
     - name: EUREKA_URL
       value: #@ data.values.eurekaURL
     #@ end
+
+    #@ if data.values.enableRedisCachingQuoteService
+    - name: spring.cache.type
+      value: 'redis'
+    - name: spring.redis.host
+      value: 'redis-svc'
+    - name: spring.redis.port
+      value: 6379
+    #@ end
+    
   source:
     git:
       url: #@ data.values.gitRepo
