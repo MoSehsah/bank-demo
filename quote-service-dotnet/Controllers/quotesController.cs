@@ -77,6 +77,7 @@ namespace WebApi.Controllers
             jo.Property("calculationPrice").Remove();
             jo.Property("close").Remove();
             jo.Property("closeSource").Remove();
+            jo.Property("closeTime").Remove();
             jo.Property("delayedPrice").Remove();
             jo.Property("delayedPriceTime").Remove();
             jo.Property("extendedChange").Remove();
