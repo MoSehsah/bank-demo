@@ -40,9 +40,10 @@ namespace WebApi.Controllers
             jo.Property("change").Remove();
             jo.Add("ChangePercent",jo.Property("changePercent").Value);
             jo.Property("changePercent").Remove();
-            var latestUpdateDouble = Convert.ToDouble(jo.Property("latestUpdate").Value);
-            var latestUpdateDate = (DateTimeOffset.UnixEpoch.AddMilliseconds(latestUpdateDouble));
-            jo.Add("Timestamp",latestUpdateDate);
+            //var latestUpdateDouble = Convert.ToDouble(jo.Property("latestUpdate").Value);
+            //var latestUpdateDate = (DateTimeOffset.UnixEpoch.AddMilliseconds(latestUpdateDouble));
+            //jo.Add("Timestamp",latestUpdateDate);
+            jo.Add("Timestamp","Sat Apr 27 15:42:34 UTCZ 2024");
             jo.Add("MSDate",null);
             jo.Add("MarketCap",float.Parse(jo.Property("marketCap").Value.ToString(),CultureInfo.InvariantCulture.NumberFormat));
             jo.Property("marketCap").Remove();
