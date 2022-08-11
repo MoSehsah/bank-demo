@@ -46,7 +46,7 @@ namespace WebApi.Controllers
             var latestUpdateDateCustom = latestUpdateDate.ToString("ddd MMM dd HH:mm:ss UTCZ yyyy");
             jo.Add("Timestamp",latestUpdateDateCustom);
             jo.Add("MSDate",null);
-            jo.Add("MarketCap",jo.Property("marketCap").Value.ToString());
+            jo.Add("MarketCap",jo.Property("marketCap").Value);
             jo.Property("marketCap").Remove();
             jo.Add("Volume",jo.Property("avgTotalVolume").Value);
             jo.Property("volume").Remove();
