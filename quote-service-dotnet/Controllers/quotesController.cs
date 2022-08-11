@@ -46,7 +46,7 @@ namespace WebApi.Controllers
             jo.Add("MSDate",null);
             jo.Add("MarketCap",float.Parse(jo.Property("marketCap").Value.ToString(),CultureInfo.InvariantCulture.NumberFormat));
             jo.Property("marketCap").Remove();
-            jo.Add("Volume",jo.Property("volume").Value);
+            jo.Add("Volume",jo.Property("avgTotalVolume").Value);
             jo.Property("volume").Remove();
             jo.Add("ChangeYTD",null);
             jo.Add("ChangePercentYTD",null);
