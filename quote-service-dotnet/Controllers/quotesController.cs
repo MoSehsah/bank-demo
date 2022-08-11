@@ -40,10 +40,11 @@ namespace WebApi.Controllers
             jo.Property("change").Remove();
             jo.Add("ChangePercent",jo.Property("changePercent").Value);
             jo.Property("changePercent").Remove();
-            //var latestUpdateDouble = Convert.ToDouble(jo.Property("latestUpdate").Value);
-            //var latestUpdateDate = (DateTimeOffset.UnixEpoch.AddMilliseconds(latestUpdateDouble));
+            var latestUpdateDouble = Convert.ToDouble(jo.Property("latestUpdate").Value);
+            var latestUpdateDate = (DateTimeOffset.UnixEpoch.AddMilliseconds(latestUpdateDouble));
             //jo.Add("Timestamp",latestUpdateDate);
-            jo.Add("Timestamp","Sat Apr 27 15:42:34 UTCZ 2024");
+            var latestUpdateDateCustom = latestUpdateDate.ToString("ddd MMM dd HH:mm:ss UTCZ yyyy");
+            jo.Add("Timestamp",latestUpdateDateCustom);
             jo.Add("MSDate",null);
             jo.Add("MarketCap",float.Parse(jo.Property("marketCap").Value.ToString(),CultureInfo.InvariantCulture.NumberFormat));
             jo.Property("marketCap").Remove();
@@ -110,7 +111,8 @@ namespace WebApi.Controllers
             var len = Convert.ToInt32(iexResult.Length+1);
             var str = iexResult.Insert(0, "[").Insert(len,"]");
             string str2 = "[{\"Status\":\"SUCCESS\",\"Name\":\"Vmware Inc. - Class A\",\"Symbol\":\"VMW\",\"LastPrice\":120.52,\"Change\":0.19,\"ChangePercent\":0.0016,\"Timestamp\":\"Sat Aug 26 01:20:27 UTCZ 2023\",\"MSDate\":null,\"MarketCap\":5.1572113E10,\"Volume\":1257885,\"ChangeYTD\":null,\"ChangePercentYTD\":null,\"High\":0,\"Low\":0,\"Open\":0,\"Currency\":\"USD\"}]";
-            return str2;
+
+            return str;
         }
 
     }
