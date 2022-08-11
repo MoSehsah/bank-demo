@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Text.Json;
+using System.Text;
 
 namespace WebApi.Controllers
 {
@@ -102,11 +103,12 @@ namespace WebApi.Controllers
             jo.Property("week52High").Remove();
             jo.Property("week52Low").Remove();
             jo.Property("isUSMarketOpen").Remove();
-            iexResult = jo.ToString();
-            //iexResult = JsonConvert.SerializeObject(jo);
+            //iexResult = jo.ToString();
+            iexResult = JsonConvert.SerializeObject(jo);
             
             var len = Convert.ToInt32(iexResult.Length+1);
             var str = iexResult.Insert(0, "[").Insert(len,"]");
+            
             return str;
         }
 
