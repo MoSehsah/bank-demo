@@ -109,8 +109,8 @@ namespace WebApi.Controllers
             
             var len = Convert.ToInt32(iexResult.Length+1);
             var str = iexResult.Insert(0, "[").Insert(len,"]");
-            
-            return str;
+            string str2 = "[{\"Status\":\"SUCCESS\",\"Name\":\"Vmware Inc. - Class A\",\"Symbol\":\"VMW\",\"LastPrice\":120.52,\"Change\":0.19,\"ChangePercent\":0.0016,\"Timestamp\":\"Sat Aug 26 01:20:27 UTCZ 2023\",\"MSDate\":null,\"MarketCap\":5.1572113E10,\"Volume\":1257885,\"ChangeYTD\":null,\"ChangePercentYTD\":null,\"High\":0,\"Low\":0,\"Open\":0,\"Currency\":\"USD\"}]";
+            return str2;
         }
 
     }
