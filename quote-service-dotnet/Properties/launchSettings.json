@@ -12,6 +12,13 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "eureka" : {
+      "client" : {
+        "shouldRegisterWithEureka" : true,
+        "serviceUrl" : "http://discovery-server.dev.svc.cluster.local/eureka",
+        "ValidateCertificates":  false
+      }
     }
   }
 }

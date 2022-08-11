@@ -1,0 +1,46 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: #@ data.values.quoteServiceDeployName
+  namespace: #@ data.values.namespaceToDeploy
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: quote-service
+    #@ if data.values.hasTestsPortfolioService:
+    apps.tanzu.vmware.com/has-tests: "true"
+    #@ end
+spec:
+  params:
+  - name: annotations
+    value:
+      #@ if data.values.autoScalingClass == "kpa":
+      #@ if data.values.autoScalingMinScale:
+      autoscaling.knative.dev/minScale: #@ data.values.autoScalingMinScale
+      #@ end
+      #@ if data.values.autoScalingMaxScale:
+      autoscaling.knative.dev/maxScale: #@ data.values.autoScalingMaxScale
+      #@ end
+      #@ if data.values.autoScalingScaleDownDelay:
+      autoscaling.knative.dev/scaleDownDelay: #@ data.values.autoScalingScaleDownDelay
+      #@ end
+      #@ end
+
+      #@ if data.values.autoScalingClass == "hpa":
+      autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
+      autoscaling.knative.dev/metric: cpu
+      #@ end
+  env:
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Development
+    - name: ASPNETCORE_URLS
+      value: http://0.0.0.0:8080;http://0.0.0.0:8090
+    - name: Management__Port
+      value: "8080"
+  source:
+    git:
+      url: #@ data.values.gitRepo
+      ref:
+        branch: #@ data.values.branchNameQuoteService
+    subPath: quote-service-dotnet
