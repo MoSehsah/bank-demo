@@ -4,6 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <SteeltoeVersion>3.1.0</SteeltoeVersion>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="Newtonsoft.Json" />
   </ItemGroup>
@@ -11,5 +14,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
     <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.1" />
+    <PackageReference Include="Steeltoe.Management.TracingCore" Version="3.2.1" />
+    <PackageReference Include="Steeltoe.Management.EndpointCore" Version="3.2.1" />
+    <PackageReference Include="Steeltoe.Management.ExporterCore" Version="2.5.5" />
   </ItemGroup>
 </Project>

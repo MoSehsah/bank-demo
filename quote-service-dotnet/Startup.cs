@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Steeltoe.Discovery.Client;
+using Steeltoe.Management.Endpoint;
+using Steeltoe.Management.Tracing;
 using Newtonsoft.Json;
 namespace WebApi
 {
@@ -21,6 +23,9 @@ namespace WebApi
             services.AddCors();
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson();
+            services.AddAllActuators(Configuration);
+            services.AddDistributedTracingAspNetCore();
+            services.AddMetricsActuatorServices(Configuration);
             
         }
 
@@ -46,6 +51,7 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapAllActuators();
             });
         }
     }

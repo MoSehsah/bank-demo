@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-
+using Steeltoe.Management.Endpoint;
 namespace WebApi
 {
     public class Program
@@ -12,6 +12,8 @@ namespace WebApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .AddWavefrontMetrics()
+                .AddAllActuators();
     }
 }
