@@ -13,54 +13,43 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text;
 
-namespace WebApi.QuotesController
+namespace WebApi.CompanyController
 {
-    [Route("v1")]
+    [Route("v1/company")]
     [ApiController]
-    public class quotesController : ControllerBase
+    public class companyController : ControllerBase
 
     {
-        // GET v1/quotes?q=vmw
+        // GET api/values/5
         private static HttpClient Client = new HttpClient();
-        
-        [HttpGet("{quotes}")]
-        //[Produces("application/json")]
+        [HttpGet("{company}")]
+        [Produces("application/json")]
         public ActionResult<JArray> Details(string q)
         {
             var iexUrl = $"https://sandbox.iexapis.com/stable/stock/{q}/quote?token=Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a";
             var result = Client.GetAsync(iexUrl);
             var iexResult = result.Result.Content.ReadAsStringAsync().Result;
             JObject jo = JObject.Parse(iexResult);
-            jo.Add("Status","SUCCESS");
-            jo.Add("Name",jo.Property("companyName").Value);
-            jo.Property("companyName").Remove();
             jo.Add("Symbol",jo.Property("symbol").Value);
             jo.Property("symbol").Remove();
-            jo.Add("LastPrice",jo.Property("latestPrice").Value);
+            jo.Add("Name",jo.Property("companyName").Value);
+            jo.Property("companyName").Remove();
+            jo.Add("Exchange","NASDAQ");
+
+
+
             jo.Property("latestPrice").Remove();
-            jo.Add("Change",jo.Property("change").Value);
+
             jo.Property("change").Remove();
-            jo.Add("ChangePercent",jo.Property("changePercent").Value);
+
             jo.Property("changePercent").Remove();
-            var latestUpdateDouble = Convert.ToDouble(jo.Property("latestUpdate").Value);
-            var latestUpdateDate = (DateTimeOffset.UnixEpoch.AddMilliseconds(latestUpdateDouble));
-            //jo.Add("Timestamp",latestUpdateDate);
-            var latestUpdateDateCustom = latestUpdateDate.ToString("ddd MMM dd HH:mm:ss UTCZ yyyy");
-            jo.Add("Timestamp",latestUpdateDateCustom);
-            jo.Add("MSDate",null);
-            jo.Add("MarketCap",jo.Property("marketCap").Value);
+
             jo.Property("marketCap").Remove();
-            jo.Add("Volume",jo.Property("avgTotalVolume").Value);
+
             jo.Property("volume").Remove();
-            jo.Add("ChangeYTD",null);
-            jo.Add("ChangePercentYTD",null);
-            jo.Add("High",jo.Property("high").Value);
             jo.Property("high").Remove();
-            jo.Add("Low",jo.Property("low").Value);
             jo.Property("low").Remove();
-            jo.Add("Open",jo.Property("open").Value);
             jo.Property("open").Remove();
-            jo.Add("Currency",jo.Property("currency").Value);
             jo.Property("currency").Remove();
             jo.Property("avgTotalVolume").Remove();
             jo.Property("calculationPrice").Remove();
@@ -117,5 +106,4 @@ namespace WebApi.QuotesController
         }
 
     }
-
 }
