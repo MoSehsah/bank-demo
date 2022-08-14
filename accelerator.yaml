@@ -388,7 +388,7 @@ accelerator:
     dependsOn:
       name: quoteServiceDotnetDeploy
     inputType: select
-    defaultValue: existingQuoteServiceDotnet
+    defaultValue: dummyDefaultValue
     choices:
       - value: newQuoteServiceDotnetDevelop
         text: Develop using Discovery-Server
