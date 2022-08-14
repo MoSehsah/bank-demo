@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Management.Endpoint;
 using Steeltoe.Management.Tracing;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 namespace WebApi
 {
@@ -35,6 +36,10 @@ namespace WebApi
             //    })).UseZipkinWithTraceOptions(services);
             //});
             services.AddMetricsActuatorServices(Configuration);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "quote-service-dotnet", Version = "v1" });
+            });
             
         }
 
@@ -56,7 +61,11 @@ namespace WebApi
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
