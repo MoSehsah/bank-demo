@@ -390,7 +390,7 @@ accelerator:
     inputType: select
     defaultValue: dummyDefaultValue
     choices:
-      - value: newQuoteServiceDotnetDevelop
+      - value: quoteServiceDotnetDevelop
         text: Develop using Discovery-Server
       - value: newQuoteServiceDotnetDeploy
         text: Deploy using Discovery-Server
@@ -730,7 +730,7 @@ engine:
       chain:
         - type: YTT
     - includes: ["quote-service-dotnet/**"]
-      condition: "#quoteServiceDotnetDeployState == 'newquoteServiceDotnetDevelop'"
+      condition: "#quoteServiceDotnetDeployState == 'quoteServiceDotnetDevelop'"
       excludes: [ "quote-service-dotnet/config/**" ]
       chain:
         - type: ReplaceText
