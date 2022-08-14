@@ -25,6 +25,12 @@ spec:
           value: http://0.0.0.0:8080;http://0.0.0.0:8090
         - name: Management__Port
           value: "8080"
+        - name: eureka__client__serviceUrl
+          value: "http://discovery-server/eureka"
+        - name: Management__0__Tracing__exporter__zipkin__endpoint
+          value: "http://wf-proxy:9411/api/v2/spans"
+        - name: Management__2__metrics__1__export__wavefront__Uri
+          value: "proxy://wf-proxy:2878"
 ---
 apiVersion: v1
 kind: Service

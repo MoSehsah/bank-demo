@@ -24,7 +24,16 @@ namespace WebApi
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson();
             services.AddAllActuators(Configuration);
+            services.AddPrometheusActuatorServices(Configuration);
             services.AddDistributedTracingAspNetCore();
+            //services.AddDistributedTracing(Configuration, builder =>
+            //{
+            //  builder.SetResource(new Resource(new Dictionary<string, object>
+            //    {
+            //        ["application"] = Configuration["management:tracing:exporter:zipkin:applicationName"],
+            //        ["cluster"] = Configuration["management:tracing:exporter:zipkin:cluster"],
+            //    })).UseZipkinWithTraceOptions(services);
+            //});
             services.AddMetricsActuatorServices(Configuration);
             
         }

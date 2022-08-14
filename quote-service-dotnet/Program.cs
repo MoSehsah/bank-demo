@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Steeltoe.Management.Endpoint;
+using Steeltoe.Management.Tracing;
 namespace WebApi
 {
     public class Program
@@ -14,6 +15,7 @@ namespace WebApi
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .AddWavefrontMetrics()
+                .AddDistributedTracingAspNetCore()
                 .AddAllActuators();
     }
 }
