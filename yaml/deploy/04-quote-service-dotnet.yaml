@@ -18,6 +18,7 @@ spec:
       containers:
       - name: quote-service
         image: harbor.dorn.gorke.ml/banking-demo/quote-service-dotnet:0.0.1-SNAPSHOT
+        imagePullPolicy: Always
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: Development

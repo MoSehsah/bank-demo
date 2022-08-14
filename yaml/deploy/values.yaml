@@ -5,6 +5,7 @@ wavefront:
   service_name: wf-proxy
   token: change-me
   url: longboard.wavefront.com
+  zipkin_endpoint: false # true or false
 service:
   type: ClusterIP # ClusterIP or LoadBalancer
 web_ui:

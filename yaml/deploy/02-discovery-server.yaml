@@ -18,6 +18,7 @@ spec:
       containers:
       - name: discovery-server
         image: harbor.dorn.gorke.ml/banking-demo/discovery-server:0.0.1-SNAPSHOT
+        imagePullPolicy: Always
         env:
         - name: management.metrics.export.wavefront.uri
           value: #@ "proxy://" + data.values.wavefront.service_name + ":2878"

@@ -18,6 +18,7 @@ spec:
       containers:
       - name: config-server
         image: harbor.dorn.gorke.ml/banking-demo/config-server:0.0.1-SNAPSHOT
+        imagePullPolicy: Always
         env:
         - name: WAVEFRONT_TOKEN
           value: #@ data.values.wavefront.token
