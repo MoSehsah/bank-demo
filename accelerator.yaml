@@ -332,7 +332,7 @@ accelerator:
 ####################################################################################################################################
   #quote-service
   - name: quoteServiceDeploy
-    label: Deploy Quote-Service (JAVA)?
+    label: Deploy Quote-Service (Java)?
     inputType: checkbox
     display: true
     dataType: boolean
