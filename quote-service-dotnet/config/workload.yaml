@@ -3,7 +3,7 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: #@ data.values.quoteServiceDeployName
+  name: #@ data.values.quoteServiceDotnetDeployName
   namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
@@ -44,9 +44,12 @@ spec:
       value: "http://wf-proxy:9411/api/v2/spans"
     - name: Management__2__metrics__1__export__wavefront__Uri
       value: "proxy://wf-proxy:2878"
+  #@ if data.values.quoteServiceDotnetTilt == "True":
+  image: #@ data.values.containterRegistryURL + "/" + data.values.quoteServiceDotnetDeployName + "-dev"
+  #@ end
   source:
     git:
       url: #@ data.values.gitRepo
       ref:
-        branch: #@ data.values.branchNameQuoteService
+        branch: #@ data.values.branchNameQuoteServiceDotnet
     subPath: quote-service-dotnet

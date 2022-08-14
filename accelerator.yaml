@@ -332,7 +332,7 @@ accelerator:
 ####################################################################################################################################
   #quote-service
   - name: quoteServiceDeploy
-    label: Deploy Quote-Service ?
+    label: Deploy Quote-Service (JAVA)?
     inputType: checkbox
     display: true
     dataType: boolean
@@ -371,6 +371,59 @@ accelerator:
     description: Please type the branch to use - Skip this value if using existing.
     dependsOn:
       name: quoteServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+  #quote-service-dotnet
+  - name: quoteServiceDotnetDeploy
+    label: Deploy Quote-Service (.Net Core)?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name:  quoteServiceDotnetDeployState
+    label: Choose Quote-Service
+    dependsOn:
+      name: quoteServiceDotnetDeploy
+    inputType: select
+    defaultValue: existingQuoteServiceDotnet
+    choices:
+      - value: newQuoteServiceDotnetDevelop
+        text: Develop using Discovery-Server
+      - value: newQuoteServiceDotnetDeploy
+        text: Deploy using Discovery-Server
+  - name: quoteServiceDotnetDeployName
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: quoteServiceDotnetDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+
+  - name: hasTestsQuoteServiceDotnet
+    label: Do CI test
+    dependsOn:
+      name: quoteServiceDotnetDeploy
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: quoteServiceDotnetTilt
+    label: Enable Development with Tilt
+    dependsOn:
+      name: quoteServiceDotnetDeploy
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameQuoteServiceDotnet
+    label: Branch of the Quote-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: quoteServiceDotnetDeploy
     inputType: text
     dataType: string
     defaultValue: main
@@ -674,6 +727,30 @@ engine:
             with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
+      chain:
+        - type: YTT
+    - includes: ["quote-service-dotnet/**"]
+      condition: "#quoteServiceDotnetDeployState == 'newquoteServiceDotnetDevelop'"
+      excludes: [ "quote-service-dotnet/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#quoteServiceDotnetDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
+    - includes: ["quote-service-dotnet/config/**"]
+      condition: "#quoteServiceDotnetDeploy != false"
       chain:
         - type: YTT
     - includes: ["portfolio-service/**"]
