@@ -18,19 +18,6 @@ eureka:
     #metadata-map:
     #  management:
     #    port: 80
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"  
-  endpoint:
-    health:
-      show-details: always
-  metrics:
-    export:
-      wavefront:
-        api-token: ${WAVEFRONT_TOKEN}
-        uri: proxy://wf-proxy:2878
 # logging:
 #   level:
 #     ROOT: DEBUG
