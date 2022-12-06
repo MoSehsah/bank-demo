@@ -30,6 +30,18 @@ info:
 # logging:
 #   level:
 #     ROOT: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: ${WAVEFRONT_TOKEN}
+        uri: proxy://wf-proxy:2878
 wavefront:
   application:
     name: banking-demo

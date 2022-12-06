@@ -45,6 +45,13 @@ management:
       #path-mapping:
       #  health: "readyzz"
       #  info: "infoz"
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: ${WAVEFRONT_TOKEN}
+        uri: proxy://wf-proxy:2878
   endpoint:
     health:
       enabled: true
