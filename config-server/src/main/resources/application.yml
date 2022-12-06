@@ -18,7 +18,7 @@ spring:
        git:
          uri: https://github.com/MoSehsah/bank-demo
          searchPaths: config-data
-         default-label: spring-profiles
+         default-label: main
          
 management:
   context_path: /admin
