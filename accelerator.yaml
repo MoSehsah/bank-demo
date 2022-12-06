@@ -112,7 +112,7 @@ accelerator:
     label: Minimum Pod Count
     description: Disable scale to zero with a minScale of 1.
     dependsOn:
-      name: autoScalingState
+      name: autoScalingClass
       value: kpa
     inputType: text
     dataType: string
@@ -122,7 +122,7 @@ accelerator:
     label: Max Pod Count
     description: Change max pod count
     dependsOn:
-      name: autoScalingState
+      name: autoScalingClass
       value: kpa
     inputType: text
     dataType: string
@@ -132,7 +132,7 @@ accelerator:
     label: Scale Down Delay time
     description: The time window before scale down applied
     dependsOn:
-      name: autoScalingState
+      name: autoScalingClass
       value: kpa
     inputType: text
     dataType: string
