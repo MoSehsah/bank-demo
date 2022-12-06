@@ -2,7 +2,14 @@
 spring:
   application:
      name: discovery
-  config:
-    activate:
-      on-profile:
-      - cloud
+  profiles:
+    active:
+    - discovery-cloud
+  cloud:
+    config:
+      uri:
+      - http://config-server.my-apps.svc.cluster.local
+      fail-fast: true
+      retry:
+        max-interval: 10000
+        max-attempts: 2000

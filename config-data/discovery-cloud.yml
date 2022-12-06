@@ -5,6 +5,12 @@ spring:
     activate:
       on-profile:
       - cloud
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-interval: 10000
+        max-attempts: 2000
   security:
      user:
          name: admin
