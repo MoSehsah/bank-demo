@@ -97,19 +97,9 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: 'http://discovery-server.dev.svc.cluster.local/eureka'
-
-  #auto-scaling
-  - name: autoScalingState
-    label: Add autoscaling capabilities ?
-    inputType: checkbox
-    display: true
-    dataType: boolean
-    defaultValue: false
   
   - name: autoScalingClass
     label: Choose autoscaling Class
-    dependsOn:
-      name: autoScalingState
     inputType: select
     defaultValue: kpa
     choices:
