@@ -310,6 +310,7 @@ accelerator:
     dependsOn:
       name: userServiceDeploy
     display: true
+    inputType: checkbox
     dataType: boolean
     defaultValue: false
 
@@ -363,6 +364,7 @@ accelerator:
     dependsOn:
       name: quoteServiceDeploy
     display: true
+    inputType: checkbox
     dataType: boolean
     defaultValue: false
 
@@ -408,6 +410,7 @@ accelerator:
     dependsOn:
       name: quoteServiceDotnetDeploy
     display: true
+    inputType: checkbox
     dataType: boolean
     defaultValue: false
 
@@ -477,6 +480,7 @@ accelerator:
     label: Do CI test
     dependsOn:
       name: portfolioServiceDeploy
+    inputType: checkbox
     display: true
     dataType: boolean
     defaultValue: false
@@ -567,6 +571,7 @@ accelerator:
     dependsOn:
       name: webServiceDeploy
     display: true
+    inputType: checkbox
     dataType: boolean
     defaultValue: false
   
