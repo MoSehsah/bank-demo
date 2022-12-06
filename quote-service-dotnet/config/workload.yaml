@@ -3,11 +3,11 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: #@ data.values.portfolioServiceDeployName
+  name: #@ data.values.quoteServiceDotnetDeployName
   namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: portfolio-service
+    app.kubernetes.io/part-of: quote-service
 spec:
   params:
   - name: annotations
@@ -28,35 +28,25 @@ spec:
       autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
       autoscaling.knative.dev/metric: cpu
       #@ end
-  build:
-    env:
-    - name: BP_JVM_VERSION
-      #@ if data.values.javaVersion == 17:
-      value: "17.*"
-      #@ end
-      #@ if data.values.javaVersion == 11:
-      value: "11.*"
-      #@ end
   env:
-    - name: WAVEFRONT_TOKEN
-      value: #@ data.values.wavefrontToken
-    - name: spring.cloud.config.uri
-      value: #@ "http://config-server."+data.values.namespaceToDeploy+".svc.cluster.local"
-    #@ if data.values.eurekaState:
-    - name: EUREKA_URL
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Development
+    - name: ASPNETCORE_URLS
+      value: http://0.0.0.0:8080;http://0.0.0.0:8090
+    - name: Management__Port
+      value: "8080"
+    - name: eureka__client__serviceUrl
       value: #@ data.values.eurekaURL
-    #@ end
-    #@ if data.values.portfolioServiceDeployState == "existingPortfolioService":
-    - name: accountServiceName
-      value: #@ data.values.accountServiceName
-    - name: quoteServiceName
-      value: #@ data.values.quoteServiceName
-    #@ end
-    - name: DEP_NS
-      value: #@ data.values.namespaceToDeploy
+    - name: Management__0__Tracing__exporter__zipkin__endpoint
+      value: "http://wf-proxy:9411/api/v2/spans"
+    - name: Management__2__metrics__1__export__wavefront__Uri
+      value: "proxy://wf-proxy:2878"
+  #@ if data.values.quoteServiceDotnetTilt:
+  image: #@ data.values.containterRegistryURL + "/" + data.values.quoteServiceDotnetDeployName + "-dev"
+  #@ end
   source:
     git:
       url: #@ data.values.gitRepo
       ref:
-        branch: #@ data.values.branchNamePortfolioService
-    subPath: portfolio-service
+        branch: #@ data.values.branchNameQuoteServiceDotnet
+    subPath: quote-service-dotnet

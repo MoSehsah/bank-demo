@@ -18,6 +18,7 @@ spec:
       containers:
       - name: user-service
         image: harbor.dorn.gorke.ml/banking-demo/user-service:0.0.1-SNAPSHOT
+        imagePullPolicy: Always
         env:
         - name: spring.cloud.config.uri
           value: #@ "http://config-server."+ data.values.namespace + ".svc.cluster.local"

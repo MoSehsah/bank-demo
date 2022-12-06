@@ -1,2 +1,4 @@
 .DS_Store
 launch.json
+quote-service-dotnet/bin
+quote-service-dotnet/obj

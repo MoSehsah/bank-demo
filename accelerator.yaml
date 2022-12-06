@@ -259,14 +259,14 @@ accelerator:
     dataType: string
     defaultValue: account-service # double check.
 
-  - name: hasTestsAccountService
-    label: Do CI test
-    dependsOn:
-      name: accountServiceDeploy
-    inputType: checkbox
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsAccountService
+#    label: Do CI test
+#    dependsOn:
+#      name: accountServiceDeploy
+#    inputType: checkbox
+#    display: true
+#    dataType: boolean
+#    defaultValue: false
 
   - name: branchNameAccountService
     label: Branch of the Account-Service
@@ -305,13 +305,14 @@ accelerator:
     dataType: string
     defaultValue: user-service # double check.
 
-  - name: hasTestsUserService
-    label: Do CI test
-    dependsOn:
-      name: userServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsUserService
+#    label: Do CI test
+#    dependsOn:
+#      name: userServiceDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
 
   - name: addPostgresServiceClaim
     label: Auto Deploy and Integrate with Tanzu PostgreSQL ?
@@ -332,7 +333,7 @@ accelerator:
 ####################################################################################################################################
   #quote-service
   - name: quoteServiceDeploy
-    label: Deploy Quote-Service ?
+    label: Deploy Quote-Service (Java)?
     inputType: checkbox
     display: true
     dataType: boolean
@@ -358,19 +359,74 @@ accelerator:
     dataType: string
     defaultValue: quote-service # double check.
 
-  - name: hasTestsQuoteService
-    label: Do CI test
-    dependsOn:
-      name: quoteServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsQuoteService
+#    label: Do CI test
+#    dependsOn:
+#      name: quoteServiceDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
 
   - name: branchNameQuoteService
     label: Branch of the Quote-Service
     description: Please type the branch to use - Skip this value if using existing.
     dependsOn:
       name: quoteServiceDeploy
+    inputType: text
+    dataType: string
+    defaultValue: main
+####################################################################################################################################
+  #quote-service-dotnet
+  - name: quoteServiceDotnetDeploy
+    label: Deploy Quote-Service (.Net Core)?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+  
+  - name:  quoteServiceDotnetDeployState
+    label: Choose Quote-Service
+    dependsOn:
+      name: quoteServiceDotnetDeploy
+    inputType: select
+    defaultValue: dummyDefaultValue
+    choices:
+      - value: quoteServiceDotnetDevelop
+        text: Develop using Discovery-Server
+      - value: newQuoteServiceDotnetDeploy
+        text: Deploy using Discovery-Server
+  - name: quoteServiceDotnetDeployName
+    label: Choose service name of Quote-Service.
+    describe: Change default value if needed
+    dependsOn:
+      name: quoteServiceDotnetDeploy
+    inputType: text
+    dataType: string
+    defaultValue: quote-service # double check.
+
+#  - name: hasTestsQuoteServiceDotnet
+#    label: Do CI test
+#    dependsOn:
+#      name: quoteServiceDotnetDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
+
+  - name: quoteServiceDotnetTilt
+    label: Enable Development with Tilt
+    dependsOn:
+      name: quoteServiceDotnetDeploy
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: branchNameQuoteServiceDotnet
+    label: Branch of the Quote-Service
+    description: Please type the branch to use - Skip this value if using existing.
+    dependsOn:
+      name: quoteServiceDotnetDeploy
     inputType: text
     dataType: string
     defaultValue: main
@@ -420,13 +476,14 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: quote-service.dev.svc.cluster.local:80 # double check.
-  - name: hasTestsPortfolioService
-    label: Do CI test
-    dependsOn:
-      name: portfolioServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsPortfolioService
+#    label: Do CI test
+#    dependsOn:
+#      name: portfolioServiceDeploy
+#    inputType: checkbox
+#    display: true
+#    dataType: boolean
+#    defaultValue: false
 
   - name: branchNamePortfolioService
     label: Branch of the Portfolio-Service
@@ -509,13 +566,14 @@ accelerator:
     dataType: string
     defaultValue: analytics-service.dev.svc.cluster.local:80 # double check.
 
-  - name: hasTestsWebService
-    label: Do CI test
-    dependsOn:
-      name: webServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsWebService
+#    label: Do CI test
+#    dependsOn:
+#      name: webServiceDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
   
   - name: branchNameWebService
     label: Branch of the Web-Service
@@ -674,6 +732,30 @@ engine:
             with: "'<version>' + #springBootVersion + '</version>'"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
+      chain:
+        - type: YTT
+    - includes: ["quote-service-dotnet/**"]
+      condition: "#quoteServiceDotnetDeployState == 'quoteServiceDotnetDevelop'"
+      excludes: [ "quote-service-dotnet/config/**" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: containterRegistryURL
+              with: "#containterRegistryURL"
+        - type: ReplaceText
+          substitutions:
+            - text: nspace
+              with: "#namespaceToDeploy"
+        - type: ReplaceText
+          substitutions:
+            - text: app-name
+              with: "#quoteServiceDotnetDeployName"
+        - type: ReplaceText
+          substitutions:
+            - text: context-name
+              with: "#k8sContextName"
+    - includes: ["quote-service-dotnet/config/**"]
+      condition: "#quoteServiceDotnetDeploy != false"
       chain:
         - type: YTT
     - includes: ["portfolio-service/**"]

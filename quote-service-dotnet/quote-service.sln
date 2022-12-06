@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1703.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quote-service", "quote-service.csproj", "{6F859243-F115-469A-9F04-BC7452BCCF53}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F859243-F115-469A-9F04-BC7452BCCF53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F859243-F115-469A-9F04-BC7452BCCF53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F859243-F115-469A-9F04-BC7452BCCF53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F859243-F115-469A-9F04-BC7452BCCF53}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21D5468E-154D-49F8-8422-EAAB5ED187A0}
+	EndGlobalSection
+EndGlobal

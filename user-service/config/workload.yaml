@@ -12,9 +12,6 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     #@ end
     app.kubernetes.io/part-of: user-service
-    #@ if data.values.hasTestsUserService:
-    apps.tanzu.vmware.com/has-tests: "true"
-    #@ end
 spec:
   params:
   - name: annotations
