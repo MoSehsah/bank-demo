@@ -1,6 +1,12 @@
 spring:
   application:
      name: quote-service
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-interval: 10000
+        max-attempts: 2000
 eureka:
   client:
     serviceUrl:
