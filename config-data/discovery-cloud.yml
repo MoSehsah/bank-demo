@@ -1,0 +1,67 @@
+spring:
+  application:
+     name: discovery
+  config:
+    activate:
+      on-profile:
+      - cloud
+  security:
+     user:
+         name: admin
+         password: admin
+server:
+  port: ${PORT:8761}
+  servlet:
+    context-path: /
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+  instance:
+    hostname: localhost
+info:
+  build:
+    group: ${group}
+    name: ${name}
+    description: ${description}
+    version: ${version}
+management:
+  #server:
+  #  port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      #base-path: "/"
+      #path-mapping:
+      #  health: "readyzz"
+      #  info: "infoz"
+  endpoint:
+    health:
+      enabled: true
+      probes:
+        enabled: true
+      show-details: always
+      group:
+        liveness:
+          additional-path: server:/livez
+          show-details: always
+        readiness:
+          additional-path: server:/readyz
+          show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: ${WAVEFRONT_TOKEN}
+        uri: proxy://wf-proxy:2878
+# logging:
+#   level:
+#     ROOT: DEBUG
+wavefront:
+  application:
+    name: banking-demo
+    service: discovery
