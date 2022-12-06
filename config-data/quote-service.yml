@@ -1,6 +1,37 @@
 spring:
   application:
      name: quote-service
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}
+    fetch-registry: true
+  instance:
+    hostname: ${HOSTNAME}
+    #nonSecurePort: 80
+    #metadata-map:
+    #  management:
+    #    port: 80
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: ${WAVEFRONT_TOKEN}
+        uri: proxy://wf-proxy:2878
+# logging:
+#   level:
+#     ROOT: DEBUG
+wavefront:
+  application:
+    name: banking-demo
+    service: quote-svc
 vmware:
   tanzu:
     quote:
