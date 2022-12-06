@@ -1,10 +1,9 @@
 spring:
   application:
-     name: discovery
-  config:
-    activate:
-      on-profile:
-      - cloud
+     name: discovery-cloud
+  profiles:
+    active:
+    - discovery-cloud
   cloud:
     config:
       fail-fast: true
