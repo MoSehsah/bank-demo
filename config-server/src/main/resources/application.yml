@@ -16,9 +16,9 @@ spring:
 #  then comment out spring.profiles.active and spring.cloud.config.server.native
 #  and uncomment spring.cloud.config.server.git
        git:
-         uri: https://github.com/MoSehsah/bank-demo.git
+         uri: https://github.com/MoSehsah/bank-demo
          searchPaths: config-data
-         default-label: main
+         default-label: spring-profiles
          
 management:
   context_path: /admin
