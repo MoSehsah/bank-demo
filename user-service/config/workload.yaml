@@ -12,6 +12,7 @@ metadata:
     apps.tanzu.vmware.com/workload-type: web
     #@ end
     app.kubernetes.io/part-of: user-service
+    apis.apps.tanzu.vmware.com/register-api: "true"
 spec:
   params:
   - name: annotations
@@ -32,6 +33,14 @@ spec:
       autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
       autoscaling.knative.dev/metric: cpu
       #@ end
+  - name: api_descriptor
+    value:
+      type: openapi
+      location:
+        path: "/v3/api-docs"
+      system: tanzu-banking-system
+      owner: bank-team-a
+      description: "A set of API endpoints to manage the resources within the user-service App."
   build:
     env:
     - name: BP_JVM_VERSION
