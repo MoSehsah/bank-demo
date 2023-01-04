@@ -4,6 +4,20 @@
       "assignedTo": {
         "name": "Gorkem Ozlu"
       },
+      "creation_time": "2022-08-08T11:50:21.903Z",
+      "description": {
+        "content": "- [] local\n- [] docker-compose\n- [x] tap\n- [x] small documentation",
+        "mime": "text/markdown"
+      },
+      "id": "27",
+      "prio": 5,
+      "references": [],
+      "title": "refactor profiles & config"
+    },
+    {
+      "assignedTo": {
+        "name": "Gorkem Ozlu"
+      },
       "category": "Functionality",
       "creation_time": "2022-08-02T07:25:20.391Z",
       "details": {
@@ -15,23 +29,9 @@
       "references": [],
       "title": "Add .net-core app to bank-demo",
       "description": {
-        "content": "- [] change quote service\n- [] new dummy service",
+        "content": "- [x] change quote service\n- [x] new dummy service",
         "mime": "text/markdown"
       }
-    },
-    {
-      "assignedTo": {
-        "name": "Gorkem Ozlu"
-      },
-      "creation_time": "2022-08-08T11:50:21.903Z",
-      "description": {
-        "content": "- [] local\n- [] docker-compose\n- [] tap\n- [] small documentation",
-        "mime": "text/markdown"
-      },
-      "id": "27",
-      "prio": 5,
-      "references": [],
-      "title": "refactor profiles & config"
     },
     {
       "assignedTo": {
