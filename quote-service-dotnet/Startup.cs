@@ -22,11 +22,11 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            // services.AddDiscoveryClient(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson();
-            // services.AddAllActuators(Configuration);
-            // services.AddPrometheusActuatorServices(Configuration);
-            // services.AddDistributedTracingAspNetCore();
+            services.AddAllActuators(Configuration);
+            services.AddPrometheusActuatorServices(Configuration);
+            services.AddDistributedTracingAspNetCore();
             //services.AddDistributedTracing(Configuration, builder =>
             //{
             //  builder.SetResource(new Resource(new Dictionary<string, object>
@@ -69,7 +69,7 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                // endpoints.MapAllActuators();
+                endpoints.MapAllActuators(null);
             });
         }
     }
