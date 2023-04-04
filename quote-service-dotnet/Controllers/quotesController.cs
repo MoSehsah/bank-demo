@@ -27,7 +27,7 @@ namespace WebApi.QuotesController
         //[Produces("application/json")]
         public ActionResult<JArray> Details(string q)
         {
-            var iexUrl = $"https://sandbox.iexapis.com/stable/stock/{q}/quote?token=Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a";
+            var iexUrl = $"https://cloud.iexapis.com/stable/stock/{q}/quote?token=sk_2e5aaea4cc2d43e2b56b8b1c6745f0a0";
             var result = Client.GetAsync(iexUrl);
             var iexResult = result.Result.Content.ReadAsStringAsync().Result;
             JObject jo = JObject.Parse(iexResult);
