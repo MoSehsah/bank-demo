@@ -23,12 +23,12 @@ namespace WebApi.CompanyController
     public class CompanyController : ControllerBase
 
     {
-        [HttpGet("{query}")]
+        [HttpGet()]
         [Produces("application/json")]
-        public ActionResult<IEnumerable<CompanyInfo>> getCompany(string query)
+        public ActionResult<IEnumerable<CompanyInfo>> getCompany(string q)
         {
 
-            return  QuoteService.GetCompanyInfo(query).GetAwaiter().GetResult();
+            return  QuoteService.GetCompanyInfo(q).GetAwaiter().GetResult();
 
 
         }

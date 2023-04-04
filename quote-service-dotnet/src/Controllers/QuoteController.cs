@@ -24,15 +24,15 @@ namespace WebApi.QuoteController
 
     {
         // GET v1/quotes?q=vmw
-        [HttpGet("{query}")]
+        [HttpGet()]
         [Produces("application/json")]
-        public ActionResult<IEnumerable<Quote>> getQuote(string query)
+        public ActionResult<IEnumerable<Quote>> getQuote(string q)
         {
             List<Quote> quotes;
-            string[] splitQuery = query.Split(',');
+            string[] splitQuery = q.Split(',');
             if (splitQuery.Length > 1)
             {
-                quotes = QuoteService.GetIexQuotesAsync(query).GetAwaiter().GetResult();
+                quotes = QuoteService.GetIexQuotesAsync(q).GetAwaiter().GetResult();
             }
             else
             {
