@@ -20,4 +20,4 @@ spec:
 #
 
 
-#./mvnw test -Dvmware.tanzu.quote.quote_url="https://sandbox.iexapis.com/stable/stock/\{symbol\}/quote\?token\=\{token\}" -Dvmware.tanzu.quote.quotes_url="https://sandbox.iexapis.com/stable/stock/market/batch\?symbols\=\{symbols\}\&types\=quote\&token\=\{token\}" -Dvmware.tanzu.quote.iex.token="Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a"
+#./mvnw test -Dvmware.tanzu.quote.quote_url="https://cloud.iexapis.com/stable/stock/\{symbol\}/quote\?token\=\{token\}" -Dvmware.tanzu.quote.quotes_url="https://cloud.iexapis.com/stable/stock/market/batch\?symbols\=\{symbols\}\&types\=quote\&token\=\{token\}" -Dvmware.tanzu.quote.iex.token="sk_2e5aaea4cc2d43e2b56b8b1c6745f0a0"

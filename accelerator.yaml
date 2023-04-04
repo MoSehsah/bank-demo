@@ -97,19 +97,9 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: 'http://discovery-server.dev.svc.cluster.local/eureka'
-
-  #auto-scaling
-  - name: autoScalingState
-    label: Add autoscaling capabilities ?
-    inputType: checkbox
-    display: true
-    dataType: boolean
-    defaultValue: false
   
   - name: autoScalingClass
     label: Choose autoscaling Class
-    dependsOn:
-      name: autoScalingState
     inputType: select
     defaultValue: kpa
     choices:
@@ -122,7 +112,8 @@ accelerator:
     label: Minimum Pod Count
     description: Disable scale to zero with a minScale of 1.
     dependsOn:
-      name: autoScalingState
+      name: autoScalingClass
+      value: kpa
     inputType: text
     dataType: string
     defaultValue: "1"
@@ -131,7 +122,8 @@ accelerator:
     label: Max Pod Count
     description: Change max pod count
     dependsOn:
-      name: autoScalingState
+      name: autoScalingClass
+      value: kpa
     inputType: text
     dataType: string
     defaultValue: "10"
@@ -140,7 +132,8 @@ accelerator:
     label: Scale Down Delay time
     description: The time window before scale down applied
     dependsOn:
-      name: autoScalingState
+      name: autoScalingClass
+      value: kpa
     inputType: text
     dataType: string
     defaultValue: "10m"
@@ -259,14 +252,14 @@ accelerator:
     dataType: string
     defaultValue: account-service # double check.
 
-  - name: hasTestsAccountService
-    label: Do CI test
-    dependsOn:
-      name: accountServiceDeploy
-    inputType: checkbox
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsAccountService
+#    label: Do CI test
+#    dependsOn:
+#      name: accountServiceDeploy
+#    inputType: checkbox
+#    display: true
+#    dataType: boolean
+#    defaultValue: false
 
   - name: branchNameAccountService
     label: Branch of the Account-Service
@@ -305,13 +298,14 @@ accelerator:
     dataType: string
     defaultValue: user-service # double check.
 
-  - name: hasTestsUserService
-    label: Do CI test
-    dependsOn:
-      name: userServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsUserService
+#    label: Do CI test
+#    dependsOn:
+#      name: userServiceDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
 
   - name: addPostgresServiceClaim
     label: Auto Deploy and Integrate with Tanzu PostgreSQL ?
@@ -358,13 +352,14 @@ accelerator:
     dataType: string
     defaultValue: quote-service # double check.
 
-  - name: hasTestsQuoteService
-    label: Do CI test
-    dependsOn:
-      name: quoteServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsQuoteService
+#    label: Do CI test
+#    dependsOn:
+#      name: quoteServiceDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
 
   - name: branchNameQuoteService
     label: Branch of the Quote-Service
@@ -403,13 +398,14 @@ accelerator:
     dataType: string
     defaultValue: quote-service # double check.
 
-  - name: hasTestsQuoteServiceDotnet
-    label: Do CI test
-    dependsOn:
-      name: quoteServiceDotnetDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsQuoteServiceDotnet
+#    label: Do CI test
+#    dependsOn:
+#      name: quoteServiceDotnetDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
 
   - name: quoteServiceDotnetTilt
     label: Enable Development with Tilt
@@ -473,13 +469,14 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: quote-service.dev.svc.cluster.local:80 # double check.
-  - name: hasTestsPortfolioService
-    label: Do CI test
-    dependsOn:
-      name: portfolioServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsPortfolioService
+#    label: Do CI test
+#    dependsOn:
+#      name: portfolioServiceDeploy
+#    inputType: checkbox
+#    display: true
+#    dataType: boolean
+#    defaultValue: false
 
   - name: branchNamePortfolioService
     label: Branch of the Portfolio-Service
@@ -562,13 +559,14 @@ accelerator:
     dataType: string
     defaultValue: analytics-service.dev.svc.cluster.local:80 # double check.
 
-  - name: hasTestsWebService
-    label: Do CI test
-    dependsOn:
-      name: webServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
+#  - name: hasTestsWebService
+#    label: Do CI test
+#    dependsOn:
+#      name: webServiceDeploy
+#    display: true
+#    inputType: checkbox
+#    dataType: boolean
+#    defaultValue: false
   
   - name: branchNameWebService
     label: Branch of the Web-Service

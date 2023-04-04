@@ -8,9 +8,6 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: web-ui-service
-    #@ if data.values.hasTestsWebService:
-    apps.tanzu.vmware.com/has-tests: "true"
-    #@ end
 spec:
   params:
   - name: annotations
@@ -45,12 +42,6 @@ spec:
       value: #@ data.values.wavefrontToken
     - name: spring.cloud.config.uri
       value: #@ "http://config-server."+data.values.namespaceToDeploy+".svc.cluster.local"
-    - name: spring.cloud.config.fail-fast
-      value: 'true'
-    - name: spring.cloud.config.retry.max-interval
-      value: "10000"
-    - name: spring.cloud.config.retry.max-attempts
-      value: "2000"
     #@ if data.values.eurekaState:
     - name: EUREKA_URL
       value: #@ data.values.eurekaURL

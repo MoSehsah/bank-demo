@@ -1,6 +1,42 @@
 spring:
   application:
      name: quote-service
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-interval: 10000
+        max-attempts: 2000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}
+    fetch-registry: true
+  instance:
+    hostname: ${HOSTNAME}
+    #nonSecurePort: 80
+    #metadata-map:
+    #  management:
+    #    port: 80
+# logging:
+#   level:
+#     ROOT: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: ${WAVEFRONT_TOKEN}
+        uri: proxy://wf-proxy:2878
+wavefront:
+  application:
+    name: banking-demo
+    service: quote-svc
 vmware:
   tanzu:
     quote:
