@@ -7,6 +7,8 @@ using Steeltoe.Management.Endpoint;
 using Steeltoe.Management.Tracing;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace WebApi
 {
     public class Startup
@@ -23,7 +25,7 @@ namespace WebApi
         {
             services.AddCors();
             services.AddDiscoveryClient(Configuration);
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddAllActuators(Configuration);
             services.AddPrometheusActuatorServices(Configuration);
             services.AddDistributedTracingAspNetCore();
