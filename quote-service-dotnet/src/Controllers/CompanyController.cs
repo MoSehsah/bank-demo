@@ -25,10 +25,10 @@ namespace WebApi.CompanyController
     {
         [HttpGet()]
         [Produces("application/json")]
-        public ActionResult<IEnumerable<CompanyInfo>> getCompany(string q)
+        public ActionResult<IEnumerable<Quote>> getCompany(string q)
         {
 
-            return  QuoteService.GetCompanyInfo(q).GetAwaiter().GetResult();
+            return  QuoteService.GetIexQuotesAsync(q).GetAwaiter().GetResult();
 
 
         }
