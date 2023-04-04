@@ -16,11 +16,11 @@ using System.Collections.Generic;
 using System.Collections;
 
 
-namespace WebApi.QuotesController
+namespace WebApi.QuoteController
 {
-    [Route("v1")]
+    [Route("v1/quotes")]
     [ApiController]
-    public class quotesController : ControllerBase
+    public class QuoteController : ControllerBase
 
     {
         // GET v1/quotes?q=vmw

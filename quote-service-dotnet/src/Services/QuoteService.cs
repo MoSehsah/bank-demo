@@ -41,4 +41,22 @@ public class QuoteService
         }
         return response;
     }
+
+    public async static Task<List<CompanyInfo>> GetCompanyInfo(String name)
+    {
+        IexQuote iexResult = null;
+        var iexUrl = $"https://cloud.iexapis.com/stable/stock/{name}/quote?token=sk_2e5aaea4cc2d43e2b56b8b1c6745f0a0";
+        var result = await Client.GetAsync(iexUrl);
+        if (result.IsSuccessStatusCode)
+        {
+            Console.WriteLine(await result.Content.ReadAsStringAsync());
+            iexResult = await result.Content.ReadAsAsync<IexQuote>();
+        }
+        List<CompanyInfo> response = new List<CompanyInfo>();
+
+        response.Add(CompanyMapper.INSTANCE.mapFromIexQuote(iexResult));
+        return response;
+
+    }
 }
+
