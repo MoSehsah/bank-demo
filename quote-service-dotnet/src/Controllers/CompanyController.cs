@@ -18,7 +18,7 @@ using System.Collections;
 
 namespace WebApi.CompanyController
 {
-    [Route("v1/companies")]
+    [Route("v1/company")]
     [ApiController]
     public class CompanyController : ControllerBase
 
