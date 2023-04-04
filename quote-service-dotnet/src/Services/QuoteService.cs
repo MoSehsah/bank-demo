@@ -11,7 +11,7 @@ public class QuoteService
     {
         IexQuote iexResult = null;
 
-        var iexUrl = $"https://sandbox.iexapis.com/stable/stock/{q}/quote?token=Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a";
+        var iexUrl = $"https://cloud.iexapis.com/stable/stock/{q}/quote?token=sk_2e5aaea4cc2d43e2b56b8b1c6745f0a0";
         var result = await Client.GetAsync(iexUrl);
         if (result.IsSuccessStatusCode)
         {
@@ -27,7 +27,7 @@ public class QuoteService
         IexBatchQuote iexResult = null;
 
         List<Quote> response = new List<Quote>();
-        var iexUrl = $"https://sandbox.iexapis.com/stable/stock/market/batch?symbols={symbols}&types=quote&token=Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a";
+        var iexUrl = $"https://cloud.iexapis.com/stable/stock/market/batch?symbols={symbols}&types=quote&token=sk_2e5aaea4cc2d43e2b56b8b1c6745f0a0";
         var result = await Client.GetAsync(iexUrl);
         if (result.IsSuccessStatusCode)
         {

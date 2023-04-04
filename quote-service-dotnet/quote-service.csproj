@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SteeltoeVersion>3.1.0</SteeltoeVersion>
+    <SteeltoeVersion>3.2.*</SteeltoeVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Newtonsoft.Json" />

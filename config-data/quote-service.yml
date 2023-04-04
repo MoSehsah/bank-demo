@@ -4,8 +4,8 @@ spring:
 vmware:
   tanzu:
     quote:
-      quote_url: https://sandbox.iexapis.com/stable/stock/{symbol}/quote?token={token}
-      quotes_url: https://sandbox.iexapis.com/stable/stock/market/batch?symbols={symbols}&types=quote&token={token}
+      quote_url: https://cloud.iexapis.com/stable/stock/{symbol}/quote?token={token}
+      quotes_url: https://cloud.iexapis.com/stable/stock/market/batch?symbols={symbols}&types=quote&token={token}
       companies_url: http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input={name}
       iex:
-        token: Tpk_c05ba4ad3b434f7ab8ffa87cfaab503a
+        token: sk_2e5aaea4cc2d43e2b56b8b1c6745f0a0
