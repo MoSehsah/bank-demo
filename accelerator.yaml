@@ -60,6 +60,13 @@ accelerator:
     dataType: string
     defaultValue: dev
 
+  - name: hasTests
+    label: Do CI test
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
   - name: wavefrontToken
     label: Tanzu Observability Token for distributed tracing
     description: Please type the token
