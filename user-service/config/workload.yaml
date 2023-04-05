@@ -1,16 +1,23 @@
 #@ load("@ytt:data", "data")
 ---
+#@ if data.values.addPostgresServiceClaim:
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: user-database
+  namespace: #@ data.values.namespaceToDeploy
+spec:
+  classRef:
+    name: postgresql-unmanaged
+#@ end
+---
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: #@ data.values.userServiceDeployName
   namespace: #@ data.values.namespaceToDeploy
   labels:
-    #@ if data.values.addPostgresServiceClaim:
-    apps.tanzu.vmware.com/workload-type: web-postgres
-    #@ else:
     apps.tanzu.vmware.com/workload-type: web
-    #@ end
     app.kubernetes.io/part-of: user-service
     apis.apps.tanzu.vmware.com/register-api: "true"
 spec:
@@ -71,9 +78,9 @@ spec:
     subPath: user-service
   #@ if data.values.addPostgresServiceClaim:
   serviceClaims:
-  - name: #@ data.values.parentApp + "-postgres-claim"
+  - name: postgres-user-db
     ref:
-      apiVersion: sql.tanzu.vmware.com/v1
-      kind: Postgres
-      name: #@ data.values.parentApp + "-postgres-db"
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
+      name: user-database
   #@ end
