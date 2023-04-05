@@ -361,6 +361,14 @@ accelerator:
 #    dataType: boolean
 #    defaultValue: false
 
+  - name: enableRedisCachingQuoteService
+    label: Enable Redis Caching
+    dependsOn:
+      name: quoteServiceDeploy
+    display: true
+    dataType: boolean
+    defaultValue: false
+
   - name: branchNameQuoteService
     label: Branch of the Quote-Service
     description: Please type the branch to use - Skip this value if using existing.
@@ -370,13 +378,6 @@ accelerator:
     dataType: string
     defaultValue: main
 
-  - name: disableRedisCachingQuoteService
-    label: Enable Redis Caching
-    dependsOn:
-      name: quoteServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
 ####################################################################################################################################
   #quote-service-dotnet
   - name: quoteServiceDotnetDeploy
@@ -736,7 +737,7 @@ engine:
 #          substitutions:
 #          - text: '@EnableCaching'
 #            with: "#emptyVar"
-#          condition: "#disableRedisCachingQuoteService"
+#          condition: "#enableRedisCachingQuoteService"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:
