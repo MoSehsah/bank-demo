@@ -7,6 +7,8 @@ using Steeltoe.Management.Endpoint;
 using Steeltoe.Management.Tracing;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace WebApi
 {
     public class Startup
@@ -23,7 +25,12 @@ namespace WebApi
         {
             services.AddCors();
             services.AddDiscoveryClient(Configuration);
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(options => { 
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+                options.SerializerSettings.DateFormatString = "ddd MMM dd HH:mm:ss UTCZ yyyy";
+
+                });
             services.AddAllActuators(Configuration);
             services.AddPrometheusActuatorServices(Configuration);
             services.AddDistributedTracingAspNetCore();
@@ -40,7 +47,7 @@ namespace WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "quote-service-dotnet", Version = "v1" });
             });
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +76,7 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapAllActuators();
+                endpoints.MapAllActuators(null);
             });
         }
     }
