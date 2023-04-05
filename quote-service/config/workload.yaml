@@ -1,5 +1,16 @@
 #@ load("@ytt:data", "data")
 ---
+#@ if not data.values.disableRedisCachingQuoteService:
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: quote-cache
+  namespace: #@ data.values.namespaceToDeploy
+spec:
+  classRef:
+    name: redis-unmanaged
+---
+#@ end
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
@@ -59,15 +70,18 @@ spec:
     #@ if not data.values.disableRedisCachingQuoteService:
     - name: spring.cache.type
       value: 'redis'
-    - name: spring.redis.host
-      value: 'redis-svc'
-    - name: spring.redis.port
-      value: 6379
     #@ end
-    
   source:
     git:
       url: #@ data.values.gitRepo
       ref:
         branch: #@ data.values.branchNameQuoteService
     subPath: quote-service
+  #@ if not data.values.disableRedisCachingQuoteService:
+  serviceClaims:
+  - name: quote-cache-claim
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
+      name: quote-cache
+  #@ end
