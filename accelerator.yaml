@@ -369,6 +369,14 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: main
+
+  - name: disableRedisCachingQuoteService
+    label: Disable Redis Caching
+    dependsOn:
+      name: quoteServiceDeploy
+    display: true
+    dataType: boolean
+    defaultValue: false
 ####################################################################################################################################
   #quote-service-dotnet
   - name: quoteServiceDotnetDeploy
@@ -423,14 +431,6 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: main
-
-  - name: disableRedisCachingQuoteService
-    label: Disable Redis Caching
-    dependsOn:
-      name: quoteServiceDeploy
-    display: true
-    dataType: boolean
-    defaultValue: false
 
 ####################################################################################################################################
   #portfolio-service
