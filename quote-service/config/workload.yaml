@@ -1,5 +1,16 @@
 #@ load("@ytt:data", "data")
 ---
+#@ if data.values.enableRedisCachingQuoteService:
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: quote-cache
+  namespace: #@ data.values.namespaceToDeploy
+spec:
+  classRef:
+    name: redis-unmanaged
+#@ end
+---
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
@@ -55,9 +66,22 @@ spec:
     - name: EUREKA_URL
       value: #@ data.values.eurekaURL
     #@ end
+
+    #@ if data.values.enableRedisCachingQuoteService:
+    - name: spring.cache.type
+      value: 'redis'
+    #@ end
   source:
     git:
       url: #@ data.values.gitRepo
       ref:
         branch: #@ data.values.branchNameQuoteService
     subPath: quote-service
+  #@ if data.values.enableRedisCachingQuoteService:
+  serviceClaims:
+  - name: quote-cache-claim
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
+      name: quote-cache
+  #@ end

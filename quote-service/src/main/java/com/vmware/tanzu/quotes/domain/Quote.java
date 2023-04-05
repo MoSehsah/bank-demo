@@ -1,5 +1,6 @@
 package com.vmware.tanzu.quotes.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Quote {
+public class Quote implements Serializable {
 /*
  * {
     "Name":"Apple Inc",

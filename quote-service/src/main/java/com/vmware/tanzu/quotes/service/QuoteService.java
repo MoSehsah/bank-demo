@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 // import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 // import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -62,6 +63,7 @@ public class QuoteService {
 	 * @return The quote object or null if not found.
 	 * @throws SymbolNotFoundException
 	 */
+	@Cacheable(value = "quotes", key = "#symbol")
 	public Quote getQuote(String symbol) throws SymbolNotFoundException {
 
 		log.debug("QuoteService.getQuote: retrieving quote for: " + symbol);
@@ -89,6 +91,7 @@ public class QuoteService {
 	 *            comma delimeted list of symbols.
 	 * @return a list of quotes.
 	 */
+	@Cacheable(value = "quotes", key = "#symbols")
 	public List<Quote> getQuotes(String symbols) {
 		log.debug("retrieving multiple quotes for: " + symbols);
 		Map<String, String> params = new HashMap<String, String>();
