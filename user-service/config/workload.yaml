@@ -1,20 +1,25 @@
 #@ load("@ytt:data", "data")
 ---
+#@ if data.values.addPostgresServiceClaim:
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: user-database
+  namespace: #@ data.values.namespaceToDeploy
+spec:
+  classRef:
+    name: postgresql-unmanaged
+#@ end
+---
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: #@ data.values.userServiceDeployName
   namespace: #@ data.values.namespaceToDeploy
   labels:
-    #@ if data.values.addPostgresServiceClaim:
-    apps.tanzu.vmware.com/workload-type: web-postgres
-    #@ else:
     apps.tanzu.vmware.com/workload-type: web
-    #@ end
     app.kubernetes.io/part-of: user-service
-    #@ if data.values.hasTestsUserService:
-    apps.tanzu.vmware.com/has-tests: "true"
-    #@ end
+    apis.apps.tanzu.vmware.com/register-api: "true"
 spec:
   params:
   - name: annotations
@@ -35,6 +40,14 @@ spec:
       autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
       autoscaling.knative.dev/metric: cpu
       #@ end
+  - name: api_descriptor
+    value:
+      type: openapi
+      location:
+        path: "/v3/api-docs"
+      system: tanzu-banking-system
+      owner: bank-team-a
+      description: "A set of API endpoints to manage the resources within the user-service App."
   build:
     env:
     - name: BP_JVM_VERSION
@@ -49,12 +62,6 @@ spec:
       value: #@ data.values.wavefrontToken
     - name: spring.cloud.config.uri
       value: #@ "http://config-server."+data.values.namespaceToDeploy+".svc.cluster.local"
-    - name: spring.cloud.config.fail-fast
-      value: 'true'
-    - name: spring.cloud.config.retry.max-interval
-      value: "10000"
-    - name: spring.cloud.config.retry.max-attempts
-      value: "2000"
     #@ if data.values.eurekaState:
     - name: EUREKA_URL
       value: #@ data.values.eurekaURL
@@ -71,9 +78,9 @@ spec:
     subPath: user-service
   #@ if data.values.addPostgresServiceClaim:
   serviceClaims:
-  - name: #@ data.values.parentApp + "-postgres-claim"
+  - name: postgres-user-db
     ref:
-      apiVersion: sql.tanzu.vmware.com/v1
-      kind: Postgres
-      name: #@ data.values.parentApp + "-postgres-db"
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
+      name: user-database
   #@ end

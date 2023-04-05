@@ -12,6 +12,11 @@ spec:
     - name: "2878"
       port: 2878
       targetPort: 2878
+    #@ if data.values.wavefront.zipkin_endpoint == True:
+    - name: "9411"
+      port: 9411
+      targetPort: 9411
+    #@ end
   selector:
     app: wf-proxy
 ---
@@ -41,9 +46,17 @@ spec:
               value: #@ data.values.wavefront.token
             - name: WAVEFRONT_URL
               value: #@ "https://" + data.values.wavefront.url + "/api"
+            #@ if data.values.wavefront.zipkin_endpoint == True:
+            - name: WAVEFRONT_PROXY_ARGS
+              value: "--traceZipkinListenerPorts 9411"
+            #@ end
           image: harbor.dorn.gorke.ml/banking-demo/wf-proxy:latest
           name: wf-proxy
           ports:
             - containerPort: 2878
+            #@ if data.values.wavefront.zipkin_endpoint == True:
+            - containerPort: 9411
+            #@ end
           resources: {}
       restartPolicy: Always
+#docker run -e WAVEFRONT_URL=https://longboard.wavefront.com/api   -e WAVEFRONT_TOKEN=asd -e WAVEFRONT_PROXY_ARGS="--traceZipkinListenerPorts 9411" -p 9411:9411 -p 2878:2878   wavefronthq/proxy:latest

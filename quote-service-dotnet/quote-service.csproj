@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SteeltoeVersion>3.2.*</SteeltoeVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Newtonsoft.Json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
+    <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.1" />
+    <PackageReference Include="Steeltoe.Management.TracingCore" Version="3.2.1" />
+    <PackageReference Include="Steeltoe.Management.EndpointCore" Version="3.2.1" />
+    <PackageReference Include="Steeltoe.Management.ExporterCore" Version="2.5.5" />
+    <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.1.0-rc1" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.1.0-rc1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+</Project>

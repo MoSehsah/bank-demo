@@ -1,0 +1,18 @@
+isWindows = True if os.name == "nt" else False
+expected_ref = "%EXPECTED_REF%" if isWindows else "$EXPECTED_REF"
+
+custom_build(
+        "containterRegistryURL/app-name-dev",
+        'docker build . -f ./Dockerfile -t ' + expected_ref,
+        deps=["./bin/Debug/netcoreapp3.1", "./Dockerfile"],
+        live_update=[
+            sync('./bin/Debug/netcoreapp3.1', '/workspace')
+        ]
+    )
+
+
+k8s_yaml(['./config/workload.yaml'])
+k8s_kind('Workload', image_json_path='{.spec.image}')
+k8s_resource('app-name', port_forwards=["8080:8080"],
+            extra_pod_selectors=[{'serving.knative.dev/service': 'app-name'}])
+allow_k8s_contexts('context-name')

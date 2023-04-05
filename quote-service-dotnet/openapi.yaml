@@ -1,0 +1,68 @@
+---
+openapi: 3.0.1
+info:
+  title: quote-service-dotnet
+  version: v1
+paths:
+  "/v1/company/{company}":
+    get:
+      tags:
+      - company
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      - name: company
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/JToken"
+  "/v1/{quotes}":
+    get:
+      tags:
+      - quotes
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      - name: quotes
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/JToken"
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/JToken"
+            text/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/JToken"
+components:
+  schemas:
+    JToken:
+      type: array
+      items:
+        "$ref": "#/components/schemas/JToken"
