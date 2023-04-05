@@ -81,6 +81,6 @@ spec:
   - name: postgres-user-db
     ref:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-      kind: Postgres
+      kind: ClassClaim
       name: user-database
   #@ end
