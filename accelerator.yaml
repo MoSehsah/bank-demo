@@ -732,11 +732,11 @@ engine:
             with: "'<java.version>' + #javaVersion + '</java.version>'"
           - text: "<version>2.7.1</version>"
             with: "'<version>' + #springBootVersion + '</version>'"
-        - type: ReplaceText
-          substitutions:
-          - text: '@EnableCaching'
-            with: "#emptyVar"
-          condition: "#disableRedisCachingQuoteService"
+#        - type: ReplaceText
+#          substitutions:
+#          - text: '@EnableCaching'
+#            with: "#emptyVar"
+#          condition: "#disableRedisCachingQuoteService"
     - includes: ["quote-service/config/**"]
       condition: "#quoteServiceDeploy != false"
       chain:
