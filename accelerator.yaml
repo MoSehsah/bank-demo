@@ -101,7 +101,7 @@ accelerator:
   - name: autoScalingClass
     label: Choose autoscaling Class
     inputType: select
-    defaultValue: kpa
+    defaultValue: dummyValue
     choices:
       - value: kpa
         text: Knative Concurrency-based autoscaling (KPA)
