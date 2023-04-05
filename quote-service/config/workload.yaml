@@ -9,8 +9,8 @@ metadata:
 spec:
   classRef:
     name: redis-unmanaged
----
 #@ end
+---
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
