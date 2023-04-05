@@ -1,6 +1,6 @@
 #@ load("@ytt:data", "data")
 ---
-#@ if not data.values.disableRedisCachingQuoteService:
+#@ if data.values.disableRedisCachingQuoteService:
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ClassClaim
 metadata:
@@ -67,7 +67,7 @@ spec:
       value: #@ data.values.eurekaURL
     #@ end
 
-    #@ if not data.values.disableRedisCachingQuoteService:
+    #@ if data.values.disableRedisCachingQuoteService:
     - name: spring.cache.type
       value: 'redis'
     #@ end
@@ -77,7 +77,7 @@ spec:
       ref:
         branch: #@ data.values.branchNameQuoteService
     subPath: quote-service
-  #@ if not data.values.disableRedisCachingQuoteService:
+  #@ if data.values.disableRedisCachingQuoteService:
   serviceClaims:
   - name: quote-cache-claim
     ref:
