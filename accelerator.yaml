@@ -563,7 +563,7 @@ accelerator:
     label: Choose service name of Web-Service.
     describe: Change default value if needed
     dependsOn:
-      name: webServiceDeployState
+      name: webServiceDeploy
     inputType: text
     dataType: string
     defaultValue: web-service # double check.
