@@ -36,7 +36,7 @@ namespace WebApi
             services.AddSwaggerGen();
             services.AddAllActuators();
             var openTelemetryServiceName = Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME");
-            var openTelemetryEndpoint =  Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT");
+            var openTelemetryEndpoint =  Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT");
             if (!string.IsNullOrWhiteSpace(openTelemetryEndpoint))
             {
                 services.AddOpenTelemetryMetrics((builder) =>
