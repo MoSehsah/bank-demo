@@ -11,18 +11,14 @@
     <None Remove="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Jaeger" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
-    <PackageReference Include="OpenTelemetry" Version="1.4.0" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
-    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.9.0" />
     <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.1" />
     <PackageReference Include="Steeltoe.Management.TracingCore" Version="3.2.1" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Version="3.2.1" />
     <PackageReference Include="Steeltoe.Management.ExporterCore" Version="2.5.5" />
+    <PackageReference Include="OpenTelemetry" Version="1.4.0" />
     <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.4.0" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs" Version="1.4.0-rc.4" />

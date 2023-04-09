@@ -13,6 +13,8 @@ using OpenTelemetry.Trace;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Extensions.Hosting;
 using System;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Logs;
 
 namespace WebApi
 {
@@ -29,20 +31,39 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            //services.AddOpenTracing();
-            services.AddOpenTelemetry()
-              .WithTracing(b =>
-              {
-                  b
-                  .AddHttpClientInstrumentation()
-                  .AddConsoleExporter()
-                  .AddOtlpExporter(opt =>
-                   {
-                       opt.Endpoint = new System.Uri(Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT") ?? "http://jaeger-jaeger-collector.monitoring:4317");
-                       opt.Protocol = OtlpExportProtocol.HttpProtobuf;
-                   });
-                  //.AddAspNetCoreInstrumentation();
-              });
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+            services.AddAllActuators();
+            var openTelemetryServiceName = Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME");
+            var openTelemetryEndpoint =  Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT");
+            if (!string.IsNullOrWhiteSpace(openTelemetryEndpoint))
+            {
+                services.AddOpenTelemetryMetrics((builder) =>
+                {
+                    builder.AddHttpClientInstrumentation();
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddMeter(openTelemetryServiceName + "-metrics");
+                    builder.AddOtlpExporter(options =>
+                    {
+                        options.Endpoint = new Uri(openTelemetryEndpoint);
+                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+                    });
+                });
+                services.AddOpenTelemetryTracing((builder) =>
+                {
+                    builder.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(openTelemetryServiceName));
+                    builder.AddHttpClientInstrumentation();
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddSource(openTelemetryServiceName + "-activity-source");
+                    builder.AddOtlpExporter(options =>
+                    {
+                        options.Endpoint = new Uri(openTelemetryEndpoint);
+                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+                    });
+                });
+
+            }
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
