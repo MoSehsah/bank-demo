@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Extensions.Hosting;
 using System;
 
 namespace WebApi
@@ -29,27 +30,19 @@ namespace WebApi
         {
             services.AddCors();
             //services.AddOpenTracing();
-            services.AddOpenTelemetryTracing(builder =>
-            {
-                builder
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddEurekaExporter()
-                    .AddConsoleExporter()
-                    .AddJaegerExporter()
-                    .AddOtlpExporter()
-                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("YourServiceName"));
-            });
-            services.AddOpenTelemetryMetrics(builder =>
-            {
-                builder
-                    .AddAspNetCoreInstrumentation()
-                    .AddEurekaExporter()
-                    .AddConsoleExporter()
-                    .AddJaegerExporter()
-                    .AddOtlpExporter()
-                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("YourServiceName"));
-            });
+            services.AddOpenTelemetry()
+              .WithTracing(b =>
+              {
+                  b
+                  .AddHttpClientInstrumentation()
+                  .AddConsoleExporter()
+                  .AddOtlpExporter(opt =>
+                   {
+                       opt.Endpoint = new System.Uri(Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT") ?? "http://jaeger-jaeger-collector.monitoring:4317");
+                       opt.Protocol = OtlpExportProtocol.HttpProtobuf;
+                   })
+                  .AddAspNetCoreInstrumentation();
+              });
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
