@@ -15,7 +15,7 @@ namespace WebApi
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 //.AddWavefrontMetrics()
-                .AddDistributedTracingAspNetCore()
+                //.AddDistributedTracingAspNetCore()
                 .AddAllActuators();
     }
 }
