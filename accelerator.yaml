@@ -533,7 +533,6 @@ accelerator:
     description: Please type the branch to use - Skip this value if using existing.
     dependsOn:
       name: portfolioServiceDeployState
-      value: existingPortfolioService
     inputType: text
     dataType: string
     defaultValue: main
