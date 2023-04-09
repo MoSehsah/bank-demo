@@ -31,6 +31,17 @@ namespace WebApi
                 options.SerializerSettings.DateFormatString = "ddd MMM dd HH:mm:ss UTCZ yyyy";
 
                 });
+            services.AddOpenTelemetryTracing(builder =>
+            {
+                builder
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddEurekaExporter()
+                    .AddConsoleExporter()
+                    .AddJaegerExporter()
+                    .AddOtlpExporter()
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("quote-service-dotnet"));
+            });
             services.AddAllActuators(Configuration);
             services.AddPrometheusActuatorServices(Configuration);
             services.AddDistributedTracingAspNetCore();
