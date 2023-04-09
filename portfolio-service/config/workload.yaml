@@ -5,6 +5,10 @@ kind: Workload
 metadata:
   name: #@ data.values.portfolioServiceDeployName
   namespace: #@ data.values.namespaceToDeploy
+  #@ if data.values.otelState:
+  annotations:
+    instrumentation.opentelemetry.io/inject-java: #@ data.values.namespaceToDeploy + "/my-instrumentation"
+  #@ end
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: portfolio-service
@@ -50,8 +54,10 @@ spec:
       value: "11.*"
       #@ end
   env:
+    #@ if data.values.selectTracingMethod == "wavefront":
     - name: WAVEFRONT_TOKEN
       value: #@ data.values.wavefrontToken
+    #@ end
     - name: spring.cloud.config.uri
       value: #@ "http://config-server."+data.values.namespaceToDeploy+".svc.cluster.local"
     #@ if data.values.eurekaState:

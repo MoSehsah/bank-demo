@@ -67,13 +67,6 @@ accelerator:
     dataType: boolean
     defaultValue: false
 
-  - name: wavefrontToken
-    label: Tanzu Observability Token for distributed tracing
-    description: Please type the token
-    inputType: text
-    dataType: string
-    defaultValue: xyz-asd-000
-
   - name: containterRegistryURL
     label: Container Registry URL for Tiltfile
     description: Please type the URL
@@ -87,6 +80,44 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: gke_gorkemozlu_europe-central2-c_tap-gke02
+###### Open Telemetry
+  - name: otelState
+    label: Enable OpenTelemetry Distributed Tracing?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: deployOtel
+    label: Deploy OpenTelemetry Operator?
+    dependsOn:
+      name: otelState
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: selectTracingMethod
+    label: Please choose the tracing method.
+    dependsOn:
+      name: otelState
+    inputType: select
+    defaultValue: dummyValue
+    choices:
+      - value: wavefront
+        text: Tanzu Observability
+      - value: jaeger
+        text: Jaeger
+
+  - name: wavefrontToken
+    label: Tanzu Observability Token for distributed tracing
+    description: Please type the token
+    dependsOn:
+      name: selectTracingMethod
+      value: wavefront
+    inputType: text
+    dataType: string
+    defaultValue: xyz-asd-000
 
   #discovery-server
   - name: eurekaState
@@ -609,6 +640,18 @@ engine:
       expression: "''"
   merge:
     #generic transformations
+    - includes: ["yaml/open-telemetry/open-telemetry/**"]
+      condition: "#deployOtel != false"
+      chain:
+        - type: YTT
+    - includes: ["yaml/open-telemetry/jaeger/**"]
+      condition: "#selectTracingMethod == 'jaeger'"
+      chain:
+        - type: YTT
+    - includes: ["yaml/open-telemetry/wavefront/**"]
+      condition: "#selectTracingMethod == 'wavefront'"
+      chain:
+        - type: YTT
     - includes: ["account-service/**"]
       condition: "#accountServiceDeployState == 'newAccountServiceDevelop'"
       excludes: [ "account-service/target","account-service/config/**" ]

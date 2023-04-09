@@ -4,6 +4,10 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: config-server
+  #@ if data.values.otelState:
+  annotations:
+    instrumentation.opentelemetry.io/inject-java: #@ data.values.namespaceToDeploy + "/my-instrumentation"
+  #@ end
   namespace: #@ data.values.namespaceToDeploy
   labels:
     apps.tanzu.vmware.com/workload-type: web
@@ -20,9 +24,6 @@ spec:
     env:
     - name: BP_JVM_VERSION
       value: "17.*"
-  env:
-    - name: WAVEFRONT_TOKEN
-      value: #@ data.values.wavefrontToken
   source:
     git:
       url: #@ data.values.gitRepo
