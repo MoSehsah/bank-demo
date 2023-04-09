@@ -29,13 +29,27 @@ namespace WebApi
         {
             services.AddCors();
             //services.AddOpenTracing();
-            services.AddOpenTelemetry()
-              .WithTracing(b =>
-              {
-                  b
-                  .AddHttpClientInstrumentation()
-                  .AddAspNetCoreInstrumentation();
-              });
+            services.AddOpenTelemetryTracing(builder =>
+            {
+                builder
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddEurekaExporter()
+                    .AddConsoleExporter()
+                    .AddJaegerExporter()
+                    .AddOtlpExporter()
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("YourServiceName"));
+            });
+            services.AddOpenTelemetryMetrics(builder =>
+            {
+                builder
+                    .AddAspNetCoreInstrumentation()
+                    .AddEurekaExporter()
+                    .AddConsoleExporter()
+                    .AddJaegerExporter()
+                    .AddOtlpExporter()
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("YourServiceName"));
+            });
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
