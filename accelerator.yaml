@@ -648,10 +648,12 @@ engine:
   merge:
     #generic transformations
     - includes: ["readme.md"]
-    - includes: ["yaml/open-telemetry/open-telemetry/**","yaml/open-telemetry/readme.md"]
+    - includes: ["yaml/open-telemetry/open-telemetry/**"]
       condition: "#deployOtel != false"
       chain:
         - type: YTT
+    - includes: ["yaml/open-telemetry/readme.md"]
+      condition: "#deployOtel != false"
     - includes: ["yaml/open-telemetry/jaeger/**"]
       condition: "#selectTracingMethod == 'jaeger'"
       chain:
