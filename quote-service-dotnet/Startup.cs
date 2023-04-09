@@ -15,6 +15,7 @@ using OpenTelemetry.Extensions.Hosting;
 using System;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Logs;
+using Microsoft.Extensions.Logging;
 
 namespace WebApi
 {
@@ -62,7 +63,21 @@ namespace WebApi
                         options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
                     });
                 });
-
+                services.AddLogging(loggingBuilder =>
+                    {
+                        loggingBuilder.AddOpenTelemetry(options =>
+                        {
+                            options.IncludeFormattedMessage = true;
+                            options.IncludeScopes = true;
+                            options.ParseStateValues = true;
+                            options.AddOtlpExporter(exporterOptions =>
+                            {
+                                exporterOptions.Endpoint = new Uri(openTelemetryEndpoint);
+                                exporterOptions.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+                            });
+                            options.AddConsoleExporter();
+                        });
+                    });
             }
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
