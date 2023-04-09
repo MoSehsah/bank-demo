@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using OpenTelemetry.Exporter;
+using System;
 
 namespace WebApi
 {
@@ -26,7 +28,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddOpenTracing();
+            //services.AddOpenTracing();
             services.AddOpenTelemetry()
               .WithTracing(b =>
               {
