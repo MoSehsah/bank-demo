@@ -565,7 +565,6 @@ accelerator:
     describe: Change default value if needed
     dependsOn:
       name: webServiceDeployState
-      value: existingWebService
     inputType: text
     dataType: string
     defaultValue: web-service # double check.
