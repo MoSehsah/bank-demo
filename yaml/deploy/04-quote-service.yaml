@@ -17,19 +17,13 @@ spec:
     spec:
       containers:
       - name: quote-service
-        image: harbor.dorn.gorke.ml/banking-demo/quote-service:0.0.1-SNAPSHOT
+        image: projects.registry.vmware.com/tanzu_meta_pocs/banking-demo/quote-service:0.0.1-SNAPSHOT
         imagePullPolicy: Always
         env:
         - name: spring.cloud.config.uri
           value: #@ "http://config-server."+ data.values.namespace + ".svc.cluster.local"
         - name: WAVEFRONT_TOKEN
           value: #@ data.values.wavefront.token
-        - name: spring.cloud.config.fail-fast
-          value: "true"
-        - name: spring.cloud.config.retry.max-interval
-          value: "10000"
-        - name: spring.cloud.config.retry.max-attempts
-          value: "2000"
         - name: EUREKA_URL
           value: #@ "http://discovery-server."+ data.values.namespace + ".svc.cluster.local/eureka"
 ---

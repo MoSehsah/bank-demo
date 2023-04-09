@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: quote-service
-        image: harbor.dorn.gorke.ml/banking-demo/quote-service-dotnet:0.0.1-SNAPSHOT
+        image: projects.registry.vmware.com/tanzu_meta_pocs/banking-demo/quote-service-dotnet:v0.0.0.1
         imagePullPolicy: Always
         env:
         - name: ASPNETCORE_ENVIRONMENT

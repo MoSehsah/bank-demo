@@ -1,0 +1,216 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-config-map
+  namespace: #@ data.values.namespace
+data:
+  account-service.yml: |
+    spring.application.name: account-service
+    spring.jpa.hibernate.ddl-auto: update
+    spring.cloud.config.fail-fast: true
+    spring.cloud.config.retry.max-interval: 10000
+    spring.cloud.config.retry.max-attempts: 2000
+    eureka.client.serviceUrl.defaultZone: ${EUREKA_URL}
+    eureka.client.fetch-registry: true
+    eureka.instance.hostname: ${HOSTNAME}
+    info.build.group: ${group}
+    info.build.name: ${name}
+    info.build.description: ${description}
+    info.build.version: ${version}
+    management.endpoints.web.exposure.include: "*"
+    management.endpoints.health.show-details: always
+    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
+    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
+    wavefront.application.name: banking-demo
+    wavefront.application.service: account-svc
+  application.yml: |
+    pivotal.quotesService.name: quote-service
+    pivotal.userService.name: user-service
+    pivotal.accountsService.name: account-service
+    pivotal.portfolioService.name: portfolio-service
+    pivotal.analyticsService.name: analytics-service
+    logging.level.com.vmware.tanzu: DEBUG
+    logging.level.netflix: FATAL
+    logging.level.org.springframework.web: WARN
+    logging.level.org.springframework.cloud: WARN
+    spring.sleuth.sampler.probability: "1.0"
+  discovery-cloud.yml: |
+    spring.application.name: discovery-cloud
+    spring.profiles.active[0]: discovery-cloud
+    spring.cloud.config.fail-fast: true
+    spring.cloud.config.retry.max-interval: 10000
+    spring.cloud.config.retry.max-attempts: 2000
+    spring.security.user.name: admin
+    spring.security.user.password: admin
+    server.port: ${PORT:8761}
+    server.servlet.context-path: /
+    eureka.client.registerWithEureka: false
+    eureka.client.fetchRegistry: false
+    eureka.client.serviceUrl.defaultZone: http://localhost:8080/eureka
+    eureka.server.wait-time-in-ms-when-sync-empty: 0
+    eureka.instance.hostname: localhost
+    info.build.group: ${group}
+    info.build.name: ${name}
+    info.build.description: ${description}
+    info.build.version: ${version}
+    management.endpoints.web.exposure.include: "*"
+    management.endpoints.health.show-details: always
+    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
+    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
+    management.endpoint.health.enabled: true
+    management.endpoint.health.probes.enabled: true
+    management.endpoint.health.show-details: always
+    management.endpoint.health.group.liveness.additional-path: server:/livez
+    management.endpoint.health.group.liveness.show-details: always
+    management.endpoint.health.group.readiness.additional-path: server:/readyz
+    management.endpoint.health.group.readiness.show-details: always
+    wavefront.application.name: banking-demo
+    wavefront.application.service: discovery
+  portfolio-service.yml: |
+    spring.application.name: portfolio-service
+    spring.jpa.hibernate.ddl-auto: update
+    cloud.config.fail-fast: true
+    cloud.config.retry.max-interval: 10000
+    cloud.config.retry.max-attempts: 2000
+    eureka.client.serviceUrl.defaultZone: ${EUREKA_URL}
+    eureka.client.fetch-registry: true
+    eureka.instance.hostname: ${HOSTNAME}
+    info.build.group: ${group}
+    info.build.name: ${name}
+    info.build.description: ${description}
+    info.build.version: ${version}
+    management.endpoints.web.exposure.include: "*"
+    management.endpoint.health.show-details: always
+    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
+    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
+    wavefront.application.name: banking-demo
+    wavefront.application.service: portfolio-svc
+  quote-service.yml: |
+    spring.application.name: quote-service
+    spring.cloud.config.fail-fast: true
+    spring.cloud.config.retry.max-interval: 10000
+    spring.cloud.config.retry.max-attempts: 2000
+    eureka.client.serviceUrl.defaultZone: ${EUREKA_URL}
+    eureka.client.fetch-registry: true
+    eureka.instance.hostname: ${HOSTNAME}
+    management.endpoints.web.exposure.include: "*"
+    management.endpoint.health.show-details: always
+    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
+    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
+    wavefront.application.name: banking-demo
+    wavefront.application.service: quote-svc
+    vmware.tanzu.quote.quote_url: https://cloud.iexapis.com/stable/stock/{symbol}/quote?token={token}
+    vmware.tanzu.quote.quotes_url: https://cloud.iexapis.com/stable/stock/market/batch?symbols={symbols}&types=quote&token={token}
+    vmware.tanzu.quote.companies_url: http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input={name}
+    vmware.tanzu.quote.iex.token: sk_2e5aaea4cc2d43e2b56b8b1c6745f0a0
+  user-service.yml: |
+    spring.application.name: user-service
+    spring.jpa.hibernate.ddl-auto: update
+    spring.cloud.config.fail-fast: true
+    spring.cloud.config.retry.max-interval: 10000
+    spring.cloud.config.retry.max-attempts: 2000
+    eureka.client.serviceUrl.defaultZone: ${EUREKA_URL}
+    eureka.client.fetch-registry: true
+    eureka.instance.hostname: ${HOSTNAME}
+    management.endpoints.web.exposure.include: "*"
+    management.endpoint.health.show-details: always
+    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
+    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
+    wavefront.application.name: banking-demo
+    wavefront.service: user-svc
+  web-service.yml: |
+    spring.application.name: web-service
+    spring.cloud.config.fail-fast: true
+    spring.cloud.config.retry.max-interval: 10000
+    spring.cloud.config.retry.max-attempts: 2000
+    vmware.tanzu.summary.quotes: 3
+    vmware.tanzu.summary.symbols.it: ORCL,IBM,INTC,AMD,HPQ,CSCO,AAPL
+    vmware.tanzu.summary.symbols.fs: JPM,C,MS,BAC,GS,WFC,BK
+    eureka.client.registerWithEureka: true
+    eureka.client.registryFetchIntervalSeconds: 10
+    eureka.client.serviceUrl.defaultZone: ${EUREKA_URL}
+    eureka.client.fetch-registry: true
+    eureka.instance.hostname: ${HOSTNAME}
+    info.build.group: ${group}
+    info.build.name: ${name}
+    info.build.description: ${description}
+    info.build.version: ${version}
+    management.endpoints.web.exposure.include: "*"
+    management.endpoint.health.show-details: always
+    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
+    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
+    wavefront.application.name: banking-demo
+    wavefront.application.service: web-ui
+  analytics-service.yml: |
+    spring.application.name: analytics-service
+  bootstrap.yml: |
+    info.component: Config Server
+    spring.application.name: configserver
+    spring.jmx.default_domain: cloud.config.server
+    spring.cloud.config.server.native.searchLocations: file:/config/
+    management.context_path: /admin
+    management.endpoints.web.exposure.include: "*"
+    management.endpoint.health.show-details: always
+    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
+    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
+    server.port: 8888
+    wavefront.application.name: banking-demo
+    wavefront.application.service: configserver
+    pivotal.quotesService.name: quote-service
+    pivotal.userService.name: user-service
+    pivotal.accountsService.name: account-service
+    pivotal.portfolioService.name: portfolio-service
+    pivotal.analyticsService.name: analytics-service
+    logging.level.com.vmware.tanzu: DEBUG
+    logging.level.netflix: FATAL
+    logging.level.org.springframework.web: WARN
+    logging.level.org.springframework.cloud: WARN
+    spring.sleuth.sampler.probability: "1.0"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-config-server
+  namespace: #@ data.values.namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-config-server
+  template:
+    metadata:
+      labels:
+        app: spring-config-server
+    spec:
+      containers:
+      - name: spring-config-server
+        image: projects.registry.vmware.com/tanzu_meta_pocs/banking-demo/configserver:latest
+        env:
+          - name: JAVA_TOOL_OPTIONS
+            value: "-Dspring.cloud.config.server.native.searchLocations=/config -Dspring.profiles.active=native -Dspring.application.name=configserver -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.endpoint.health.show-details=always"
+        ports:
+        - containerPort: 8888
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: spring-config-map
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+  namespace: #@ data.values.namespace
+spec:
+  selector:
+    app: spring-config-server
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8888
+  type: #@ data.values.service.type
