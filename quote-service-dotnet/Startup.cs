@@ -40,8 +40,8 @@ namespace WebApi
                    {
                        opt.Endpoint = new System.Uri(Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT") ?? "http://jaeger-jaeger-collector.monitoring:4317");
                        opt.Protocol = OtlpExportProtocol.HttpProtobuf;
-                   })
-                  .AddAspNetCoreInstrumentation();
+                   });
+                  //.AddAspNetCoreInstrumentation();
               });
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
