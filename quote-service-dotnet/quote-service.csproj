@@ -11,9 +11,11 @@
     <None Remove="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Jaeger" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.9.0" />
     <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.1" />
     <PackageReference Include="Steeltoe.Management.TracingCore" Version="3.2.1" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Version="3.2.1" />

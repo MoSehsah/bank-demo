@@ -24,6 +24,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddOpenTracing();
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
