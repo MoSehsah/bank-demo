@@ -8,6 +8,8 @@ using Steeltoe.Management.Tracing;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace WebApi
 {
@@ -25,6 +27,13 @@ namespace WebApi
         {
             services.AddCors();
             services.AddOpenTracing();
+            services.AddOpenTelemetry()
+              .WithTracing(b =>
+              {
+                  b
+                  .AddHttpClientInstrumentation()
+                  .AddAspNetCoreInstrumentation();
+              });
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
