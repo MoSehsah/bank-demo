@@ -648,7 +648,7 @@ engine:
   merge:
     #generic transformations
     - includes: ["readme.md"]
-    - includes: ["yaml/open-telemetry/open-telemetry/**"]
+    - includes: ["yaml/open-telemetry/open-telemetry/**","yaml/open-telemetry/readme.md"]
       condition: "#deployOtel != false"
       chain:
         - type: YTT
