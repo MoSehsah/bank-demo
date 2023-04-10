@@ -67,6 +67,14 @@ accelerator:
     dataType: boolean
     defaultValue: false
 
+  - name: airgapped
+    label: Airgapped setup
+    description: Quote-Service will return static values instead of fetching live data from IEX-Trade.
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
   - name: wavefrontToken
     label: Tanzu Observability Token for distributed tracing
     description: Please type the token
