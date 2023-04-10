@@ -18,6 +18,10 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -93,6 +97,31 @@ public class QuoteService {
 	 */
 	@Cacheable(value = "quotes", key = "#symbols")
 	public List<Quote> getQuotes(String symbols) {
+		if (Boolean.valueOf(System.getenv("AIRGAPPED"))) {
+			log.debug("AIRGAPPED environment variable is set, returning specific value");
+			List<Quote> quotes = new ArrayList<>();
+			Quote quote = new Quote();
+			quote.setSymbol("VMW");
+			quote.setName("Vmware Inc. - Class A");
+			quote.setLastPrice(new BigDecimal("123.94"));
+			quote.setChange(new BigDecimal("-1.07"));
+			quote.setChangeYTD(null);
+			quote.setChangePercentYTD(null);
+			quote.setHigh(null);
+			quote.setLow(null);
+			quote.setOpen(null);
+			quote.setCurrency("USD");
+			quote.setStatus("SUCCESS");
+			quote.setChangePercent(new BigDecimal("-0.00371").floatValue());
+			quote.setTimestamp(Date.from(LocalDateTime.parse("Mon Apr 03 20:00:00 UTCZ 2023", DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzzzz yyyy")).atZone(ZoneId.of("UTC")).toInstant()));
+			quote.setmSDate((float) 0L);
+			quote.setMarketCap((float) 53106230000L);
+			quote.setVolume(1274700);
+			quotes.add(quote);
+			return quotes;
+		}
+		
+		
 		log.debug("retrieving multiple quotes for: " + symbols);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("token", token);
