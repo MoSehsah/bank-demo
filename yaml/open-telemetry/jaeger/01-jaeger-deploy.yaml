@@ -163,7 +163,7 @@ spec:
               value: "false"
             - name: COLLECTOR_OTLP_ENABLED
               value: "true"
-          image: jaegertracing/all-in-one:1.42.0
+          image: projects.registry.vmware.com/tanzu_meta_pocs/banking-demo/jaegertracing/all-in-one:1.42.0
           imagePullPolicy: IfNotPresent
           name: jaeger
           args:

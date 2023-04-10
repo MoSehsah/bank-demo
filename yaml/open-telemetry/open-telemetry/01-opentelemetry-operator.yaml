@@ -5248,7 +5248,7 @@ spec:
         - --enable-leader-election
         - --zap-log-level=info
         - --zap-time-encoding=rfc3339nano
-        image: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator:0.74.0
+        image: projects.registry.vmware.com/tanzu_meta_pocs/banking-demo/opentelemetry-operator:0.74.0
         livenessProbe:
           httpGet:
             path: /healthz
@@ -5279,7 +5279,7 @@ spec:
         - --upstream=http://127.0.0.1:8080/
         - --logtostderr=true
         - --v=0
-        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
+        image: projects.registry.vmware.com/tanzu_meta_pocs/banking-demo/kube-rbac-proxy:v0.13.0
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443
