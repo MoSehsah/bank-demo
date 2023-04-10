@@ -29,11 +29,6 @@ management:
   endpoint:
     health:
       show-details: always
-  metrics:
-    export:
-      wavefront:
-        api-token: ${WAVEFRONT_TOKEN}
-        uri: proxy://wf-proxy:2878
 server:
   port: 8888
 # logging:
