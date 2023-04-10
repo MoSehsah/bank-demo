@@ -44,6 +44,10 @@ spec:
       value: "http://wf-proxy:9411/api/v2/spans"
     - name: Management__2__metrics__1__export__wavefront__Uri
       value: "proxy://wf-proxy:2878"
+    #@ if data.values.airgapped:
+    - name: AIRGAPPED
+      value: "true"
+    #@ end
   #@ if data.values.quoteServiceDotnetTilt:
   image: #@ data.values.containterRegistryURL + "/" + data.values.quoteServiceDotnetDeployName + "-dev"
   #@ end
