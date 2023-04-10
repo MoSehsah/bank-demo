@@ -21,8 +21,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoints.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     wavefront.application.name: banking-demo
     wavefront.application.service: account-svc
   application.yml: |
@@ -57,8 +55,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoints.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     management.endpoint.health.enabled: true
     management.endpoint.health.probes.enabled: true
     management.endpoint.health.show-details: always
@@ -83,8 +79,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     wavefront.application.name: banking-demo
     wavefront.application.service: portfolio-svc
   quote-service.yml: |
@@ -97,8 +91,6 @@ data:
     eureka.instance.hostname: ${HOSTNAME}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     wavefront.application.name: banking-demo
     wavefront.application.service: quote-svc
     vmware.tanzu.quote.quote_url: https://cloud.iexapis.com/stable/stock/{symbol}/quote?token={token}
@@ -116,8 +108,6 @@ data:
     eureka.instance.hostname: ${HOSTNAME}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     wavefront.application.name: banking-demo
     wavefront.service: user-svc
   web-service.yml: |
@@ -139,8 +129,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     wavefront.application.name: banking-demo
     wavefront.application.service: web-ui
   analytics-service.yml: |
@@ -153,8 +141,6 @@ data:
     management.context_path: /admin
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     server.port: 8888
     wavefront.application.name: banking-demo
     wavefront.application.service: configserver
