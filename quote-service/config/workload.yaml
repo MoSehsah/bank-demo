@@ -79,6 +79,10 @@ spec:
     - name: spring.cache.type
       value: 'redis'
     #@ end
+    #@ if data.values.airgapped:
+    - name: AIRGAPPED
+      value: "true"
+    #@ end
   source:
     git:
       url: #@ data.values.gitRepo

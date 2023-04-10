@@ -67,6 +67,14 @@ accelerator:
     dataType: boolean
     defaultValue: false
 
+  - name: airgapped
+    label: Airgapped setup
+    description: Quote-Service will return static values instead of fetching live data from IEX-Trade.
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
   - name: containterRegistryURL
     label: Container Registry URL for Tiltfile
     description: Please type the URL
