@@ -60,6 +60,10 @@ spec:
     - name: EUREKA_URL
       value: #@ data.values.eurekaURL
     #@ end
+    #@ if data.values.otelState:
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: "application=bankingApp"
+    #@ end
   source:
     git:
       url: #@ data.values.gitRepo

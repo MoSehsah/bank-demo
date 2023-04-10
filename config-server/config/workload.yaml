@@ -24,6 +24,10 @@ spec:
     env:
     - name: BP_JVM_VERSION
       value: "17.*"
+    #@ if data.values.otelState:
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: "application=bankingApp"
+    #@ end
   source:
     git:
       url: #@ data.values.gitRepo

@@ -27,6 +27,10 @@ spec:
   env:
     - name: spring.cloud.config.uri
       value: #@ "http://config-server."+data.values.namespaceToDeploy+".svc.cluster.local"
+    #@ if data.values.otelState:
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: "application=bankingApp"
+    #@ end
   source:
     git:
       url: #@ data.values.gitRepo
