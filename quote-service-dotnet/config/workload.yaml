@@ -5,6 +5,10 @@ kind: Workload
 metadata:
   name: #@ data.values.quoteServiceDotnetDeployName
   namespace: #@ data.values.namespaceToDeploy
+  #@ if data.values.otelState:
+  annotations:
+    instrumentation.opentelemetry.io/inject-dotnet: #@ data.values.namespaceToDeploy + "/my-instrumentation"
+  #@ end
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: quote-service
@@ -40,10 +44,10 @@ spec:
       value: "8080"
     - name: eureka__client__serviceUrl
       value: #@ data.values.eurekaURL
-    - name: Management__0__Tracing__exporter__zipkin__endpoint
-      value: "http://wf-proxy:9411/api/v2/spans"
-    - name: Management__2__metrics__1__export__wavefront__Uri
-      value: "proxy://wf-proxy:2878"
+    #@ if data.values.otelState:
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: "application=bankingApp"
+    #@ end
     #@ if data.values.airgapped:
     - name: AIRGAPPED
       value: "true"

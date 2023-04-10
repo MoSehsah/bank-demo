@@ -1,0 +1,20 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: wavefront.com/v1alpha1
+kind: Wavefront
+metadata:
+  name: wavefront
+  namespace: observability-system
+spec:
+  clusterName: tap-cluster
+  wavefrontUrl: https://longboard.wavefront.com/
+  dataCollection:
+    metrics:
+      enable: true
+  dataExport:
+    wavefrontProxy:
+      enable: true
+      otlp:
+        grpcPort: 4317
+        httpPort: 4318
+        resourceAttrsOnMetricsIncluded: true

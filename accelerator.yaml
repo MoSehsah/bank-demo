@@ -75,13 +75,6 @@ accelerator:
     dataType: boolean
     defaultValue: false
 
-  - name: wavefrontToken
-    label: Tanzu Observability Token for distributed tracing
-    description: Please type the token
-    inputType: text
-    dataType: string
-    defaultValue: xyz-asd-000
-
   - name: containterRegistryURL
     label: Container Registry URL for Tiltfile
     description: Please type the URL
@@ -95,6 +88,44 @@ accelerator:
     inputType: text
     dataType: string
     defaultValue: gke_gorkemozlu_europe-central2-c_tap-gke02
+###### Open Telemetry
+  - name: otelState
+    label: Enable OpenTelemetry Distributed Tracing?
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: deployOtel
+    label: Deploy OpenTelemetry Operator?
+    dependsOn:
+      name: otelState
+    inputType: checkbox
+    display: true
+    dataType: boolean
+    defaultValue: false
+
+  - name: selectTracingMethod
+    label: Please choose the tracing method.
+    dependsOn:
+      name: otelState
+    inputType: select
+    defaultValue: dummyValue
+    choices:
+      - value: wavefront
+        text: Tanzu Observability
+      - value: jaeger
+        text: Jaeger
+
+  - name: wavefrontToken
+    label: Tanzu Observability Token for distributed tracing
+    description: Please type the token
+    dependsOn:
+      name: selectTracingMethod
+      value: wavefront
+    inputType: text
+    dataType: string
+    defaultValue: xyz-asd-000
 
   #discovery-server
   - name: eurekaState
@@ -482,7 +513,8 @@ accelerator:
     label: Type external service name of Account-Service.
     describe: Change default value if needed
     dependsOn:
-      name: portfolioServiceDeploy
+      name: portfolioServiceDeployState
+      value: existingPortfolioService
     inputType: text
     dataType: string
     defaultValue: account-service.dev.svc.cluster.local:80 # double check.
@@ -490,7 +522,8 @@ accelerator:
     label: Type external service name of Quote-Service.
     describe: Change default value if needed
     dependsOn:
-      name: portfolioServiceDeploy
+      name: portfolioServiceDeployState
+      value: existingPortfolioService
     inputType: text
     dataType: string
     defaultValue: quote-service.dev.svc.cluster.local:80 # double check.
@@ -546,7 +579,8 @@ accelerator:
     label: Choose service name of Account-Service.
     describe: Change default value if needed
     dependsOn:
-      name: webServiceDeploy
+      name: webServiceDeployState
+      value: existingWebService
     inputType: text
     dataType: string
     defaultValue: account-service.dev.svc.cluster.local:80 # double check.
@@ -554,7 +588,8 @@ accelerator:
     label: Type external service name of Quote-Service.
     describe: Change default value if needed
     dependsOn:
-      name: webServiceDeploy
+      name: webServiceDeployState
+      value: existingWebService
     inputType: text
     dataType: string
     defaultValue: quote-service.dev.svc.cluster.local:80 # double check.
@@ -563,7 +598,8 @@ accelerator:
     label: Type external service name of User-Service.
     describe: Change default value if needed
     dependsOn:
-      name: webServiceDeploy
+      name: webServiceDeployState
+      value: existingWebService
     inputType: text
     dataType: string
     defaultValue: user-service.dev.svc.cluster.local:80 # double check.
@@ -571,7 +607,8 @@ accelerator:
     label: Type external  service name of Portfolio-Service.
     describe: Change default value if needed
     dependsOn:
-      name: webServiceDeploy
+      name: webServiceDeployState
+      value: existingWebService
     inputType: text
     dataType: string
     defaultValue: portfolio-service.dev.svc.cluster.local:80 # double check.
@@ -579,7 +616,8 @@ accelerator:
     label: Type external service name of Analytics-Service.
     describe: Change default value if needed
     dependsOn:
-      name: webServiceDeploy
+      name: webServiceDeployState
+      value: existingWebService
     inputType: text
     dataType: string
     defaultValue: analytics-service.dev.svc.cluster.local:80 # double check.
@@ -617,6 +655,21 @@ engine:
       expression: "''"
   merge:
     #generic transformations
+    - includes: ["readme.md"]
+    - includes: ["yaml/open-telemetry/open-telemetry/**"]
+      condition: "#deployOtel != false"
+      chain:
+        - type: YTT
+    - includes: ["yaml/open-telemetry/readme.md"]
+      condition: "#deployOtel != false"
+    - includes: ["yaml/open-telemetry/jaeger/**"]
+      condition: "#selectTracingMethod == 'jaeger'"
+      chain:
+        - type: YTT
+    - includes: ["yaml/open-telemetry/wavefront/**"]
+      condition: "#selectTracingMethod == 'wavefront'"
+      chain:
+        - type: YTT
     - includes: ["account-service/**"]
       condition: "#accountServiceDeployState == 'newAccountServiceDevelop'"
       excludes: [ "account-service/target","account-service/config/**" ]

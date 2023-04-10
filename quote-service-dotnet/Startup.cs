@@ -8,6 +8,14 @@ using Steeltoe.Management.Tracing;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Extensions.Hosting;
+using System;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Logs;
+using Microsoft.Extensions.Logging;
 
 namespace WebApi
 {
@@ -24,6 +32,53 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+            services.AddAllActuators();
+            var openTelemetryServiceName = Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME");
+            var openTelemetryEndpoint =  Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT");
+            if (!string.IsNullOrWhiteSpace(openTelemetryEndpoint))
+            {
+                services.AddOpenTelemetryMetrics((builder) =>
+                {
+                    builder.AddHttpClientInstrumentation();
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddMeter(openTelemetryServiceName + "-metrics");
+                    builder.AddOtlpExporter(options =>
+                    {
+                        options.Endpoint = new Uri(openTelemetryEndpoint);
+                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+                    });
+                });
+                services.AddOpenTelemetryTracing((builder) =>
+                {
+                    builder.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(openTelemetryServiceName));
+                    builder.AddHttpClientInstrumentation();
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddSource(openTelemetryServiceName + "-activity-source");
+                    builder.AddOtlpExporter(options =>
+                    {
+                        options.Endpoint = new Uri(openTelemetryEndpoint);
+                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+                    });
+                });
+                services.AddLogging(loggingBuilder =>
+                    {
+                        loggingBuilder.AddOpenTelemetry(options =>
+                        {
+                            options.IncludeFormattedMessage = true;
+                            options.IncludeScopes = true;
+                            options.ParseStateValues = true;
+                            options.AddOtlpExporter(exporterOptions =>
+                            {
+                                exporterOptions.Endpoint = new Uri(openTelemetryEndpoint);
+                                exporterOptions.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+                            });
+                            options.AddConsoleExporter();
+                        });
+                    });
+            }
             services.AddDiscoveryClient(Configuration);
             services.AddControllers().AddNewtonsoftJson(options => { 
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();

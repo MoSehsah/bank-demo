@@ -1,0 +1,21 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: my-instrumentation
+  namespace: #@ data.values.namespaceToDeploy
+spec:
+  exporter:
+    #@ if data.values.selectTracingMethod == "wavefront":
+    endpoint: http://wavefront-proxy.observability-system:4317
+    #@ end
+    #@ if data.values.selectTracingMethod == "jaeger":
+    endpoint: http://jaeger-collector.monitoring:4317
+    #@ end
+  propagators:
+    - tracecontext
+    - baggage
+    - b3
+  sampler:
+    type: parentbased_traceidratio

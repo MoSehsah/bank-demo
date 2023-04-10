@@ -1,0 +1,1016 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: wavefront
+  name: observability-system
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: wavefronts.wavefront.com
+spec:
+  group: wavefront.com
+  names:
+    kind: Wavefront
+    listKind: WavefrontList
+    plural: wavefronts
+    singular: wavefront
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.status
+      name: status
+      type: string
+    - jsonPath: .status.resourceStatuses[?(@.name=='wavefront-proxy')].status
+      name: proxy
+      type: string
+    - jsonPath: .status.resourceStatuses[?(@.name=='wavefront-cluster-collector')].status
+      name: cluster-collector
+      type: string
+    - jsonPath: .status.resourceStatuses[?(@.name=='wavefront-node-collector')].status
+      name: node-collector
+      type: string
+    - jsonPath: .status.resourceStatuses[?(@.name=='wavefront-logging')].status
+      name: logging
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: age
+      type: date
+    - jsonPath: .status.message
+      name: message
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Wavefront is the Schema for the wavefronts API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: WavefrontSpec defines the desired state of Wavefront
+            properties:
+              allowLegacyInstall:
+                description: Allows the operator based Wavefront installation to be
+                  run in parallel with a legacy Wavefront (helm or manual) installation.
+                  Defaults to false.
+                type: boolean
+              clusterName:
+                description: ClusterName is a unique name for the Kubernetes cluster
+                  to be identified via a metric tag on Wavefront (Required).
+                minLength: 3
+                type: string
+              dataCollection:
+                description: DataCollection options
+                properties:
+                  logging:
+                    description: Enable and configure wavefront logging
+                    properties:
+                      enable:
+                        default: false
+                        description: Enable is whether to enable the wavefront logging.
+                          Defaults to false.
+                        type: boolean
+                      filters:
+                        description: Filters to apply towards all logs collected by
+                          wavefront-logging.
+                        properties:
+                          tagAllowList:
+                            additionalProperties:
+                              items:
+                                type: string
+                              type: array
+                            description: List of log tag patterns to allow
+                            type: object
+                          tagDenyList:
+                            additionalProperties:
+                              items:
+                                type: string
+                              type: array
+                            description: List of log tag patterns to deny
+                            type: object
+                        type: object
+                      resources:
+                        default:
+                          limits:
+                            cpu: 200m
+                            ephemeral-storage: 2Gi
+                            memory: 256Mi
+                          requests:
+                            cpu: 100m
+                            ephemeral-storage: 1Gi
+                            memory: 50Mi
+                        description: Resources Compute resources required by the logging
+                          containers.
+                        properties:
+                          limits:
+                            description: Limits CPU and Memory requirements
+                            properties:
+                              cpu:
+                                description: CPU is for specifying CPU requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              ephemeral-storage:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              memory:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                            type: object
+                          requests:
+                            description: Requests CPU and Memory requirements
+                            properties:
+                              cpu:
+                                description: CPU is for specifying CPU requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              ephemeral-storage:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              memory:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                            type: object
+                        type: object
+                      tags:
+                        additionalProperties:
+                          type: string
+                        description: Tags are a map of key value pairs that are added
+                          to all logging emitted.
+                        type: object
+                    type: object
+                  metrics:
+                    description: Metrics has resource configuration for node- and
+                      cluster-deployed collectors
+                    properties:
+                      clusterCollector:
+                        default:
+                          resources:
+                            limits:
+                              cpu: 400m
+                              ephemeral-storage: 1Gi
+                              memory: 512Mi
+                            requests:
+                              cpu: 200m
+                              ephemeral-storage: 20Mi
+                              memory: 10Mi
+                        description: ClusterCollector is for resource configuration
+                          for the cluster collector.
+                        properties:
+                          resources:
+                            description: Resources Compute resources required by the
+                              Collector containers.
+                            properties:
+                              limits:
+                                description: Limits CPU and Memory requirements
+                                properties:
+                                  cpu:
+                                    description: CPU is for specifying CPU requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  ephemeral-storage:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  memory:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                type: object
+                              requests:
+                                description: Requests CPU and Memory requirements
+                                properties:
+                                  cpu:
+                                    description: CPU is for specifying CPU requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  ephemeral-storage:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  memory:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      customConfig:
+                        description: CustomConfig is the custom ConfigMap name for
+                          the collector. Leave blank to use defaults.
+                        type: string
+                      defaultCollectionInterval:
+                        default: 60s
+                        description: Default metrics collection interval. Defaults
+                          to 60s.
+                        type: string
+                      enable:
+                        default: true
+                        description: Enable is whether to enable the metrics. Defaults
+                          to true.
+                        type: boolean
+                      enableDiscovery:
+                        default: true
+                        description: Rules based and Prometheus endpoints auto-discovery.
+                          Defaults to true.
+                        type: boolean
+                      filters:
+                        default:
+                          denyList:
+                          - kubernetes.sys_container.*
+                          - kubernetes.collector.runtime.*
+                          - kubernetes.*.network.rx_rate
+                          - kubernetes.*.network.rx_errors_rate
+                          - kubernetes.*.network.tx_rate
+                          - kubernetes.*.network.tx_errors_rate
+                          - kubernetes.*.memory.page_faults
+                          - kubernetes.*.memory.page_faults_rate
+                          - kubernetes.*.memory.major_page_faults
+                          - kubernetes.*.memory.major_page_faults_rate
+                          - kubernetes.*.filesystem.inodes
+                          - kubernetes.*.filesystem.inodes_free
+                          - kubernetes.*.ephemeral_storage.request
+                          - kubernetes.*.ephemeral_storage.limit
+                        description: Filters to apply towards all metrics collected
+                          by the collector.
+                        properties:
+                          allowList:
+                            description: List of metric patterns to allow
+                            items:
+                              type: string
+                            type: array
+                          denyList:
+                            default:
+                            - kubernetes.sys_container.*
+                            - kubernetes.collector.runtime.*
+                            - kubernetes.*.network.rx_rate
+                            - kubernetes.*.network.rx_errors_rate
+                            - kubernetes.*.network.tx_rate
+                            - kubernetes.*.network.tx_errors_rate
+                            - kubernetes.*.memory.page_faults
+                            - kubernetes.*.memory.page_faults_rate
+                            - kubernetes.*.memory.major_page_faults
+                            - kubernetes.*.memory.major_page_faults_rate
+                            - kubernetes.*.filesystem.inodes
+                            - kubernetes.*.filesystem.inodes_free
+                            - kubernetes.*.ephemeral_storage.request
+                            - kubernetes.*.ephemeral_storage.limit
+                            description: List of metric patterns to deny
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      nodeCollector:
+                        default:
+                          resources:
+                            limits:
+                              cpu: 200m
+                              ephemeral-storage: 512Mi
+                              memory: 256Mi
+                            requests:
+                              cpu: 200m
+                              ephemeral-storage: 20Mi
+                              memory: 10Mi
+                        description: NodeCollector is for resource configuration for
+                          the node collector.
+                        properties:
+                          resources:
+                            description: Resources Compute resources required by the
+                              Collector containers.
+                            properties:
+                              limits:
+                                description: Limits CPU and Memory requirements
+                                properties:
+                                  cpu:
+                                    description: CPU is for specifying CPU requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  ephemeral-storage:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  memory:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                type: object
+                              requests:
+                                description: Requests CPU and Memory requirements
+                                properties:
+                                  cpu:
+                                    description: CPU is for specifying CPU requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  ephemeral-storage:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                  memory:
+                                    description: Memory is for specifying Memory requirements
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                      tags:
+                        additionalProperties:
+                          type: string
+                        description: Tags are a map of key value pairs that are added
+                          as point tags on all metrics emitted.
+                        type: object
+                    type: object
+                  tolerations:
+                    description: Top level tolerations to be applied to metrics and
+                      logging DaemonSet resource types. This adds custom tolerations
+                      to the pods.
+                    items:
+                      properties:
+                        effect:
+                          description: Effect indicates the taint effect to match.
+                            Empty means match all taint effects. When specified, allowed
+                            values are NoSchedule, PreferNoSchedule and NoExecute.
+                          enum:
+                          - NoSchedule
+                          - PreferNoSchedule
+                          - NoExecute
+                          type: string
+                        key:
+                          description: Key is the taint key that the toleration applies
+                            to. Empty means match all taint keys. If the key is empty,
+                            operator must be Exists; this combination means to match
+                            all values and all keys.
+                          type: string
+                        operator:
+                          description: Operator represents a key's relationship to
+                            the value. Valid operators are Exists and Equal. Defaults
+                            to Equal. Exists is equivalent to wildcard for value,
+                            so that a pod can tolerate all taints of a particular
+                            category.
+                          enum:
+                          - Equal
+                          - Exists
+                          type: string
+                        value:
+                          description: Value is the taint value the toleration matches
+                            to. If the operator is Exists, the value should be empty,
+                            otherwise just a regular string.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              dataExport:
+                description: DataExport options
+                properties:
+                  externalWavefrontProxy:
+                    description: External Wavefront WavefrontProxy configuration
+                    properties:
+                      url:
+                        description: Url is the proxy URL that the collector sends
+                          metrics to.
+                        minLength: 10
+                        type: string
+                    required:
+                    - url
+                    type: object
+                  wavefrontProxy:
+                    description: WavefrontProxy configuration options
+                    properties:
+                      args:
+                        description: Args is additional Wavefront proxy properties
+                          to be passed as command line arguments in the --<property_name>
+                          <value> format. Multiple properties can be specified.
+                        pattern: --.* .*
+                        type: string
+                      deltaCounterPort:
+                        description: DeltaCounterPort accumulates 1-minute delta counters
+                          on Wavefront data format (usually 50000)
+                        type: integer
+                      enable:
+                        default: true
+                        description: Enable is whether to enable the wavefront proxy.
+                          Defaults to true.
+                        type: boolean
+                      histogram:
+                        description: Histogram distribution configuration
+                        properties:
+                          dayPort:
+                            description: DayPort to accumulate 1-day based histograms
+                              on Wavefront data format (usually 40003)
+                            type: integer
+                          hourPort:
+                            description: HourPort to accumulate 1-hour based histograms
+                              on Wavefront data format (usually 40002)
+                            type: integer
+                          minutePort:
+                            description: MinutePort to accumulate 1-minute based histograms
+                              on Wavefront data format (usually 40001)
+                            type: integer
+                          port:
+                            description: Port for histogram distribution format data
+                              (usually 40000)
+                            type: integer
+                        type: object
+                      httpProxy:
+                        description: HttpProxy configuration
+                        properties:
+                          secret:
+                            default: http-proxy-secret
+                            description: Name of the secret containing the HttpProxy
+                              configuration.
+                            maxLength: 253
+                            pattern: ^[a-z0-9]([a-z0-9\.\-]*[a-z0-9])?$
+                            type: string
+                        type: object
+                      metricPort:
+                        default: 2878
+                        description: MetricPort is the primary port for Wavefront
+                          data format metrics. Defaults to 2878.
+                        type: integer
+                      otlp:
+                        description: OpenTelemetry Protocol configuration
+                        properties:
+                          grpcPort:
+                            description: GrpcPort for OTLP GRPC format data (usually
+                              4317)
+                            type: integer
+                          httpPort:
+                            description: HttpPort for OTLP format data (usually 4318)
+                            type: integer
+                          resourceAttrsOnMetricsIncluded:
+                            description: Enable resource attributes on metrics to
+                              be included. Defaults to false.
+                            type: boolean
+                        type: object
+                      preprocessor:
+                        description: Preprocessor is the name of the configmap containing
+                          a rules.yaml key with proxy preprocessing rules
+                        maxLength: 253
+                        pattern: ^[a-z0-9]([a-z0-9\.\-]*[a-z0-9])?$
+                        type: string
+                      replicas:
+                        default: 1
+                        description: Replicas number of replicas
+                        type: integer
+                      resources:
+                        default:
+                          limits:
+                            cpu: 1000m
+                            ephemeral-storage: 8Gi
+                            memory: 4Gi
+                          requests:
+                            cpu: 100m
+                            ephemeral-storage: 2Gi
+                            memory: 1Gi
+                        description: Resources Compute resources required by the Proxy
+                          containers.
+                        properties:
+                          limits:
+                            description: Limits CPU and Memory requirements
+                            properties:
+                              cpu:
+                                description: CPU is for specifying CPU requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              ephemeral-storage:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              memory:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                            type: object
+                          requests:
+                            description: Requests CPU and Memory requirements
+                            properties:
+                              cpu:
+                                description: CPU is for specifying CPU requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              ephemeral-storage:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                              memory:
+                                description: Memory is for specifying Memory requirements
+                                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                type: string
+                            type: object
+                        type: object
+                      tracing:
+                        description: Distributed tracing configuration
+                        properties:
+                          jaeger:
+                            description: Jaeger distributed tracing configurations
+                            properties:
+                              applicationName:
+                                description: ApplicationName Custom application name
+                                  for traces received on Jaeger's Http or Gprc port.
+                                minLength: 3
+                                type: string
+                              grpcPort:
+                                description: GrpcPort for Jaeger GRPC format data
+                                  (usually 14250)
+                                type: integer
+                              httpPort:
+                                description: HttpPort for Jaeger Thrift format data
+                                  (usually 30080)
+                                type: integer
+                              port:
+                                description: Port for Jaeger format distributed tracing
+                                  data (usually 30001)
+                                type: integer
+                            type: object
+                          wavefront:
+                            description: Wavefront distributed tracing configurations
+                            properties:
+                              port:
+                                default: 30000
+                                description: Port for distributed tracing data (usually
+                                  30000)
+                                type: integer
+                              samplingDuration:
+                                description: SamplingDuration When set to greater
+                                  than 0, spans that exceed this duration will force
+                                  trace to be sampled (ms)
+                                type: integer
+                              samplingRate:
+                                description: SamplingRate Distributed tracing data
+                                  sampling rate (0 to 1)
+                                pattern: ^(0+\.?|0*\.\d+|0*1(\.0*)?)$
+                                type: string
+                            type: object
+                          zipkin:
+                            description: Zipkin distributed tracing configurations
+                            properties:
+                              applicationName:
+                                description: ApplicationName Custom application name
+                                  for traces received on Zipkin's port.
+                                minLength: 3
+                                type: string
+                              port:
+                                default: 9411
+                                description: Port for Zipkin format distributed tracing
+                                  data (usually 9411)
+                                type: integer
+                            type: object
+                        type: object
+                    type: object
+                type: object
+              wavefrontTokenSecret:
+                default: wavefront-secret
+                description: WavefrontTokenSecret is the name of the secret that contains
+                  a wavefront API Token.
+                maxLength: 253
+                pattern: ^[a-z0-9]([a-z0-9\.\-]*[a-z0-9])?$
+                type: string
+              wavefrontUrl:
+                description: Wavefront URL for your cluster
+                pattern: ^https:\/\/.*.wavefront.com
+                type: string
+            required:
+            - clusterName
+            - wavefrontUrl
+            type: object
+          status:
+            description: WavefrontStatus defines the observed state of Wavefront
+            properties:
+              message:
+                description: Message is a human-readable message indicating details
+                  about all the deployment statuses.
+                type: string
+              resourceStatuses:
+                items:
+                  properties:
+                    message:
+                      description: Human readable message indicating details of the
+                        component.
+                      type: string
+                    name:
+                      description: Name of the resource
+                      type: string
+                    status:
+                      description: Computed running status. (available / desired )
+                      type: string
+                  type: object
+                type: array
+              status:
+                description: Status is a quick view of all the deployment statuses.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: v1
+automountServiceAccountToken: false
+kind: ServiceAccount
+metadata:
+  name: wavefront-controller-manager
+  namespace: observability-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: null
+  name: wavefront-manager-role
+  namespace: observability-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  verbs:
+  - create
+  - delete
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - wavefront.com
+  resources:
+  - wavefronts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - wavefront.com
+  resources:
+  - wavefronts/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - wavefront.com
+  resources:
+  - wavefronts/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: null
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: wavefront-wavefront-collector
+  namespace: observability-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - update
+  - create
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: null
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: wavefront-wavefront-collector
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  - namespaces
+  - nodes
+  - nodes/proxy
+  - nodes/stats
+  - nodes/metrics
+  - pods
+  - services
+  - replicationcontrollers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  - deployments
+  - statefulsets
+  - replicasets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - get
+  - list
+  - watch
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: null
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: wavefront-wavefront-legacy-install-detection
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  - deployments
+  verbs:
+  - get
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: wavefront-wavefront-logging
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - pods
+  - deployments
+  - events
+  verbs:
+  - list
+  - get
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wavefront-manager-rolebinding
+  namespace: observability-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: wavefront-manager-role
+subjects:
+- kind: ServiceAccount
+  name: wavefront-controller-manager
+  namespace: observability-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wavefront-wavefront-collector
+  namespace: observability-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: wavefront-wavefront-collector
+subjects:
+- kind: ServiceAccount
+  name: wavefront-collector
+  namespace: observability-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: wavefront-wavefront-collector
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: wavefront-wavefront-collector
+subjects:
+- kind: ServiceAccount
+  name: wavefront-collector
+  namespace: observability-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: wavefront-wavefront-legacy-install-detection
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: wavefront-wavefront-legacy-install-detection
+subjects:
+- kind: ServiceAccount
+  name: wavefront-controller-manager
+  namespace: observability-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: wavefront-wavefront-logging
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: wavefront-wavefront-logging
+subjects:
+- kind: ServiceAccount
+  name: wavefront-logging
+  namespace: observability-system
+---
+apiVersion: v1
+data:
+  controller_manager_config.yaml: |
+    apiVersion: controller-runtime.sigs.k8s.io/v1alpha1
+    kind: ControllerManagerConfig
+    health:
+      healthProbeBindAddress: :8081
+kind: ConfigMap
+metadata:
+  name: wavefront-manager-config
+  namespace: observability-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: wavefront
+  name: wavefront-controller-manager
+  namespace: observability-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/name: wavefront
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+      labels:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/name: wavefront
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - command:
+        - /manager
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        image: projects.registry.vmware.com/tanzu_observability/kubernetes-operator:2.2.0
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        name: manager
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            ephemeral-storage: 256Mi
+            memory: 128Mi
+          requests:
+            cpu: 10m
+            ephemeral-storage: 128Mi
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+      securityContext:
+        runAsGroup: 65534
+        runAsNonRoot: true
+        runAsUser: 65534
+      serviceAccountName: wavefront-controller-manager
+      terminationGracePeriodSeconds: 10
+      tolerations:
+      - effect: NoSchedule
+        key: kubernetes.io/arch
+        value: arm64
