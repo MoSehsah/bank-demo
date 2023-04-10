@@ -135,7 +135,7 @@ public class QuoteService {
 			quote.setCurrency("USD");
 			quote.setStatus("SUCCESS");
 			quote.setChangePercent(new BigDecimal("-0.00371").floatValue());
-			quote.setTimestamp(Date.from(LocalDateTime.parse("Mon Apr 03 20:00:00 UTCZ 2023", DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy")).atZone(ZoneId.of("UTC")).toInstant()));
+			quote.setTimestamp(Date.from(LocalDateTime.parse("Mon Apr 03 20:00:00 UTC 2023", DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy")).atZone(ZoneId.of("UTC")).toInstant()));
 			quote.setmSDate((float) 0L);
 			quote.setMarketCap((float) 53106230000L);
 			quote.setVolume(1274700);
