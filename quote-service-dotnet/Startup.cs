@@ -48,7 +48,7 @@ namespace WebApi
                     builder.AddOtlpExporter(options =>
                     {
                         options.Endpoint = new Uri(openTelemetryEndpoint);
-                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
                     });
                 });
                 services.AddOpenTelemetryTracing((builder) =>
@@ -60,7 +60,7 @@ namespace WebApi
                     builder.AddOtlpExporter(options =>
                     {
                         options.Endpoint = new Uri(openTelemetryEndpoint);
-                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+                        options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
                     });
                 });
                 services.AddLogging(loggingBuilder =>
@@ -73,7 +73,7 @@ namespace WebApi
                             options.AddOtlpExporter(exporterOptions =>
                             {
                                 exporterOptions.Endpoint = new Uri(openTelemetryEndpoint);
-                                exporterOptions.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
+                                exporterOptions.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
                             });
                             options.AddConsoleExporter();
                         });
