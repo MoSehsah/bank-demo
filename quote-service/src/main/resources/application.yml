@@ -1,3 +1,5 @@
 spring:
   application:
     name: quote-service
+  cache:
+    type: NONE
