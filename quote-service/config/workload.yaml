@@ -78,6 +78,9 @@ spec:
     #@ if data.values.enableRedisCachingQuoteService:
     - name: spring.cache.type
       value: 'redis'
+    #@ else:
+    - name: spring.cache.type
+      value: 'NONE'
     #@ end
     #@ if data.values.airgapped:
     - name: AIRGAPPED
