@@ -19,5 +19,6 @@ spec:
     - component:config-server
     - component:discovery-server
     - component:iex-trading
+    - resource:quote-cache
   providesApis:
     - quote-service
