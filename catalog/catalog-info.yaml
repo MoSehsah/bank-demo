@@ -19,3 +19,5 @@ spec:
     - ./components/config-server/config-server.yaml
     - ./components/discovery-server/discovery-server.yaml
     - ./components/iex-trading/iex-trading.yaml
+    - ./resources/quote-cache/quote-cache.yaml
+    - ./resources/user-db/user-db.yaml

@@ -18,5 +18,6 @@ spec:
   dependsOn:
     - component:config-server
     - component:discovery-server
+    - resource:user-db
   providesApis:
     - user-service

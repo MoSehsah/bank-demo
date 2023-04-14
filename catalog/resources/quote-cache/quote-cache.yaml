@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: quote-cache
+  description: Caches quotes
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=quote-service'
+  tags:
+    - redis
+    - cache
+    - banking-demo
+    - quote-service
+spec:
+  type: cache
+  owner: bank-team-a
+  system: tanzu-banking-system
+  dependencyOf:
+    - component:quote-service

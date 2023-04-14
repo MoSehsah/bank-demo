@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: user-db
+  description: Stores user information
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=user-service'
+  tags:
+    - postgres
+    - database
+    - banking-demo
+    - user-service
+spec:
+  type: database
+  owner: bank-team-a
+  system: tanzu-banking-system
+  dependencyOf:
+    - component:user-service
