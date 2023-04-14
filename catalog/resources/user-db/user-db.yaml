@@ -14,3 +14,5 @@ spec:
   type: database
   owner: bank-team-a
   system: tanzu-banking-system
+  dependencyOf:
+    - component:user-service
