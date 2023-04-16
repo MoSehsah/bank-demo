@@ -1,6 +1,6 @@
 # Tanzu Banking Demo App
 
-![Alt text](images/banking-demo-architecture.png?raw=true "Architecture")
+![Alt text](images/banking-demo-arch-claims.png?raw=true "Architecture")
 
 This repo provides an example Spring microservice architecture and can be deployed via Tanzu Application Platform.
 
@@ -14,10 +14,12 @@ This repo provides an example Spring microservice architecture and can be deploy
   - Discovery Server (Eureka) allows each application to be register and fetch services.
 - Other capabilities
   - Quote service is inter changeable between Quote service developed with Spring or .Net-Core.
-  - Porfolio service can store it's data on PostgreSQL
+  - User service can provision PostgreSQL instance automatically and store it's data on PostgreSQL
+  - Quote service can provision Redis instance automatically and store it's data on Redis
+  - Integration with Open Telemetry allowing us to change observability tool easily, like Jaeger to Tanzu Observability
   - Integration with Tanzu Observability for distributed tracing
-  - API endpoints available at TAP-GUI
-  - User service can store it's data on Redis (In Progress)
+  - API endpoints generated automatically with Supply Chain and available at TAP-GUI
+  - AirGapped (Internet-less) mode for POCs. That mode does not need connection to IEX-Trading-Cloud.
 
 
 ## Deploy to Tanzu Application Platform (TAP)
@@ -28,6 +30,32 @@ kubectl apply -f tap-accelerator-deploy.yaml -n accelerator-system
 ```
 
 Create or explore the file through TAP GUI and deploy whichever microservice with workload.yaml
+
+If you have chosen OpenTelemetry you need to setup the otel operator like below.
+
+```bash
+kubectl apply -f open-telemetry/01-opentelemetry-operator.yaml
+
+```
+Then, depending on the observability tool chosen, use option-1 or option-2.
+
+#### OpenTelemetry Option 1 - Tanzu Observability 
+
+```bash
+kubectl apply -f wavefront/01-wavefront-operator.yaml
+kubectl apply -f wavefront/02-wavefront-secret.yaml
+kubectl apply -f wavefront/03-wf-proxy.yaml
+kubectl apply -f open-telemetry/02-opentelemetry-instrumentation.yaml
+```
+
+#### OpenTelemetry Option 2 - Jaeger
+
+```bash
+kubectl apply -f jaeger/01-jaeger-deploy.yaml
+kubectl apply -f open-telemetry/02-opentelemetry-instrumentation.yaml
+```
+
+After setting up the OpenTelemetry;
 
 To set up whole environment, run the accelerator and run following workload.yaml files in consequent order.
 ```
@@ -69,3 +97,6 @@ After you complete the development, do ```git push```  .
 
 ![Alt text](images/dependency-diagram.png?raw=true "TAP Dependency Diagram")
 
+![Alt text](images/jaeger-distributed.png?raw=true "Jaeger Distributed Tracing")
+
+![Alt text](images/to-distributed.png?raw=true "Tanzu Observability Distributed Tracing")
