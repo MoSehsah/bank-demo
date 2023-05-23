@@ -35,6 +35,22 @@ spec:
       autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
       autoscaling.knative.dev/metric: cpu
       #@ end
+  #@ if data.values.hasTests:
+  - name: testing_pipeline_matching_labels 
+    value:
+      apps.tanzu.vmware.com/pipeline: test
+      apps.tanzu.vmware.com/language: java
+  - name: scanning_source_policy
+    value: scan-policy-relaxed
+  - name: scanning_image_policy
+    value: scan-policy-relaxed
+  #@ end
+  #@ if data.values.airgapped:
+  - name: buildServiceBindings
+    value:
+    - kind: Secret
+      name: settings-xml
+  #@ end
   build:
     env:
     - name: BP_JVM_VERSION

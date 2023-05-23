@@ -80,7 +80,7 @@ accelerator:
     description: Please type the URL
     inputType: text
     dataType: string
-    defaultValue: harbor.dorn.gorke.ml/tap
+    defaultValue: harbor.dorn.gorke.ml/tap-15
 
   - name: k8sContextName
     label: Kubernetes Context Name for Tiltfile
