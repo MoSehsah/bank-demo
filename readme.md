@@ -34,7 +34,7 @@ Create or explore the file through TAP GUI and deploy whichever microservice wit
 If you have chosen OpenTelemetry you need to setup the otel operator like below.
 
 ```bash
-kubectl apply -f open-telemetry/01-opentelemetry-operator.yaml
+kubectl apply -f yaml/open-telemetry/open-telemetry/01-opentelemetry-operator.yaml
 
 ```
 Then, depending on the observability tool chosen, use option-1 or option-2.
@@ -42,17 +42,17 @@ Then, depending on the observability tool chosen, use option-1 or option-2.
 #### OpenTelemetry Option 1 - Tanzu Observability 
 
 ```bash
-kubectl apply -f wavefront/01-wavefront-operator.yaml
-kubectl apply -f wavefront/02-wavefront-secret.yaml
-kubectl apply -f wavefront/03-wf-proxy.yaml
-kubectl apply -f open-telemetry/02-opentelemetry-instrumentation.yaml
+kubectl apply -f yaml/open-telemetry/wavefront/01-wavefront-operator.yaml
+kubectl apply -f yaml/open-telemetry/wavefront/02-wavefront-secret.yaml
+kubectl apply -f yaml/open-telemetry/wavefront/03-wf-proxy.yaml
+kubectl apply -f yaml/open-telemetry/open-telemetry/02-opentelemetry-instrumentation.yaml
 ```
 
 #### OpenTelemetry Option 2 - Jaeger
 
 ```bash
-kubectl apply -f jaeger/01-jaeger-deploy.yaml
-kubectl apply -f open-telemetry/02-opentelemetry-instrumentation.yaml
+kubectl apply -f yaml/open-telemetry/jaeger/01-jaeger-deploy.yaml
+kubectl apply -f yaml/open-telemetry/open-telemetry/02-opentelemetry-instrumentation.yaml
 ```
 
 After setting up the OpenTelemetry;
