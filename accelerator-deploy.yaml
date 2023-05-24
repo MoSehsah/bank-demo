@@ -2,6 +2,7 @@ apiVersion: accelerator.apps.tanzu.vmware.com/v1alpha1
 kind: Accelerator
 metadata:
   name: tanzu-banking-demo-accelerator
+  namespace: accelerator-system
 spec:
   displayName: Tanzu Banking Demo
   description: Tanzu Banking Demo in Spring
@@ -17,3 +18,5 @@ spec:
     url: https://github.com/MoSehsah/bank-demo
     ref:
       branch: main
+#    secretRef:
+#      name: git-credentials

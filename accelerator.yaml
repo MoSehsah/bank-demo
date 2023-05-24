@@ -656,6 +656,8 @@ engine:
   merge:
     #generic transformations
     - includes: ["readme.md"]
+    - includes: ["yaml/airgapped/**"]
+      condition: "#airgapped != false"
     - includes: ["yaml/open-telemetry/open-telemetry/**"]
       condition: "#deployOtel != false"
       chain:
