@@ -26,7 +26,7 @@ This repo provides an example Spring microservice architecture and can be deploy
 
 Deploy App Accelerator:
 ```
-kubectl apply -f tap-accelerator-deploy.yaml -n accelerator-system
+kubectl apply -f accelerator-deploy.yaml -n accelerator-system
 ```
 
 Create or explore the file through TAP GUI and deploy whichever microservice with workload.yaml
@@ -60,7 +60,7 @@ After setting up the OpenTelemetry;
 To set up whole environment, run the accelerator and run following workload.yaml files in consequent order.
 ```
 kubectl apply -f config-server/config/workload.yaml
-kubectl apply -f discover-server/config/workload.yaml
+kubectl apply -f discovery-server/config/workload.yaml
 kubectl apply -f account-service/config/workload.yaml
 kubectl apply -f user-service/config/workload.yaml
 kubectl apply -f quote-service/config/workload.yaml

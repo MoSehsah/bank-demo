@@ -59,10 +59,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoints.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
-    wavefront.application.name: banking-demo
-    wavefront.application.service: account-svc
   application.yml: |
     pivotal.quotesService.name: quote-service
     pivotal.userService.name: user-service
@@ -76,7 +72,7 @@ data:
     spring.sleuth.sampler.probability: "1.0"
   discovery-cloud.yml: |
     spring.application.name: discovery-cloud
-    spring.profiles.active[0]: discovery-cloud
+    spring.profiles.active: discovery-cloud
     spring.cloud.config.fail-fast: true
     spring.cloud.config.retry.max-interval: 10000
     spring.cloud.config.retry.max-attempts: 2000
@@ -95,8 +91,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoints.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     management.endpoint.health.enabled: true
     management.endpoint.health.probes.enabled: true
     management.endpoint.health.show-details: always
@@ -104,8 +98,6 @@ data:
     management.endpoint.health.group.liveness.show-details: always
     management.endpoint.health.group.readiness.additional-path: server:/readyz
     management.endpoint.health.group.readiness.show-details: always
-    wavefront.application.name: banking-demo
-    wavefront.application.service: discovery
   portfolio-service.yml: |
     spring.application.name: portfolio-service
     spring.jpa.hibernate.ddl-auto: update
@@ -121,10 +113,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
-    wavefront.application.name: banking-demo
-    wavefront.application.service: portfolio-svc
   quote-service.yml: |
     spring.application.name: quote-service
     spring.cloud.config.fail-fast: true
@@ -135,10 +123,6 @@ data:
     eureka.instance.hostname: ${HOSTNAME}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
-    wavefront.application.name: banking-demo
-    wavefront.application.service: quote-svc
     vmware.tanzu.quote.quote_url: https://cloud.iexapis.com/stable/stock/{symbol}/quote?token={token}
     vmware.tanzu.quote.quotes_url: https://cloud.iexapis.com/stable/stock/market/batch?symbols={symbols}&types=quote&token={token}
     vmware.tanzu.quote.companies_url: http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input={name}
@@ -154,10 +138,6 @@ data:
     eureka.instance.hostname: ${HOSTNAME}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
-    wavefront.application.name: banking-demo
-    wavefront.service: user-svc
   web-service.yml: |
     spring.application.name: web-service
     spring.cloud.config.fail-fast: true
@@ -177,10 +157,6 @@ data:
     info.build.version: ${version}
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
-    wavefront.application.name: banking-demo
-    wavefront.application.service: web-ui
   analytics-service.yml: |
     spring.application.name: analytics-service
   bootstrap.yml: |
@@ -191,11 +167,7 @@ data:
     management.context_path: /admin
     management.endpoints.web.exposure.include: "*"
     management.endpoint.health.show-details: always
-    management.metrics.export.wavefront.api-token: ${WAVEFRONT_TOKEN}
-    management.metrics.export.wavefront.uri: proxy://wf-proxy:2878
     server.port: 8888
-    wavefront.application.name: banking-demo
-    wavefront.application.service: configserver
     pivotal.quotesService.name: quote-service
     pivotal.userService.name: user-service
     pivotal.accountsService.name: account-service
@@ -224,7 +196,7 @@ spec:
     spec:
       containers:
       - name: spring-config-server
-        image: projects.registry.vmware.com/tanzu_meta_pocs/banking-demo/configserver:latest
+        image: #@ "{}/banking-demo/configserver:latest".format(data.values.containterRegistryURL)
         env:
           - name: JAVA_TOOL_OPTIONS
             value: "-Dspring.cloud.config.server.native.searchLocations=/config -Dspring.profiles.active=native -Dspring.application.name=configserver -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.endpoint.health.show-details=always"

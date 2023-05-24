@@ -977,7 +977,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
-        image: projects.registry.vmware.com/tanzu_observability/kubernetes-operator:2.2.0
+        image: #@ "{}/banking-demo/wfoperator:2.2.0".format(data.values.containterRegistryURL)
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
