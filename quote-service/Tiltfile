@@ -1,14 +1,15 @@
 # to update maven wrapper, run below command first:
 # mvn -N io.takari:maven:wrapper
+# if using Custom/Private CA, use following variable before running tilt/tanzu command.
+# export TANZU_APPS_REGISTRY_CA_CERT=“/root/bank-demo/ca.crt”
 SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='containterRegistryURL/app-name-bundle')
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
 NAMESPACE = os.getenv("NAMESPACE", default='nspace')
 
 k8s_custom_deploy(
     'app-name',
-    apply_cmd="tanzu apps workload apply -f config/workload.yaml --live-update" +
+    apply_cmd="tanzu apps workload create app-name -f config/workload.yaml --live-update" +
                " --local-path " + LOCAL_PATH +
-               " --source-image " + SOURCE_IMAGE +
                " --namespace " + NAMESPACE +
                " --yes >/dev/null" +
                " && kubectl get workload app-name --namespace " + NAMESPACE + " -o yaml",
