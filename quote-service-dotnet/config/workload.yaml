@@ -7,7 +7,7 @@ metadata:
   namespace: #@ data.values.namespaceToDeploy
   #@ if data.values.otelState:
   annotations:
-    instrumentation.opentelemetry.io/inject-dotnet: #@ data.values.namespaceToDeploy + "/my-instrumentation"
+    instrumentation.opentelemetry.io/inject-dotnet: #@ data.values.namespaceToDeploy + "/dotnet-instrumentation"
   #@ end
   labels:
     apps.tanzu.vmware.com/workload-type: web
